@@ -2,6 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{color}
 \definecolor{gray}{rgb}{0.7,0.7,0.7}
+\usepackage{framed}
 \usepackage{longtable}
 \usepackage[pdfborder={0 0 0},hyperfootnotes=false]{hyperref}
 
@@ -24,6 +25,11 @@ last modified on the date shown above.
 
 
 \section{The GFA Format Specification}
+The GFA format is a tab-delimited text format for describing a set of sequences
+and their overlap. The primary purpose is to represent the result of an assembly
+as a sequence graph, rather than a linear sequence. The first field of the line
+identifies the type of the line, segment lines start with `{\tt S}', link lines
+start with `{\tt L}' etc.
 
 \subsection{An example}
 
@@ -31,7 +37,7 @@ last modified on the date shown above.
 
 \subsection{The Header section}
 
-\subsection{The Sequence section}
+\subsection{The Segment section}
 
 \subsection{The Link section}
 
