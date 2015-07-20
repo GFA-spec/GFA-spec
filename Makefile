@@ -6,4 +6,4 @@ clean:
 .PHONY: all clean
 
 %.pdf: %.md
-	pandoc -So $@ $<
+	pandoc --toc -S -o $@ $<
