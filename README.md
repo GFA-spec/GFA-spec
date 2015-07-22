@@ -10,6 +10,8 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [A fork of DALIGNER](https://github.com/jts/daligner)
 + [mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfatools](https://github.com/lh3/gfatools)
++ [vg](https://github.com/ekg/vg) 
++ [bfgraph](https://github.com/pmelsted/bfgraph)
 
 # Resources
 
