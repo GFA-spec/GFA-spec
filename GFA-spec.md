@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2015-07-20
+date: 2015-07-23
 ---
 
 # Master document
@@ -61,15 +61,16 @@ for the Header line
 |2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
 |3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
 
-The Sequence field can be `'*'` meaning that the sequence is not stored in the GFA file.
+The Sequence field can be `*` meaning that the sequence is not stored in the GFA file.
 
-Optional fields
+### Optional fields
 
-| Tag  | Type  | description |
-| :-----|-------- | :------------- |
-| `LN` | `i` |  Segment length  |
-| `RC` | `i` |  Read Coverage  |
-
+| Tag   | Type | Description    |
+|-------|------|----------------|
+| `LN`  | `i`  | Segment length |
+| `RC`  | `i`  | Read count     |
+| `FC`  | `i`  | Fragment count |
+| `KC`  | `i`  | k-mer count    |
 
 ## Link line
 
@@ -301,6 +302,7 @@ Here is a list of predefined tags:
       H   VN    Z    Version number
      L/S  RC    i    # reads that support the segment/link
      L/S  FC    i    # fragments that support the segment/link
+     L/S  KC    i    # k-mer that support the segment/link
      L/C  MQ    i    Mapping quality of the overlap/containment
      L/C  NM    i    # mismatches/gaps
       S   LN    i    Segment length
