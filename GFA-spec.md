@@ -10,16 +10,64 @@ The master version of this document can be found at
 <https://github.com/pmelsted/GFA-spec>
 
 # The GFA Format Specification
+The purpose of the GFA format is to capture sequence graphs as the product of an
+assembly, a representation of variation in genomes, splice graphs in genes, or
+even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The primary purpose is to represent the result of an assembly as a sequence graph, rather than a linear sequence. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. . The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`.
 
 ## An example
 
+
+
 ## Terminology
+
++ **Segment** a continuous sequence or subsequence.
++ **Link** an overlap between two segments. Each link is from the end of one segment to
+the beginning of another segment. The link stores the orientation of each segment and
+the amount of basepairs overlapping.
++ **Containment** an overlap between two segments where one is contained in the other.
++ **Path** an ordered list of oriented segments that, where each consecutive segments
+ are supported by a link w.r.t. the orientation. In cases where there are multiple links
+ supporting an overlap it should be explicitly indicated.
+
+## Line structure
+
+Each line in GFA has tab-delimited fields and the first field defines the type of line.
+
+ Line  Type
+------ ----
+`H`    Header line
+`S`    Segment line
+`L`    Link line
+`C`    Containment line
+`P`    Path line
 
 ## Header line
 
+The header line has only optional fields of the form `TAG:TYPE:VALUE` following
+the convention defined in the SAM format. The following fields  are defined
+for the Header line
+
+ Tag   Type  description
+----- ------ -----------
+VN    Z      Version number
+
 ## Segment line
+
+
+ Col  Field     Type     Regexp/Range        Brief description
+----- --------- ------   ------------------- -----------------
+2     Name      String   `[!-)+-<>-~][!-~]*` Segment name
+3     Sequence  String   `\*|[A-Za-z=.]+`    The nucleotide sequence
+
+The Sequence field can be `'*'` meaning that the sequence is not stored in the GFA file.
+
+Optional fields
+
+ Tag   Type  description
+----- ------ -----------
+RC    i      Read coverage
 
 ## Link line
 
