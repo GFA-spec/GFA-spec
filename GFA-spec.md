@@ -35,13 +35,13 @@ the amount of basepairs overlapping.
 
 Each line in GFA has tab-delimited fields and the first field defines the type of line.
 
- Line  Type
------- ----
-`H`    Header line
-`S`    Segment line
-`L`    Link line
-`C`    Containment line
-`P`    Path line
+| Line | Type|
+|------|:----|
+|`H`  |  Header line |
+|`S`  |  Segment line |
+|`L`  |  Link line |
+|`C`  |  Containment line |
+|`P`  |  Path line |
 
 ## Header line
 
@@ -49,27 +49,51 @@ The header line has only optional fields of the form `TAG:TYPE:VALUE` following
 the convention defined in the SAM format. The following fields  are defined
 for the Header line
 
- Tag   Type  description
------ ------ -----------
-VN    Z      Version number
+| Tag | Type |  description|
+|-----|------|:------------|
+|`VN` | `Z`  |  Version number|
 
 ## Segment line
 
 
- Col  Field     Type     Regexp/Range        Brief description
------ --------- ------   ------------------- -----------------
-2     Name      String   `[!-)+-<>-~][!-~]*` Segment name
-3     Sequence  String   `\*|[A-Za-z=.]+`    The nucleotide sequence
+|Col| Field     | Type   |  Regexp/Range     |   Brief description |
+|----|:---------|:------  |:-------------------|:-----------------|
+|2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
+|3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
 
 The Sequence field can be `'*'` meaning that the sequence is not stored in the GFA file.
 
 Optional fields
 
- Tag   Type  description
------ ------ -----------
-RC    i      Read coverage
+| Tag  | Type  | description |
+| :-----|-------- | :------------- |
+| `LN` | `i` |  Segment length  |
+| `RC` | `i` |  Read Coverage  |
+
 
 ## Link line
+
+Links are the primary mechanism to connect segments. Links are bidirected, they go
+from oriented segments. A link from `A` to `B` means that the end of `A` overlaps with
+the end of `B`, if either is marked with `-` we replace the sequence of the segment
+with it's reverse complement. The length of the overlap is determined by the `CIGAR`
+string of the link. When the overlap is `0M` the `B` segment follows directly after `A`,
+... (explain how to interpret the overlap between segments, also for non-`M` it is not
+  symmetric).
+
+
+
+| Col | Field     |   Type  |   Regexp/Range    |          Brief description |
+|-----|:----------|:------|:-------------------|:-----------------|
+|2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
+|3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
+|4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
+|5  |   `FromOrient`| String |  `+|-`                    | orientation of To segment |
+|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
+
+Optional fields
+
+
 
 ## Containment line
 
