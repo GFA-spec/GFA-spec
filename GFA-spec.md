@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2015-07-23
+date: 2015-07-24
 ---
 
 # Master document
@@ -89,12 +89,18 @@ string of the link. When the overlap is `0M` the `B` segment follows directly af
 |2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
 |3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `FromOrient`| String |  `+|-`                    | orientation of To segment |
+|5  |   `ToOrient`  | String |  `+|-`                    | orientation of To segment |
 |6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
 
-Optional fields
+### Optional fields
 
-
+| Tag   | Type | Description       |
+|-------|------|-------------------|
+| `MQ`  | `i`  | Mapping quality   |
+| `NM`  | `i`  | # mismatches/gaps |
+| `RC`  | `i`  | Read count        |
+| `FC`  | `i`  | Fragment count    |
+| `KC`  | `i`  | k-mer count       |
 
 ## Containment line
 
