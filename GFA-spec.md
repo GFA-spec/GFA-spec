@@ -74,15 +74,11 @@ The Sequence field can be `*` meaning that the sequence is not stored in the GFA
 
 ## Link line
 
-Links are the primary mechanism to connect segments. Links are bidirected, they go
-from oriented segments. A link from `A` to `B` means that the end of `A` overlaps with
-the end of `B`, if either is marked with `-` we replace the sequence of the segment
-with it's reverse complement. The length of the overlap is determined by the `CIGAR`
-string of the link. When the overlap is `0M` the `B` segment follows directly after `A`,
-... (explain how to interpret the overlap between segments, also for non-`M` it is not
-  symmetric).
+Links are the primary mechanism to connect segments. Links connect oriented segments. A link from `A` to `B` means that the end of `A` overlaps with the start of `B`. If either is marked with `-`, we replace the sequence of the segment with its reverse complement, whereas a `+` indicates the segment sequence is used as-is.
 
+The length of the overlap is determined by the `CIGAR` string of the link. When the overlap is `0M` the `B` segment follows directly after `A`. When the `CIGAR` string is `*`, the nature of the overlap is not specified.
 
+... (explain how to interpret the overlap between segments, also for non-`M` it is not symmetric).
 
 | Col | Field     |   Type  |   Regexp/Range    |          Brief description |
 |-----|:----------|:------|:-------------------|:-----------------|
