@@ -49,12 +49,15 @@ The header line has only optional fields of the form `TAG:TYPE:VALUE` following
 the convention defined in the SAM format. The following fields  are defined
 for the Header line
 
+### Optional fields
+
 | Tag | Type |  description|
 |-----|------|:------------|
 |`VN` | `Z`  |  Version number|
 
 ## Segment line
 
+### Required fields
 
 |Col| Field     | Type   |  Regexp/Range     |   Brief description |
 |----|:---------|:------  |:-------------------|:-----------------|
@@ -63,7 +66,7 @@ for the Header line
 
 The Sequence field can be `'*'` meaning that the sequence is not stored in the GFA file.
 
-Optional fields
+### Optional fields
 
 | Tag  | Type  | description |
 | :-----|-------- | :------------- |
@@ -81,23 +84,61 @@ string of the link. When the overlap is `0M` the `B` segment follows directly af
 ... (explain how to interpret the overlap between segments, also for non-`M` it is not
   symmetric).
 
+### Required fields
 
+| Col | Field     |   Type  |   Regexp/Range    |          Brief description |
+|-----|:----------|:------|:-------------------|:-----------------|
+|2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
+|3  |   `FromOrient`| String |  `+|-`                    | orientation of `From` segment |
+|4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
+|5  |   `ToOrient`| String |  `+|-`                      | orientation of `To` segment |
+|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| `CIGAR` string describing overlap |
+
+###Optional fields
+
+| Tag  | Type  | description |
+| :-----|-------- | :------------- |
+| `RC` | `i` |  Read Coverage  |
+| `NM` | `i` |  Number of mismatches/gaps  |
+
+
+## Containment line
+
+(need motivation for this)
 
 | Col | Field     |   Type  |   Regexp/Range    |          Brief description |
 |-----|:----------|:------|:-------------------|:-----------------|
 |2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
 |3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `FromOrient`| String |  `+|-`                    | orientation of To segment |
-|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
-
-Optional fields
-
+|5  |   `ToOrient`| String |  `+|-`                      | orientation of To segment |
+|6  |   `pos`       | int    |  `[0-9]*`                 | 0-based start of contained segment |
+|7  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
 
 
-## Containment line
+### Optional fields
 
-## Optional fields
+| Tag  | Type  | description |
+| :-----|-------- | :------------- |
+| `RC` | `i` |  Read Coverage  |
+| `NM` | `i` |  Number of mismatches/gaps  |
+
+
+## Path line
+
+### Required fields
+
+|Col| Field     | Type   |  Regexp/Range     |   Brief description |
+|----|:---------|:------  |:-------------------|:-----------------|
+|2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
+|3   | `Path`  |String  | `[!-)+-<>-~][!-~]*`     | Path name |
+|4   | `Orientation`  |String  | `+|-`     | Orientation of segment |
+|5   | `CIGAR`  |String  | `\*|([0-9]+[MIDNSHPX=])+`     | to identify link |
+
+Unless there are multiple links from two segments the `CIGAR` string can be left as `*`
+
+### Optional fields
+
 
 # Recommended Practices for the GFA format
 
