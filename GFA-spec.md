@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2015-07-20
+date: 2015-07-24
 ---
 
 # Master document
@@ -64,42 +64,45 @@ for the Header line
 |2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
 |3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
 
-The Sequence field can be `'*'` meaning that the sequence is not stored in the GFA file.
+The Sequence field can be `*` meaning that the sequence is not stored in the GFA file.
 
 ### Optional fields
 
-| Tag  | Type  | description |
-| :-----|-------- | :------------- |
-| `LN` | `i` |  Segment length  |
-| `RC` | `i` |  Read Coverage  |
-
+| Tag   | Type | Description    |
+|-------|------|----------------|
+| `LN`  | `i`  | Segment length |
+| `RC`  | `i`  | Read count     |
+| `FC`  | `i`  | Fragment count |
+| `KC`  | `i`  | k-mer count    |
 
 ## Link line
 
-Links are the primary mechanism to connect segments. Links are bidirected, they go
-from oriented segments. A link from `A` to `B` means that the end of `A` overlaps with
-the end of `B`, if either is marked with `-` we replace the sequence of the segment
-with it's reverse complement. The length of the overlap is determined by the `CIGAR`
-string of the link. When the overlap is `0M` the `B` segment follows directly after `A`,
-... (explain how to interpret the overlap between segments, also for non-`M` it is not
-  symmetric).
+Links are the primary mechanism to connect segments. Links connect oriented segments. A link from `A` to `B` means that the end of `A` overlaps with the start of `B`. If either is marked with `-`, we replace the sequence of the segment with its reverse complement, whereas a `+` indicates the segment sequence is used as-is.
+
+The length of the overlap is determined by the `CIGAR` string of the link. When the overlap is `0M` the `B` segment follows directly after `A`. When the `CIGAR` string is `*`, the nature of the overlap is not specified.
+
+... (explain how to interpret the overlap between segments, also for non-`M` it is not symmetric).
 
 ### Required fields
 
 | Col | Field     |   Type  |   Regexp/Range    |          Brief description |
 |-----|:----------|:------|:-------------------|:-----------------|
 |2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|3  |   `FromOrient`| String |  `+|-`                    | orientation of `From` segment |
+|3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `ToOrient`| String |  `+|-`                      | orientation of `To` segment |
+|5  |   `ToOrient`  | String |  `+|-`                    | orientation of `To` segment |
 |6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| `CIGAR` string describing overlap |
 
-###Optional fields
+### Optional fields
 
-| Tag  | Type  | description |
-| :-----|-------- | :------------- |
-| `RC` | `i` |  Read Coverage  |
-| `NM` | `i` |  Number of mismatches/gaps  |
+
+| Tag   | Type | Description       |
+|-------|------|-------------------|
+| `MQ`  | `i`  | Mapping quality   |
+| `NM`  | `i`  | # mismatches/gaps |
+| `RC`  | `i`  | Read count        |
+| `FC`  | `i`  | Fragment count    |
+| `KC`  | `i`  | k-mer count       |
 
 
 ## Containment line
@@ -111,7 +114,7 @@ string of the link. When the overlap is `0M` the `B` segment follows directly af
 |2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
 |3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `ToOrient`| String |  `+|-`                      | orientation of To segment |
+|5  |   `ToOrient`  | String |  `+|-`                    | orientation of To segment |
 |6  |   `pos`       | int    |  `[0-9]*`                 | 0-based start of contained segment |
 |7  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
 
@@ -122,6 +125,8 @@ string of the link. When the overlap is `0M` the `B` segment follows directly af
 | :-----|-------- | :------------- |
 | `RC` | `i` |  Read Coverage  |
 | `NM` | `i` |  Number of mismatches/gaps  |
+
+
 
 
 ## Path line
@@ -342,6 +347,7 @@ Here is a list of predefined tags:
       H   VN    Z    Version number
      L/S  RC    i    # reads that support the segment/link
      L/S  FC    i    # fragments that support the segment/link
+     L/S  KC    i    # k-mer that support the segment/link
      L/C  MQ    i    Mapping quality of the overlap/containment
      L/C  NM    i    # mismatches/gaps
       S   LN    i    Segment length
