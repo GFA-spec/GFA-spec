@@ -33,7 +33,7 @@ the amount of basepairs overlapping.
 
 ## Line structure
 
-Each line in GFA has tab-delimited fields and the first field defines the type of line.
+Each line in GFA has tab-delimited fields and the first field defines the type of line. The type of the line defines the following required fields. The required fields are followed by optional fields.
 
 | Line | Type|
 |------|:----|
@@ -43,11 +43,22 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 |`C`  |  Containment line |
 |`P`  |  Path line |
 
+## Optional fields
+
+All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-character string that matches `/[A-Za-z][A-Za-z0-9]/`. Each `TAG` can only appear once in one line. A `TAG` containing lowercase letters are reserved for end users. A `TYPE` is a single case-sensitive letter which defines the format of `VALUE`.
+
+| Type| RegEx | Description
+|-----|-------|------------
+| `A` | `[!-~]` | Printable character
+| `i` | `[-+]?[0-9]+` | Signed integer
+| `f` | `[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?` | Single-precision floating number
+| `Z` | `[ !-~]+` | Printable string, including space
+| `H` | `[0-9A-F]+` | Byte array in the Hex format
+| `B` | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Integer or numeric array
+
 ## Header line
 
-The header line has only optional fields of the form `TAG:TYPE:VALUE` following
-the convention defined in the SAM format. The following fields  are defined
-for the Header line
+The header line has only optional fields. The following fields are defined for the header line.
 
 ### Optional fields
 
