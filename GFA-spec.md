@@ -64,6 +64,8 @@ for the Header line
 |2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
 |3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
 
+Segment names must not contain whitespace characters or start with '*' or '='. All other printable ASCII characters are allowed. Names are case sensitive.
+
 The Sequence field can be `*` meaning that the sequence is not stored in the GFA file.
 
 ### Optional fields
