@@ -27,9 +27,7 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 the beginning of another segment. The link stores the orientation of each segment and
 the amount of basepairs overlapping.
 + **Containment** an overlap between two segments where one is contained in the other.
-+ **Path** an ordered list of oriented segments that, where each consecutive segments
- are supported by a link w.r.t. the orientation. In cases where there are multiple links
- supporting an overlap it should be explicitly indicated.
++ **Path** an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
 
 ## Line structure
 
@@ -139,24 +137,44 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 | `RC` | `i` |  Read Coverage  |
 | `NM` | `i` |  Number of mismatches/gaps  |
 
-
-
-
 ## Path line
 
 ### Required fields
 
-|Col| Field     | Type   |  Regexp/Range     |   Brief description |
-|----|:---------|:------  |:-------------------|:-----------------|
-|2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
-|3   | `Path`  |String  | `[!-)+-<>-~][!-~]*`     | Path name |
-|4   | `Orientation`  |String  | `+|-`     | Orientation of segment |
-|5   | `CIGAR`  |String  | `\*|([0-9]+[MIDNSHPX=])+`     | to identify link |
+|Col | Field         | Type   | Regexp/Range              | Brief description
+|----|---------------|--------|---------------------------|--------------------
+|1   | `RecordType`  | Char   | `P`                       | Record type
+|2   | `PathName`    | String | `[!-)+-<>-~][!-~]*`       | Path name
+|3   | `SegmentName` | String | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
+|4   | `CIGAR`       | String | `\*|([0-9]+[MIDNSHPX=])+` | A comma-separated list of CIGAR strings
 
-Unless there are multiple links from two segments the `CIGAR` string can be left as `*`
+A `CIGAR` string may be `*`, in which case the `CIGAR` string is determined by fetching the `CIGAR` string from the corresponding link record, or by performing a pairwise overlap alignment of the two sequences.
 
 ### Optional fields
 
+None specified.
+
+### Example
+
+```
+H	VN:Z:1.0
+S	11	ACCTT
+S	12	TCAAGG
+S	13	CTTGATT
+L	11	+	12	-	4M
+L	12	-	13	+	5M
+L	11	+	13	+	3M
+P	14	11+,12-,13+	4M,5M
+```
+
+The resulting path is:
+
+```
+11 ACCTT
+12  CCTTGA
+13   CTTGATT
+14 ACCTTGATT
+```
 
 # Recommended Practices for the GFA format
 
