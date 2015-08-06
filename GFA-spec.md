@@ -26,6 +26,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 
 | Type | Description |
 |------|-------------|
+| `#`  | Comment     |
 | `H`  | Header      |
 | `S`  | Segment     |
 | `L`  | Link        |
@@ -49,6 +50,16 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 [JSON]: http://json.org/
 
 For type `B`, array of integers or floats, the first letter indicates the type of numbers in the following comma separated array. The letter can be one of `cCsSiIf`, corresponding to `int8_t` (signed 8-bit integer), `uint8_t` (unsigned 8-bit integer), `int16_t`, `uint16_t`, `int32_t`, `uint32_t` and `float`, respectively.
+
+# `#` Comment line
+
+Comment lines begin with `#` and are ignored. 
+
+## Required fields
+
+| Column | Field        | Type      | Regexp | Description
+|--------|--------------|-----------|--------|------------
+| 1      | `RecordType` | Character | `#`    | Record type
 
 # `H` Header line
 
