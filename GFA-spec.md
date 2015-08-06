@@ -51,8 +51,11 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 | `i` | `[-+]?[0-9]+` | Signed integer
 | `f` | `[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?` | Single-precision floating number
 | `Z` | `[ !-~]+` | Printable string, including space
+| `J` | `[ !-~]+` | [JSON][], excluding new-line and tab characters
 | `H` | `[0-9A-F]+` | Byte array in the Hex format
 | `B` | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Integer or numeric array
+
+[JSON]: http://json.org/
 
 ## Header line
 
