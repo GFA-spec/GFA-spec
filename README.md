@@ -12,6 +12,7 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [gfatools](https://github.com/lh3/gfatools)
 + [vg](https://github.com/ekg/vg) 
 + [bfgraph](https://github.com/pmelsted/bfgraph)
++ [McCortex](https://github.com/mcveanlab/mccortex)
 
 # Resources
 
