@@ -7,11 +7,13 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 # Implementations
 
 + [ABySS](https://github.com/bcgsc/abyss) 1.9.0
++ [Bandage](https://rrwick.github.io/Bandage/)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
 + [DALIGNER](https://github.com/jts/daligner) forked by jts
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfatools](https://github.com/lh3/gfatools)
 + [McCortex](https://github.com/mcveanlab/mccortex)
++ [miniasm](https://github.com/lh3/miniasm)
 + [vg](https://github.com/ekg/vg) 
 
 # Resources
