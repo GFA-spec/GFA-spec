@@ -33,26 +33,26 @@ the amount of basepairs overlapping.
 
 Each line in GFA has tab-delimited fields and the first field defines the type of line. The type of the line defines the following required fields. The required fields are followed by optional fields.
 
-| Line | Type|
-|------|:----|
-|`H`  |  Header line |
-|`S`  |  Segment line |
-|`L`  |  Link line |
-|`C`  |  Containment line |
-|`P`  |  Path line |
+| Line | Type
+|------|:------
+| `H`  | Header line
+| `S`  | Segment line
+| `L`  | Link line
+| `C`  | Containment line
+| `P`  | Path line
 
 ## Optional fields
 
 All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-character string that matches `/[A-Za-z][A-Za-z0-9]/`. Each `TAG` can only appear once in one line. A `TAG` containing lowercase letters are reserved for end users. A `TYPE` is a single case-sensitive letter which defines the format of `VALUE`.
 
-| Type| RegEx | Description
-|-----|-------|------------
-| `A` | `[!-~]` | Printable character
-| `i` | `[-+]?[0-9]+` | Signed integer
-| `f` | `[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?` | Single-precision floating number
-| `Z` | `[ !-~]+` | Printable string, including space
-| `H` | `[0-9A-F]+` | Byte array in the Hex format
-| `B` | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Integer or numeric array
+| Type | RegEx                                                 | Description
+|------|:------------------------------------------------------|--------------
+| `A`  | `[!-~]`                                               | Printable character
+| `i`  | `[-+]?[0-9]+`                                         | Signed integer
+| `f`  | `[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?`              | Single-precision floating number
+| `Z`  | `[ !-~]+`                                             | Printable string, including space
+| `H`  | `[0-9A-F]+`                                           | Byte array in the Hex format
+| `B`  | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Integer or numeric array
 
 ## Header line
 
@@ -60,18 +60,19 @@ The header line has only optional fields. The following fields are defined for t
 
 ### Optional fields
 
-| Tag | Type |  description|
-|-----|------|:------------|
-|`VN` | `Z`  |  Version number|
+| Tag  | Type | Description
+|------|:-----|:-------------
+| `VN` | `Z`  | Version number
 
 ## Segment line
 
 ### Required fields
 
-|Col| Field     | Type   |  Regexp/Range     |   Brief description |
-|----|:---------|:------  |:-------------------|:-----------------|
-|2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
-|3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
+|Col | Field        | Type   |  Regexp/Range        | Brief description
+|----|:-------------|:-------|:---------------------|:-------------------
+| 1  | `RecordType` | Char   | `P`                  | Record type
+| 2  | `Name`       | String | `[!-)+-<>-~][!-~]*`  | Segment name
+| 3  | `Sequence`   | String | `\*|[A-Za-z=.]+`     | The nucleotide sequence
 
 Segment names must not contain whitespace characters or start with `*` or `=`. All other printable ASCII characters are allowed. Names are case sensitive.
 
@@ -79,12 +80,12 @@ The Sequence field can be `*` meaning that the sequence is not stored in the GFA
 
 ### Optional fields
 
-| Tag   | Type | Description    |
-|-------|------|----------------|
-| `LN`  | `i`  | Segment length |
-| `RC`  | `i`  | Read count     |
-| `FC`  | `i`  | Fragment count |
-| `KC`  | `i`  | k-mer count    |
+| Tag   | Type | Description
+|-------|------|--------------
+| `LN`  | `i`  | Segment length
+| `RC`  | `i`  | Read count
+| `FC`  | `i`  | Fragment count
+| `KC`  | `i`  | k-mer count
 
 ## Link line
 
@@ -96,57 +97,59 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 
 ### Required fields
 
-| Col | Field     |   Type  |   Regexp/Range    |          Brief description |
-|-----|:----------|:------|:-------------------|:-----------------|
-|2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
-|4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `ToOrient`  | String |  `+|-`                    | orientation of `To` segment |
-|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| `CIGAR` string describing overlap |
+| Col | Field        | Type   | Regexp/Range              | Brief description
+|-----|:-------------|:-------|:--------------------------|:-------------------
+|1    | `RecordType` | Char   | `P`                       | Record type
+|2    | `From`       | String | `[!-)+-<>-~][!-~]*`       | name of segment
+|3    | `FromOrient` | String | `+|-`                     | orientation of `From` segment
+|4    | `To`         | String | `[!-)+-<>-~][!-~]*`       | name of segment
+|5    | `ToOrient`   | String | `+|-`                     | orientation of `To` segment
+|6    | `Overlap`    | String | `\*|([0-9]+[MIDNSHPX=])+` | `CIGAR` string describing overlap
 
 ### Optional fields
 
 
-| Tag   | Type | Description       |
-|-------|------|-------------------|
-| `MQ`  | `i`  | Mapping quality   |
-| `NM`  | `i`  | # mismatches/gaps |
-| `RC`  | `i`  | Read count        |
-| `FC`  | `i`  | Fragment count    |
-| `KC`  | `i`  | k-mer count       |
+| Tag   | Type | Description
+|-------|------|--------------
+| `MQ`  | `i`  | Mapping quality
+| `NM`  | `i`  | # mismatches/gaps
+| `RC`  | `i`  | Read count
+| `FC`  | `i`  | Fragment count
+| `KC`  | `i`  | k-mer count
 
 
 ## Containment line
 
 (need motivation for this)
 
-| Col | Field     |   Type  |   Regexp/Range    |          Brief description |
-|-----|:----------|:------|:-------------------|:-----------------|
-|2  |   `From`      | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
-|4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
-|5  |   `ToOrient`  | String |  `+|-`                    | orientation of To segment |
-|6  |   `pos`       | int    |  `[0-9]*`                 | 0-based start of contained segment |
-|7  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
+| Col | Field        | Type   | Regexp/Range              | Brief description
+|-----|:-------------|:-------|:--------------------------|:-------------------
+| 1   | `RecordType` | Char   | `P`                       | Record type
+| 2   | `From`       | String | `[!-)+-<>-~][!-~]*`       | name of segment
+| 3   | `FromOrient` | String | `+|-`                     | orientation of `From` segment
+| 4   | `To`         | String | `[!-)+-<>-~][!-~]*`       | name of segment
+| 5   | `ToOrient`   | String | `+|-`                     | orientation of `To` segment
+| 6   | `pos`        | int    | `[0-9]*`                  | 0-based start of contained segment
+| 7   | `Overlap`    | String | `\*|([0-9]+[MIDNSHPX=])+` | `CIGAR` string describing overlap
 
 
 ### Optional fields
 
-| Tag  | Type  | description |
-| :-----|-------- | :------------- |
-| `RC` | `i` |  Read Coverage  |
-| `NM` | `i` |  Number of mismatches/gaps  |
+| Tag  | Type | Description
+|------|:---  |:-------------
+| `RC` | `i`  |  Read Coverage
+| `NM` | `i`  |  Number of mismatches/gaps
 
 ## Path line
 
 ### Required fields
 
 |Col | Field         | Type   | Regexp/Range              | Brief description
-|----|---------------|--------|---------------------------|--------------------
+|----|:--------------|:-------|:--------------------------|:-------------------
 |1   | `RecordType`  | Char   | `P`                       | Record type
 |2   | `PathName`    | String | `[!-)+-<>-~][!-~]*`       | Path name
 |3   | `SegmentName` | String | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
-|4   | `CIGAR`       | String | `\*|([0-9]+[MIDNSHPX=])+` | A comma-separated list of CIGAR strings
+|4   | `CIGAR`       | String | `\*|([0-9]+[MIDNSHPX=])+` | A comma-separated list of `CIGAR` strings
 
 A `CIGAR` string may be `*`, in which case the `CIGAR` string is determined by fetching the `CIGAR` string from the corresponding link record, or by performing a pairwise overlap alignment of the two sequences.
 
