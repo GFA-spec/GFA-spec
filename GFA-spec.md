@@ -70,7 +70,7 @@ The header line has only optional fields. The following fields are defined for t
 
 |Col | Field        | Type   |  Regexp/Range        | Brief description
 |----|:-------------|:-------|:---------------------|:-------------------
-| 1  | `RecordType` | Char   | `P`                  | Record type
+| 1  | `RecordType` | Char   | `S`                  | Record type
 | 2  | `Name`       | String | `[!-)+-<>-~][!-~]*`  | Segment name
 | 3  | `Sequence`   | String | `\*|[A-Za-z=.]+`     | The nucleotide sequence
 
@@ -99,7 +99,7 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 
 | Col | Field        | Type   | Regexp/Range              | Brief description
 |-----|:-------------|:-------|:--------------------------|:-------------------
-|1    | `RecordType` | Char   | `P`                       | Record type
+|1    | `RecordType` | Char   | `L`                       | Record type
 |2    | `From`       | String | `[!-)+-<>-~][!-~]*`       | name of segment
 |3    | `FromOrient` | String | `+|-`                     | orientation of `From` segment
 |4    | `To`         | String | `[!-)+-<>-~][!-~]*`       | name of segment
@@ -124,7 +124,7 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 
 | Col | Field        | Type   | Regexp/Range              | Brief description
 |-----|:-------------|:-------|:--------------------------|:-------------------
-| 1   | `RecordType` | Char   | `P`                       | Record type
+| 1   | `RecordType` | Char   | `C`                       | Record type
 | 2   | `From`       | String | `[!-)+-<>-~][!-~]*`       | name of segment
 | 3   | `FromOrient` | String | `+|-`                     | orientation of `From` segment
 | 4   | `To`         | String | `[!-)+-<>-~][!-~]*`       | name of segment
