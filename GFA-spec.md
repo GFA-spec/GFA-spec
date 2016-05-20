@@ -88,6 +88,9 @@ The Sequence field can be `*` meaning that the sequence is not stored in the GFA
 | `RC`  | `i`  | Read count     |
 | `FC`  | `i`  | Fragment count |
 | `KC`  | `i`  | k-mer count    |
+| `OC`  | `J`  | Occurences     |
+
+#### The OC field
 
 ## Link line
 
