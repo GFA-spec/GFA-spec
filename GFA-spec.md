@@ -86,6 +86,8 @@ The Sequence field is optional and can be `*`, meaning that the nucleotide seque
 | `RC`  | `i`  | Read count     |
 | `FC`  | `i`  | Fragment count |
 | `KC`  | `i`  | k-mer count    |
+| `SH`  | `H`  | SHA-256 checksum of the sequence |
+| `UR`  | `Z`  | URI or local file-system path of the sequence. If it does not start with a standard protocol (e.g. ftp), it is assumed to be a local path. |
 
 # `L` Link line
 
@@ -117,6 +119,8 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 | `KC`  | `i`  | k-mer count
 
 # `C` Containment line
+
+This line can be used to describe mapping between segments in the graph and input sequences. It is useful for graphs built from assembled genomes, e.g. pan-genome analysis graphs.
 
 ## Required fields
 
