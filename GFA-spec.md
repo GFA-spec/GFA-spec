@@ -88,6 +88,8 @@ The Sequence field can be `*` meaning that the sequence is not stored in the GFA
 | `RC`  | `i`  | Read count     |
 | `FC`  | `i`  | Fragment count |
 | `KC`  | `i`  | k-mer count    |
+| `SH`  | `H`  | SHA-256 checksum of the sequence |
+| `UR`  | `Z`  | URI or local file-system path of the sequence| 
 
 ## Link line
 
@@ -121,7 +123,7 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 
 ## Containment line
 
-(need motivation for this)
+This line can be used to describe mapping between segments in the graph and input sequences. It is useful for graphs built from assembled genomes, e.g. pan-genome analysis graphs.
 
 | Col | Field     |   Type  |   Regexp/Range    |          Brief description |
 |-----|:----------|:------|:-------------------|:-----------------|
@@ -129,9 +131,8 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 |3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
 |5  |   `ToOrient`  | String |  `+|-`                    | orientation of To segment |
-|6  |   `pos`       | int    |  `[0-9]*`                 | 0-based start of contained segment |
+|6  |   `Pos`       | int    |  `[0-9]*`                 | 0-based start of contained segment |
 |7  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap |
-
 
 ### Optional fields
 
