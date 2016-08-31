@@ -58,15 +58,15 @@ be described.
 
 In the grammar above all symbols are literals other than tokens between <>, the derivation
 operator <-, and the following marks:
-..* {} enclose an optional item
-..* | denotes an alternative
-..* * zero-or-more
-..* + one-or-more
-..* [] a set of one character alternatives.
+  * {} enclose an optional item
+  * | denotes an alternative
+  * * zero-or-more
+  * + one-or-more
+  * [] a set of one character alternatives.
 
 Each descriptor line must begin with a letter and lies on a single line with no white space
-before the first symbol.   The tokens that generate descriptor lines are <header>, <multi>,
-<simple>, <fragment>, <edge>, and <gap>.
+before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<multi\>,
+\<simple\>, \<fragment\>, \<edge\>, and \<gap\>.
 Any line that does not begin with a recognized code (i.e. H, S, F, E, or G) can be ignored.
 This will allow users to have additional descriptor lines specific to their special process.
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
