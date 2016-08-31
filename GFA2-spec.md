@@ -1,6 +1,6 @@
-**GFA2: A Propsal (Verse 1.1)**
-*J. Chin, R.Durbin, G. Myers*
-*Aug. 31, 2016*
+# **GFA2: A Propsal (Verse 1.1)**
+# *J. Chin, R.Durbin, G. Myers*
+# *Aug. 31, 2016*
 
 ## PROLOG
 
@@ -100,7 +100,7 @@ edge where end1 = |sid1| and beg2 = 0 or beg1 = 0 and end2 = |sid2|.   A GFA con
 modeled by the case where beg2 = 0 and end2 = |sid2| or beg1 = 0 and end1 = |sid1|.  The figure
 below illustrates:
 
-PICTURE HERE
+![Fig. 1](GFA2.Fig1.png)
 
 Special codes could be adopted for dovetail and containment relationships but the thought is
 there is no particular reason to do so and the more general scenario allows interesting
@@ -110,7 +110,7 @@ primary “contig”, and then capture the two buble alternatives as a vertex li
 generalized edges shown in the “After” picture.  Note carefully that you need a generalized
 edge to capture the attachment of the two haplotype bubbles in the “After” picture.
 
-PICTURE HERE
+![Fig. 2](GFA2.Fig2.png)
  
 While one has graphs in which vertex sequences actually overlap as above, one also frequently
 encounters models in which there is no overlap (basically edge-labelled models captured in a
