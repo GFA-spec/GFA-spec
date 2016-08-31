@@ -53,9 +53,11 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 | `Z` | `[ !-~]+` | Printable string, including space
 | `J` | `[ !-~]+` | [JSON][], excluding new-line and tab characters
 | `H` | `[0-9A-F]+` | Byte array in the Hex format
-| `B` | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Integer or numeric array
+| `B` | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Array of integers or floats
 
 [JSON]: http://json.org/
+
+For type `B`, array of integers or floats, the first letter indicates the type of numbers in the following comma separated array. The letter can be one of `cCsSiIf`, corresponding to `int8_t` (signed 8-bit integer), `uint8_t` (unsigned 8-bit integer), `int16_t`, `uint16_t`, `int32_t`, `uint32_t` and `float`, respectively.
 
 ## Header line
 
