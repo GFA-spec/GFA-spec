@@ -1,6 +1,6 @@
 # **GFA2: A Propsal (Verse 1.1)**
-# *J. Chin, R.Durbin, G. Myers*
-# *Aug. 31, 2016*
+## *J. Chin, R.Durbin, G. Myers*
+## *Aug. 31, 2016*
 
 ## PROLOG
 
