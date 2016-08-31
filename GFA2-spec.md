@@ -25,10 +25,10 @@ of an edge need only describe the range of base pairs aligned in each string, an
 contain a **trace** or a **CIGAR string** to describe the alignment of the edge.  Traces are a
 space-efficient Dazzler assembler concept that allow one to efficiently reconstruct an
 alignment in linear time, and CIGAR strings are a SAM concept explicitly detailing the
-columns of an alignment.  Many new technologies such a Hi-C and Bionano organize segments
-into scaffolds along with data sets involving paired reads, and so a “gap” edge concept is
-also introduced so that order and orientaiton between disjoint contigs of an assembly can
-be described.
+columns of an alignment.  Many new technologies such a Hi-C and BioNano maps organize segments
+into scaffolds along with traditional data sets involving paired reads, and so a “gap” edge
+concept is also introduced so that order and orientaiton between disjoint contigs of an
+assembly can be described.
 
 ## GRAMMAR
 
@@ -68,7 +68,7 @@ Each descriptor line must begin with a letter and lies on a single line with no 
 before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<multi\>,
 \<simple\>, \<fragment\>, \<edge\>, and \<gap\>.
 Any line that does not begin with a recognized code (i.e. H, S, F, E, or G) can be ignored.
-This will allow users to have additional descriptor lines specific to their special process.
+This will allow users to have additional descriptor lines specific to their special processes.
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
 tags which are ignored by software designed to support the core standard.  These user-specific
 tags must occur after any of the optional SAM tags in the core specification above
@@ -119,7 +119,7 @@ vertex-labelled form).  This is captured by edges for which beg1 = end1 and beg2
 0-length overlap)!
 
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
-data and external maps, often order and orient contigs/vertices into scaffolds with
+data and external maps often order and orient contigs/vertices into scaffolds with
 intervening gaps.  To this end we introduce a “gap” edge described in G-lines that give the
 estimated gap distance between the two vertex sequences and the variance of that estimate.
 
