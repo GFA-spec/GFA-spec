@@ -76,11 +76,11 @@ The header line has only optional fields. The following fields are defined for t
 |Col| Field     | Type   |  Regexp/Range     |   Brief description |
 |----|:---------|:------  |:-------------------|:-----------------|
 |2   |  `Name`     |String  | `[!-)+-<>-~][!-~]*`  | Segment name |
-|3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | The nucleotide sequence |
+|3   | `Sequence`  |String  | `\*|[A-Za-z=.]+`     | Optional nucleotide sequence |
 
 Segment names must not contain whitespace characters or start with `*` or `=`. All other printable ASCII characters are allowed. Names are case sensitive.
 
-The Sequence field can be `*` meaning that the sequence is not stored in the GFA file.
+The Sequence field is optional and can be `*`, meaning that the nucleotide sequence of the segment is not specified. When the sequence is not stored in the GFA file, its length may be specified using the `LN` tag, and the sequence may be stored in an external FASTA file.
 
 ### Optional fields
 
@@ -107,7 +107,9 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 |3  |   `FromOrient`| String |  `+|-`                    | orientation of From segment |
 |4  |   `To`        | String |  `[!-)+-<>-~][!-~]*`      | name of segment |
 |5  |   `ToOrient`  | String |  `+|-`                    | orientation of `To` segment |
-|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| `CIGAR` string describing overlap |
+|6  |   `Overlap`   | String |  `\*|([0-9]+[MIDNSHPX=])+`| Optional `CIGAR` string describing overlap |
+
+The Overlap field is optional and can be `*`, meaning that the CIGAR string is not specified.
 
 ### Optional fields
 
