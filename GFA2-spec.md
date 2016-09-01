@@ -96,11 +96,11 @@ intervals of the sequences of the two vertices in question. One gives the segmen
 the two vertices and a + or – sign between them to indicate whether the second segment should
 be complemented or not.  A CIGAR string (or trace) describing the alignment is optional, but
 one must give the intervals that are aligned as a pair of positions where a position can have
-the special value \^ denoting the beginning of the segment, or the special
-value \$ denoting the end of the segment.
+the special value ^ denoting the beginning of the segment, or the special
+value $ denoting the end of the segment.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
-link which encodes what is called a dovetail overlap (because two ends overlap) is simply a GFA2
+edge which encodes what is called a dovetail overlap (because two ends overlap) is simply a GFA2
 edge where end1 = $ and beg2 = ^ or beg1 = ^ and end2 = $.   A GFA containment is
 modeled by the case where beg2 = ^ and end2 = $ or beg1 = ^ and end1 = $.  The figure
 below illustrates:
