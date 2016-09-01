@@ -39,18 +39,19 @@ assembly can be described.
 
 <segment> <- <simple> | <multi> <fragment>NF
  
-   <multi>  <- S <sid> <slen> <string> NF:i:<int> 
+   <multi>  <- S <sid:int> <slen:int> <string> NF:i:<int> 
  
-   <simple> <- S <sid> <slen> <string>
+   <simple> <- S <sid:int> <slen:int> <string>
 
-   <fragment> <- F <sid> [+-] <eid> <sbeg> <send> {<alignment>}
-                                    {CL:B:<pbeg>,<pend>,<plen>}
+   <fragment> <- F <sid:int> [+-] <eid:int> <sbeg:int> <send:int> {<alignment>}
+                                                    {CL:B:<pbeg>,<pend>,<plen>}
 
-<edge> <- E <sid1> [+-] <sid2> [+-] <beg1> <end1> <beg2> <end2>
-                                    {<alignment>}
+<edge> <- E <sid1:int> [+-] <sid2:int> <beg1:pos> <end1:pos> <beg2:pos> <end2:pos>
+                                   {<alignment>}
 
-<gap>  <- G <sid1> [+-] <sid2> [+-] <dist> <var>
+<gap>  <- G <sid1:int> [+-] <sid2:int> [+-] <dist:int> <var:int>
 
+    <pos>       <- ^ | <int> | $
     <string>    <- * | [ACGTacgt]+
     <alignment> <- TR:B:<trace array>
                    CG:Z:<CIGAR string>
@@ -91,25 +92,29 @@ clipping/trimming the fragment sequence be necessary, what portion of the fragme
 its length with a CL-tag.
 
 Edges are encoded in E-lines that in general represent a local alignment between arbitrary
-intervals of the sequences of the two vertices in question. As per GFA, one gives the segment
-id’s of the two vertices followed by a + or – sign to indicate their orientation.  Unlike GFA,
-a CIGAR string (or trace) is optional, but one must give the intervals that are aligned.
+intervals of the sequences of the two vertices in question. One gives the segment id’s of
+the two vertices and a + or – sign between them to indicate whether the second segment should
+be complemented or not.  A CIGAR string (or trace) describing the alignment is optional, but
+one must give the intervals that are aligned as a pair of positions where a position can have
+the special value \^ denoting the beginning of the segment, or the special
+value \$ denoting the end of the segment.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
 link which encodes what is called a dovetail overlap (because two ends overlap) is simply a GFA2
-edge where end1 = |sid1| and beg2 = 0 or beg1 = 0 and end2 = |sid2|.   A GFA containment is
-modeled by the case where beg2 = 0 and end2 = |sid2| or beg1 = 0 and end1 = |sid1|.  The figure
+edge where end1 = $ and beg2 = ^ or beg1 = ^ and end2 = $.   A GFA containment is
+modeled by the case where beg2 = ^ and end2 = $ or beg1 = ^ and end1 = $.  The figure
 below illustrates:
 
 ![Fig. 1](GFA2.Fig1.png)
 
 Special codes could be adopted for dovetail and containment relationships but the thought is
-there is no particular reason to do so and the more general scenario allows interesting
-possibilities.  For example, one might have two haplotype bubbles shown in the “Before”
-picture below, and then in a next phase choose a path through the bubbles as the
-primary “contig”, and then capture the two buble alternatives as a vertex linked with
-generalized edges shown in the “After” picture.  Note carefully that you need a generalized
-edge to capture the attachment of the two haplotype bubbles in the “After” picture.
+there is no particular reason to do so, the use of the special characters for terminal positions
+makes their identification simple both algorithmically and visually, and the more general
+scenario allows interesting possibilities.  For example, one might have two haplotype bubbles
+shown in the “Before” picture below, and then in a next phase choose a path through the
+bubbles as the primary “contig”, and then capture the two buble alternatives as a vertex
+linked with generalized edges shown in the “After” picture.  Note carefully that you need a
+generalized edge to capture the attachment of the two haplotype bubbles in the “After” picture.
 
 ![Fig. 2](GFA2.Fig2.png)
  

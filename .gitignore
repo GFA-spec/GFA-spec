@@ -1,3 +1,8 @@
+## My stuff (Gene Myers)
+.gitignore
+.DS_Store
+AUXILIARY
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
