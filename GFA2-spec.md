@@ -33,28 +33,33 @@ assembly can be described.
 ## GRAMMAR
 
 ```
-<spec>    <- <header> ( <segment> | <edge> | <gap> )+
+<spec>    <- <header> ( <segment> | <edge> | <gap> | <group> )+
 
-<header>  <- H VN:Z:2.0 {TS:i:<int>}
+<header>  <- H VN:Z:2.0 {TS:i:<trace spacing>}
 
-<segment> <- <simple> | <multi> <fragment>NF
+<segment> <- <simple> | <multi> <fragment>^NF
  
-   <multi>  <- S <sid:int> <slen:int> <string> NF:i:<int> 
+   <multi>  <- S <sid:int> <slen:int> <sequence> NF:i:<int> 
  
-   <simple> <- S <sid:int> <slen:int> <string>
+   <simple> <- S <sid:int> <slen:int> <sequence>
 
-   <fragment> <- F <sid:int> [+-] <eid:int> <sbeg:int> <send:int> {<alignment>}
-                                                    {CL:B:<pbeg>,<pend>,<plen>}
+   <fragment> <- F <sid:int> [+-] <fid:int>
+                     <sbeg:int> <send:int> {CL:B:<pbeg>,<pend>,<plen>} {<alignment>}
 
-<edge> <- E <sid1:int> [+-] <sid2:int> <beg1:pos> <end1:pos> <beg2:pos> <end2:pos>
-                                   {<alignment>}
+<edge>  <- E {@<edge_id>} <sid1:int> [+-] <sid2:int>
+                            <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> {<alignment>}
 
-<gap>  <- G <sid1:int> [+-] <sid2:int> [+-] <dist:int> <var:int>
+<gap>   <- G <sid1:int> [+-] <sid2:int> <dist:int> <var:int>
+
+<group> <- P <name:string> (<sid> | @<eid>) ( {,} (<sid> | @<eid>)) +
 
     <pos>       <- ^ | <int> | $
-    <string>    <- * | [ACGTacgt]+
+    <sequence>  <- * | [A-Za-z]+
     <alignment> <- TR:B:<trace array>
                    CG:Z:<CIGAR string>
+
+      <CIGAR string> <- ([1-9][0-9]*[MX=ID])*
+      <trace array>  <- <int>(,<int>)*
 ```
 
 In the grammar above all symbols are literals other than tokens between <>, the derivation
@@ -67,7 +72,7 @@ operator <-, and the following marks:
 
 Each descriptor line must begin with a letter and lies on a single line with no white space
 before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<multi\>,
-\<simple\>, \<fragment\>, \<edge\>, and \<gap\>.
+\<simple\>, \<fragment\>, \<edge\>, \<gap\>, and \<group\>.
 Any line that does not begin with a recognized code (i.e. H, S, F, E, or G) can be ignored.
 This will allow users to have additional descriptor lines specific to their special processes.
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
@@ -76,6 +81,10 @@ tags must occur after any of the optional SAM tags in the core specification abo
 (i.e. VN, TS, TR, CG, NF, and CL).  
 
 ## SEMANTICS
+
+The header just contains a version number, 2.0, and if Dazzler trace points are used to
+efficiently encode alignments, then one needs to specify the trace point spacing with a
+TS tag in the header.
 
 A segment is specified by either a single S-line without an NF-tag or an S-line with the tag
 followed immediately by NF F-lines.  This and the fact that the header must occur first are the
@@ -96,8 +105,10 @@ intervals of the sequences of the two vertices in question. One gives the segmen
 the two vertices and a + or – sign between them to indicate whether the second segment should
 be complemented or not.  A CIGAR string (or trace) describing the alignment is optional, but
 one must give the intervals that are aligned as a pair of positions where a position can have
-the special value ^ denoting the beginning of the segment, or the special
-value $ denoting the end of the segment.
+the special value ^ denoting the beginning of the segment, or the special value $ denoting
+the end of the segment.  An edge may optionally be given a unique integer ID in the case that
+a user needs to explicitly refer to it in group line (see below).  This is specified by
+optionally giving the id prefixed with an @-sign at the start of the line.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
 edge which encodes what is called a dovetail overlap (because two ends overlap) is simply a GFA2
@@ -128,23 +139,30 @@ data and external maps often order and orient contigs/vertices into scaffolds wi
 intervening gaps.  To this end we introduce a “gap” edge described in G-lines that give the
 estimated gap distance between the two vertex sequences and the variance of that estimate.
 
-The header just contains a version number, 2.0, and if Dazzler trace points are used to
-efficiently encode alignments, then one needs to specify the trace point spacing with a
-TS tag in the header.
+A group encoding on a P-line (P for path from GFA) allows one to specify a named subgraph of
+the overall graph.  Such a collection could for example be hilighted by a drawing program on
+command, or might specify decisionts about tours through the graph.  A P-line begins with the
+name for the collection which may be any string of non-white space characters.  This is then
+followed by a list of segment id's and/or edge id's prefixed by an @-symbol where the list
+is either white-space or comma separated.  If white-space separated, then the collection
+refers to the subgraph implied by the collection (i.e. all edges between listed segments and
+all segments adjacent to listed edges are included).  If comma-separated, then the subgraph
+only contains edges between consecutive pairs of segments in the list (as opposed to all
+pairs).  This later form, allows the specification of a path through the graph.  Note carefully
+that there may be several edges between a given pair of segments, so in the event you want
+to refer to a specific you must give the edge an ID in its definition and then refer to the
+ID.  However, this is typically not the case and edge ID's are not needed.
 
 ## EXTENSIONS TO THE CORE
 
-As mentioned twice above, the format is extensible by users with the intention to be to
-define a core that all tools should support.  Therefore, the question is not to support
-every variant that one might desire but to support those we view as essential.
+As mentioned above, the format is extensible by users with the intention that the specification
+above defines a "core" that all tools should support.  Therefore, the question is not to support
+every variant that one might desire but to support those viewed as essential.
 
 For example, if the consensus is that trace points are just a “Gene thing” then they could
 be removed from the standard and I will put them in my GFA files as an optional user-specific
 SAM tag.
 
-Along the same lines we have currently left out GFA paths as a non-core descriptor line (that
-begins with P) but are willing to reintroduce it into the core based on discussion.
-
-In addition, Jason Chin wants to be able to have descriptors that describe subgraphs by
-virtue of giving a list of vertices.  We are open as to whether this should be in the
-“core” or not.
+As another example, if people still love the L- and C-lines of the GFA format (which have
+been consolidated and generalized in the E-line of GFA2), then one could certainly support
+extension in which those lines are understood by supporting tools.
