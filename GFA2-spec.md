@@ -46,13 +46,15 @@ assembly can be described.
    <fragment> <- F <sid:int> [+-] <fid:int>
                      <sbeg:int> <send:int> {CL:B:<pbeg>,<pend>,<plen>} {<alignment>}
 
-<edge>  <- E {@<edge_id>} <sid1:int> [+-] <sid2:int>
+<edge>  <- E {@<eid:int>} <sid1:int> [+-] <sid2:int>
                             <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> {<alignment>}
 
 <gap>   <- G <sid1:int> [+-] <sid2:int> <dist:int> <var:int>
 
-<group> <- P <name:string> (<sid> | @<eid>) ( {,} (<sid> | @<eid>)) +
+<group> <- P <name:string> <item> ( , <item>) *
+         | P <name:string> <item> <item> *
 
+    <item>      <- <sid:int> | @<eid:int>
     <pos>       <- ^ | <int> | $
     <sequence>  <- * | [A-Za-z]+
     <alignment> <- TR:B:<trace array>
@@ -107,7 +109,7 @@ be complemented or not.  A CIGAR string (or trace) describing the alignment is o
 one must give the intervals that are aligned as a pair of positions where a position can have
 the special value ^ denoting the beginning of the segment, or the special value $ denoting
 the end of the segment.  An edge may optionally be given a unique integer ID in the case that
-a user needs to explicitly refer to it in group line (see below).  This is specified by
+a user needs to explicitly refer to it in a group line (see below).  This is specified by
 optionally giving the id prefixed with an @-sign at the start of the line.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
@@ -141,17 +143,19 @@ estimated gap distance between the two vertex sequences and the variance of that
 
 A group encoding on a P-line (P for path from GFA) allows one to specify a named subgraph of
 the overall graph.  Such a collection could for example be hilighted by a drawing program on
-command, or might specify decisionts about tours through the graph.  A P-line begins with the
+command, or might specify decisions about tours through the graph.  A P-line begins with the
 name for the collection which may be any string of non-white space characters.  This is then
-followed by a list of segment id's and/or edge id's prefixed by an @-symbol where the list
+followed by a list of segment id's and/or edge id's (prefixed by an @-symbol) where the list
 is either white-space or comma separated.  If white-space separated, then the collection
-refers to the subgraph implied by the collection (i.e. all edges between listed segments and
-all segments adjacent to listed edges are included).  If comma-separated, then the subgraph
+refers to the subgraph induced by the collection (i.e. all edges between all pairs of segments
+in the list and all segments adjacent to listed edges are included).  If comma-separated,
+then the subgraph
 only contains edges between consecutive pairs of segments in the list (as opposed to all
-pairs).  This later form, allows the specification of a path through the graph.  Note carefully
+pairs).  This later form allows for the specification of a path through the graph.  Note carefully
 that there may be several edges between a given pair of segments, so in the event you want
-to refer to a specific you must give the edge an ID in its definition and then refer to the
-ID.  However, this is typically not the case and edge ID's are not needed.
+to refer to a specific edge you must give it an ID in its definiing E-line and then refer to the
+ID.  However, typically a pair of segments has at most one edge between them and edge ID's are
+not needed.
 
 ## EXTENSIONS TO THE CORE
 
