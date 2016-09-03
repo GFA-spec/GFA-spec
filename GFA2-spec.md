@@ -148,11 +148,11 @@ name for the collection which may be any string of non-white space characters.  
 followed by a list of segment id's and/or edge id's (prefixed by an @-symbol) where the list
 is either white-space or comma separated.  If white-space separated, then the collection
 refers to the subgraph induced by the collection (i.e. all edges between all pairs of segments
-in the list and all segments adjacent to listed edges are included).  If comma-separated,
+in the list and all segments adjacent to listed edges are included).  If comma separated,
 then the subgraph
 only contains edges between consecutive pairs of segments in the list (as opposed to all
 pairs).  This later form allows for the specification of a path through the graph.  Note carefully
-that there may be several edges between a given pair of segments, so in the event you want
+that there may be several edges between a given pair of segments, so in this event if you want
 to refer to a specific edge you must give it an ID in its definiing E-line and then refer to the
 ID.  However, typically a pair of segments has at most one edge between them and edge ID's are
 not needed.
@@ -169,4 +169,4 @@ SAM tag.
 
 As another example, if people still love the L- and C-lines of the GFA format (which have
 been consolidated and generalized in the E-line of GFA2), then one could certainly support
-extension in which those lines are understood by supporting tools.
+an extension in which those lines are understood by supporting tools.
