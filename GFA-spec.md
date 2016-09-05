@@ -153,9 +153,9 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 |1   | `RecordType`  | Char   | `P`                       | Record type
 |2   | `PathName`    | String | `[!-)+-<>-~][!-~]*`       | Path name
 |3   | `SegmentName` | String | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
-|4   | `CIGAR`       | String | `\*|([0-9]+[MIDNSHPX=])+` | A comma-separated list of CIGAR strings
+|4   | `CIGAR`       | String | `\*|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
 
-A `CIGAR` string may be `*`, in which case the `CIGAR` string is determined by fetching the `CIGAR` string from the corresponding link record, or by performing a pairwise overlap alignment of the two sequences.
+The `CIGAR` field is optional and can be `*`, in which case the `CIGAR` string is determined by fetching the `CIGAR` string from the corresponding link record, or by performing a pairwise overlap alignment of the two sequences.
 
 ### Optional fields
 
