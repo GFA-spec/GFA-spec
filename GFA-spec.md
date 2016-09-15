@@ -40,6 +40,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 |`L`  |  Link line |
 |`C`  |  Containment line |
 |`P`  |  Path line |
+|`#`  |  Comment line |
 
 ## Optional fields
 
@@ -182,6 +183,10 @@ The resulting path is:
 13   CTTGATT
 14 ACCTTGATT
 ```
+
+## Comment lines
+
+Comment lines begin with a `#` and are ignored. 
 
 # Recommended Practices for the GFA format
 
