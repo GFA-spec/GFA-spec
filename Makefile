@@ -6,7 +6,7 @@ clean:
 .PHONY: all clean
 
 %.html: %.md
-	pandoc --toc -sS -o $@ $<
+	pandoc -sS --toc --toc-depth=1 -o $@ $<
 
 %.pdf: %.md
-	pandoc --toc -S -o $@ $<
+	pandoc -S --toc --toc-depth=1 -o $@ $<
