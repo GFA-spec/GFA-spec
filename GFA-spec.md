@@ -5,7 +5,7 @@ date: 2016-09-15
 ---
 
 The master version of this document can be found at  
-<https://github.com/pmelsted/GFA-spec>
+<https://github.com/GFA-spec/GFA-spec>
 
 # The GFA Format Specification
 
