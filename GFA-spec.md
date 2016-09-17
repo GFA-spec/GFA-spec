@@ -89,7 +89,7 @@ The Sequence field can be `*` meaning that the sequence is not stored in the GFA
 | `FC`  | `i`  | Fragment count |
 | `KC`  | `i`  | k-mer count    |
 | `SH`  | `H`  | SHA-256 checksum of the sequence |
-| `UR`  | `Z`  | URI or local file-system path of the sequence| 
+| `UR`  | `Z`  | URI or local file-system path of the sequence. If it does not start with a standard protocol (e.g. ftp), it is assumed to be a local path. | 
 
 ## Link line
 
