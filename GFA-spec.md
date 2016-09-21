@@ -131,7 +131,7 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 
 # `C` Containment line
 
-This line can be used to describe mapping between segments in the graph and input sequences. It is useful for graphs built from assembled genomes, e.g. pan-genome analysis graphs.
+A containment line represents an overlap between two segments where one is contained in the other.
 
 ## Required fields
 
