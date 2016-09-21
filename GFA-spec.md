@@ -85,7 +85,7 @@ Comment lines begin with `#` and are ignored.
 | 2      | `Name`       | String    | `[!-)+-<>-~][!-~]*` | Segment name
 | 3      | `Sequence`   | String    | `\*|[A-Za-z=.]+`    | Optional nucleotide sequence
 
-Segment names must not contain whitespace characters or start with `*` or `=`. All other printable ASCII characters are allowed. Names are case sensitive.
+Segment names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` and `-,`. All other printable ASCII characters are allowed. Names are case sensitive.
 
 The Sequence field is optional and can be `*`, meaning that the nucleotide sequence of the segment is not specified. When the sequence is not stored in the GFA file, its length may be specified using the `LN` tag, and the sequence may be stored in an external FASTA file.
 
