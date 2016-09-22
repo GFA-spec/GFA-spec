@@ -1,0 +1,537 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="The GFA Format Specification Working Group" />
+  <meta name="date" content="2016-09-15" />
+  <title>Graphical Fragment Assembly (GFA) Format Specification</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Graphical Fragment Assembly (GFA) Format Specification</h1>
+<h2 class="author">The GFA Format Specification Working Group</h2>
+<h3 class="date">2016-09-15</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#the-gfa-format-specification">The GFA Format Specification</a></li>
+<li><a href="#comment-line"><code>#</code> Comment line</a></li>
+<li><a href="#h-header-line"><code>H</code> Header line</a></li>
+<li><a href="#s-segment-line"><code>S</code> Segment line</a></li>
+<li><a href="#l-link-line"><code>L</code> Link line</a></li>
+<li><a href="#c-containment-line"><code>C</code> Containment line</a></li>
+<li><a href="#p-path-line"><code>P</code> Path line</a></li>
+</ul>
+</div>
+<p>The master version of this document can be found at<br />
+<a href="https://github.com/GFA-spec/GFA-spec" class="uri">https://github.com/GFA-spec/GFA-spec</a></p>
+<h1 id="the-gfa-format-specification">The GFA Format Specification</h1>
+<p>The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.</p>
+<p>The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The first field of the line identifies the type of the line. Header lines start with <code>H</code>. Segment lines start with <code>S</code>. Link lines start with <code>L</code>. A containment line starts with <code>C</code>. A path line starts with <code>P</code>.</p>
+<h2 id="terminology">Terminology</h2>
+<ul>
+<li><strong>Segment</strong> a continuous sequence or subsequence.</li>
+<li><strong>Link</strong> an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.</li>
+<li><strong>Containment</strong> an overlap between two segments where one is contained in the other.</li>
+<li><strong>Path</strong> an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.</li>
+</ul>
+<h2 id="line-structure">Line structure</h2>
+<p>Each line in GFA has tab-delimited fields and the first field defines the type of line. The type of the line defines the following required fields. The required fields are followed by optional fields.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#</code></td>
+<td>Comment</td>
+</tr>
+<tr class="even">
+<td><code>H</code></td>
+<td>Header</td>
+</tr>
+<tr class="odd">
+<td><code>S</code></td>
+<td>Segment</td>
+</tr>
+<tr class="even">
+<td><code>L</code></td>
+<td>Link</td>
+</tr>
+<tr class="odd">
+<td><code>C</code></td>
+<td>Containment</td>
+</tr>
+<tr class="even">
+<td><code>P</code></td>
+<td>Path</td>
+</tr>
+</tbody>
+</table>
+<h2 id="optional-fields">Optional fields</h2>
+<p>All optional fields follow the <code>TAG:TYPE:VALUE</code> format where <code>TAG</code> is a two-character string that matches <code>/[A-Za-z][A-Za-z0-9]/</code>. Each <code>TAG</code> can only appear once in one line. A <code>TAG</code> containing lowercase letters are reserved for end users. A <code>TYPE</code> is a single case-sensitive letter which defines the format of <code>VALUE</code>.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="73%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>A</code></td>
+<td><code>[!-~]</code></td>
+<td>Printable character</td>
+</tr>
+<tr class="even">
+<td><code>i</code></td>
+<td><code>[-+]?[0-9]+</code></td>
+<td>Signed integer</td>
+</tr>
+<tr class="odd">
+<td><code>f</code></td>
+<td><code>[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?</code></td>
+<td>Single-precision floating number</td>
+</tr>
+<tr class="even">
+<td><code>Z</code></td>
+<td><code>[ !-~]+</code></td>
+<td>Printable string, including space</td>
+</tr>
+<tr class="odd">
+<td><code>J</code></td>
+<td><code>[ !-~]+</code></td>
+<td><a href="http://json.org/">JSON</a>, excluding new-line and tab characters</td>
+</tr>
+<tr class="even">
+<td><code>H</code></td>
+<td><code>[0-9A-F]+</code></td>
+<td>Byte array in hex format</td>
+</tr>
+<tr class="odd">
+<td><code>B</code></td>
+<td><code>[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+</code></td>
+<td>Array of integers or floats</td>
+</tr>
+</tbody>
+</table>
+<p>For type <code>B</code>, array of integers or floats, the first letter indicates the type of numbers in the following comma separated array. The letter can be one of <code>cCsSiIf</code>, corresponding to <code>int8_t</code> (signed 8-bit integer), <code>uint8_t</code> (unsigned 8-bit integer), <code>int16_t</code>, <code>uint16_t</code>, <code>int32_t</code>, <code>uint32_t</code> and <code>float</code>, respectively.</p>
+<h1 id="comment-line"><code>#</code> Comment line</h1>
+<p>Comment lines begin with <code>#</code> and are ignored.</p>
+<h2 id="required-fields">Required fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>#</code></td>
+<td>Record type</td>
+</tr>
+</tbody>
+</table>
+<h1 id="h-header-line"><code>H</code> Header line</h1>
+<h2 id="required-fields-1">Required fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>H</code></td>
+<td>Record type</td>
+</tr>
+</tbody>
+</table>
+<h2 id="optional-fields-1">Optional fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>VN</code></td>
+<td><code>Z</code></td>
+<td>Version number</td>
+</tr>
+</tbody>
+</table>
+<h1 id="s-segment-line"><code>S</code> Segment line</h1>
+<h2 id="required-fields-2">Required fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>S</code></td>
+<td>Record type</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>Name</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Segment name</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>Sequence</code></td>
+<td>String</td>
+<td><code>\*|[A-Za-z=.]+</code></td>
+<td>Optional nucleotide sequence</td>
+</tr>
+</tbody>
+</table>
+<p>Segment names must not contain whitespace characters or start with <code>*</code> or <code>=</code>. All other printable ASCII characters are allowed. Names are case sensitive.</p>
+<p>The Sequence field is optional and can be <code>*</code>, meaning that the nucleotide sequence of the segment is not specified. When the sequence is not stored in the GFA file, its length may be specified using the <code>LN</code> tag, and the sequence may be stored in an external FASTA file.</p>
+<h2 id="optional-fields-2">Optional fields</h2>
+<table style="width:44%;">
+<colgroup>
+<col width="11%" />
+<col width="9%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>LN</code></td>
+<td><code>i</code></td>
+<td>Segment length</td>
+</tr>
+<tr class="even">
+<td><code>RC</code></td>
+<td><code>i</code></td>
+<td>Read count</td>
+</tr>
+<tr class="odd">
+<td><code>FC</code></td>
+<td><code>i</code></td>
+<td>Fragment count</td>
+</tr>
+<tr class="even">
+<td><code>KC</code></td>
+<td><code>i</code></td>
+<td>k-mer count</td>
+</tr>
+<tr class="odd">
+<td><code>SH</code></td>
+<td><code>H</code></td>
+<td>SHA-256 checksum of the sequence</td>
+</tr>
+<tr class="even">
+<td><code>UR</code></td>
+<td><code>Z</code></td>
+<td>URI or local file-system path of the sequence. If it does not start with a standard protocol (e.g. ftp), it is assumed to be a local path.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="l-link-line"><code>L</code> Link line</h1>
+<p>Links are the primary mechanism to connect segments. Links connect oriented segments. A link from <code>A</code> to <code>B</code> means that the end of <code>A</code> overlaps with the start of <code>B</code>. If either is marked with <code>-</code>, we replace the sequence of the segment with its reverse complement, whereas a <code>+</code> indicates the segment sequence is used as-is.</p>
+<p>The length of the overlap is determined by the <code>CIGAR</code> string of the link. When the overlap is <code>0M</code> the <code>B</code> segment follows directly after <code>A</code>. When the <code>CIGAR</code> string is <code>*</code>, the nature of the overlap is not specified.</p>
+<h2 id="required-fields-3">Required fields</h2>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="18%" />
+<col width="14%" />
+<col width="32%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>L</code></td>
+<td>Record type</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>From</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Name of segment</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>FromOrient</code></td>
+<td>String</td>
+<td><code>+|-</code></td>
+<td>Orientation of From segment</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>To</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Name of segment</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>ToOrient</code></td>
+<td>String</td>
+<td><code>+|-</code></td>
+<td>Orientation of <code>To</code> segment</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>Overlap</code></td>
+<td>String</td>
+<td><code>\*|([0-9]+[MIDNSHPX=])+</code></td>
+<td>Optional <code>CIGAR</code> string describing overlap</td>
+</tr>
+</tbody>
+</table>
+<p>The Overlap field is optional and can be <code>*</code>, meaning that the CIGAR string is not specified.</p>
+<h2 id="optional-fields-3">Optional fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>MQ</code></td>
+<td><code>i</code></td>
+<td>Mapping quality</td>
+</tr>
+<tr class="even">
+<td><code>NM</code></td>
+<td><code>i</code></td>
+<td>Number of mismatches/gaps</td>
+</tr>
+<tr class="odd">
+<td><code>RC</code></td>
+<td><code>i</code></td>
+<td>Read count</td>
+</tr>
+<tr class="even">
+<td><code>FC</code></td>
+<td><code>i</code></td>
+<td>Fragment count</td>
+</tr>
+<tr class="odd">
+<td><code>KC</code></td>
+<td><code>i</code></td>
+<td>k-mer count</td>
+</tr>
+</tbody>
+</table>
+<h1 id="c-containment-line"><code>C</code> Containment line</h1>
+<p>This line can be used to describe mapping between segments in the graph and input sequences. It is useful for graphs built from assembled genomes, e.g. pan-genome analysis graphs.</p>
+<h2 id="required-fields-4">Required fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>C</code></td>
+<td>Record type</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>From</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Name of From segment</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>FromOrient</code></td>
+<td>String</td>
+<td><code>+|-</code></td>
+<td>Orientation of From segment</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>To</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Name of To segment</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>ToOrient</code></td>
+<td>String</td>
+<td><code>+|-</code></td>
+<td>Orientation of To segment</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>Pos</code></td>
+<td>Integer</td>
+<td><code>[0-9]*</code></td>
+<td>0-based start of contained segment</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>Overlap</code></td>
+<td>String</td>
+<td><code>\*|([0-9]+[MIDNSHPX=])+</code></td>
+<td>CIGAR string describing overlap</td>
+</tr>
+</tbody>
+</table>
+<h2 id="optional-fields-4">Optional fields</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>RC</code></td>
+<td><code>i</code></td>
+<td>Read coverage</td>
+</tr>
+<tr class="even">
+<td><code>NM</code></td>
+<td><code>i</code></td>
+<td>Number of mismatches/gaps</td>
+</tr>
+</tbody>
+</table>
+<h1 id="p-path-line"><code>P</code> Path line</h1>
+<h2 id="required-fields-5">Required fields</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="10%" />
+<col width="19%" />
+<col width="13%" />
+<col width="32%" />
+<col width="24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Field</th>
+<th>Type</th>
+<th>Regexp</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>RecordType</code></td>
+<td>Character</td>
+<td><code>P</code></td>
+<td>Record type</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>PathName</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>Path name</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>SegmentNames</code></td>
+<td>String</td>
+<td><code>[!-)+-&lt;&gt;-~][!-~]*</code></td>
+<td>A comma-separated list of segment names and orientations</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>Overlaps</code></td>
+<td>String</td>
+<td><code>\*|([0-9]+[MIDNSHPX=])+</code></td>
+<td>Optional comma-separated list of CIGAR strings</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>Overlaps</code> field is optional and can be <code>*</code>, in which case the <code>CIGAR</code> strings are determined by fetching the <code>CIGAR</code> string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.</p>
+<h2 id="optional-fields-5">Optional fields</h2>
+<p>None specified.</p>
+<h2 id="example">Example</h2>
+<pre><code>H   VN:Z:1.0
+S   11  ACCTT
+S   12  TCAAGG
+S   13  CTTGATT
+L   11  +   12  -   4M
+L   12  -   13  +   5M
+L   11  +   13  +   3M
+P   14  11+,12-,13+ 4M,5M</code></pre>
+<p>The resulting path is:</p>
+<pre><code>11 ACCTT
+12  CCTTGA
+13   CTTGATT
+14 ACCTTGATT</code></pre>
+</body>
+</html>
