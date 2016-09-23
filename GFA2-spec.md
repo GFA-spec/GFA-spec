@@ -46,10 +46,10 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 
 <gap>      <- G <eid>:id> <sid1:id> [+-] <sid2:id> <dist:int> <var:int>
 
-<group>    <- P[UO] <name:id> <item>([ ]<item>)*
+<group>    <- P[UO] <pid:id> <item>([ ]<item>)*
 
     <id>        <- [!-~]+
-    <item>      <- <sid:id> | <eid:id>
+    <item>      <- <sid:id> | <eid:id> | <pid:id>
     <pos>       <- {$}<int>
     <sequence>  <- * | [A-Za-z]+
     <alignment> <- * | <trace array> | <CIGAR string>
