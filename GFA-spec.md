@@ -11,7 +11,7 @@ The master version of this document can be found at
 
 The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`. A path line starts with `P`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`. A path line starts with `P`. A walk line starts with `W`.
 
 ## Terminology
 
@@ -19,6 +19,7 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 + **Link** an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
 + **Containment** an overlap between two segments where one is contained in the other.
 + **Path** an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
++ **Walk** a sequence defined as an ordered series of alignments to segments of the graph.
 
 ## Line structure
 
@@ -32,6 +33,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `L`  | Link        |
 | `C`  | Containment |
 | `P`  | Path        |
+| `W`  | Walk        |
 
 ## Optional fields
 
@@ -165,6 +167,29 @@ This line can be used to describe mapping between segments in the graph and inpu
 
 The `Overlaps` field is optional and can be `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
 
+# `W` Walk line
+
+Walks describe sequences in terms of a series of mappings (steps) to the segments of the graph.
+Each step in the path represents the mapping between part of the sequence encoded in the walk and a particular segment.
+The step contains a offset and CIGAR, which allows it to describe differecse between the walk's sequence and the underlying graph.
+Each `W` line refers to a single step, which is uniquely identified by its rank among steps that comprise the walk.
+
+There are no limitations about where successive steps in the walk may map.
+Links between the ends of the records are not required.
+Walks may thus be defined without modification of the segments and links of the graph, such as by aligning sequences to the graph.
+
+## Required fields
+
+| Column | Field          | Type      | Regexp                    | Description
+|--------|----------------|-----------|---------------------------|--------------------
+| 1      | `RecordType`   | Character | `W`                       | Record type
+| 2      | `SegmentName`  | String    | `[!-)+-<>-~][!-~]*`       | Traversed segment
+| 3      | `WalkName`     | String    | `[!-)+-<>-~][!-~]*`       | Walk name
+| 4      | `MappingRank`  | Integer   | `[0-9]*`                  | The rank of this element in the walk which it is part of
+| 5      | `Orientation`  | String    | `+|-`                     | Orientation of traversal relative to segment
+| 6      | `Offset`       | Integer   | `[0-9]*`                  | The 0-based offset from the beginning of the segment on the given strand
+| 7      | `Mapping`      | String    | `\*|([0-9]+[MIDNSHPX=])+` | `CIGAR` string describing mapping of walk to the segment
+
 ## Optional fields
 
 None specified.
@@ -179,14 +204,18 @@ S	13	CTTGATT
 L	11	+	12	-	4M
 L	12	-	13	+	5M
 L	11	+	13	+	3M
-P	14	11+,12-,13+	4M,5M
+P	x	11+,12-,13+	4M,5M
+W	11	y	1	+	0	1M
+W	12	y	2	-	0	1M
+W	13	y	3	+	0	7M
 ```
 
-The resulting path is:
+The resulting path (x) and walk (y) are equivalent.
 
 ```
 11 ACCTT
 12  CCTTGA
 13   CTTGATT
-14 ACCTTGATT
+x  ACCTTGATT
+y  ACCTTGATT
 ```
