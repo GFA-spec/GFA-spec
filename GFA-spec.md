@@ -156,12 +156,12 @@ This line can be used to describe mapping between segments in the graph and inpu
 
 ## Required fields
 
-| Column | Field          | Type      | Regexp                    | Description
-|--------|----------------|-----------|---------------------------|--------------------
-| 1      | `RecordType`   | Character | `P`                       | Record type
-| 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
-| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
-| 4      | `Overlaps`     | String    | `\*|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
+| Column | Field          | Type      | Regexp                                                   | Description
+|--------|----------------|-----------|----------------------------------------------------------|--------------------
+| 1      | `RecordType`   | Character | `P`                                                      | Record type
+| 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`                                      | Path name
+| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`                                      | A comma-separated list of segment names and orientations
+| 4      | `Overlaps`     | String    | `(\*|([0-9]+[MIDNSHPX=])+)(,(\*|([0-9]+[MIDNSHPX=])+))*` | Optional comma-separated list of CIGAR strings
 
 The `Overlaps` field is optional and can be `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
 
