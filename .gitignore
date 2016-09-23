@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## My stuff (Gene Myers)
 .gitignore
 .DS_Store
@@ -132,4 +133,8 @@ sympy-plots-for-*.tex/
 
 # specific to this repo
 *.ver
+=======
+*.html
+>>>>>>> GFA-spec/master
 *.pdf
+!index.html
