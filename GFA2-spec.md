@@ -32,7 +32,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 ## GRAMMAR
 
 ```
-<spec>     <- ( <header> | <segment> | <edge> | <gap> | <group> )+
+<spec>     <- ( <header> | <segment> | <fragment> | <edge> | <gap> | <group> )+
 
 <header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>}
 
