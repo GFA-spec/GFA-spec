@@ -163,7 +163,11 @@ command, or might specify decisions about tours through the graph.  The P is imm
 follwed by U or O indicating either an *unordered* or *ordered* collection.  The remainder of
 the line then consists of a name for the collection followed by a non-empty list of ID's
 refering to segments and/or edges that are *separated by single spaces* (i.e. the list is
-in a single column of the tab-delimited format).  An unordered collection refers to
+in a single column of the tab-delimited format).  P-lines with the same name are considered
+to be concatenated together in the order in which they appear, and a group list may refer
+to another group recursively.
+
+An unordered collection refers to
 the subgraph induced by the vertices and edges in the collection (i.e. one adds all edges
 between a pair of segments in the list and one adds all segments adjacent to edges in the
 list.)   An ordered collection captures paths in the graph consisting of the listed objects
