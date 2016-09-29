@@ -11,6 +11,7 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [bfgraph](https://github.com/pmelsted/bfgraph)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfakluge](https://github.com/edawson/gfakluge)
++ [gfalint](https://github.com/sjackman/gfalint)
 + [gfatools](https://github.com/lh3/gfatools)
 + [jts/DALIGNER](https://github.com/jts/daligner)
 + [lmrodriguezr/gfa](https://github.com/lmrodriguezr/gfa)
