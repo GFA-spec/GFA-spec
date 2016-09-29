@@ -128,6 +128,7 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 | `RC`  | `i`  | Read count
 | `FC`  | `i`  | Fragment count
 | `KC`  | `i`  | k-mer count
+| `ID`  | `Z`  | Edge identifier
 
 # `C` Containment line
 
@@ -151,6 +152,7 @@ A containment line represents an overlap between two segments where one is conta
 |-------|------|------------
 | `RC`  | `i`  | Read coverage
 | `NM`  | `i`  | Number of mismatches/gaps
+| `ID`  | `Z`  | Edge identifier
 
 # `P` Path line
 
