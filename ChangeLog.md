@@ -12,19 +12,29 @@ consensus was to leave the specification free of any line order restrictions.
 * The P[UO]-line headers have been split into a U-line and an O-line.
 
 * In addition to a *default* trace spacing that can be specified in a header with the 'TS' SAM-tag,
-one can also place an optional <code> <int>: </code> prior to an integer trace list, to specify a
+one can also place an optional <code> \<int\>: </code> prior to an integer trace list, to specify a
 specific trace spacing for that particular trace.
+
+* The README2.md and README.md have been consolidated into README.md.
+
+* The L-line extension has been removed.
 
 ## PROPOSED
 
 * The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.  Propose to solve it by using position syntax:
 ```
-G * A + B  g v  ==>  A ------> g1 -------> B
-G * A - B  g v  ==>  A ------> g1 <------- B
-G * A + B $g v  ==>  B ------> g1 -------> A
-G * A - B $g v  ==>  B <------ g1 -------> A
+G * A + B  g v  ==>  A ------> g -------> B
+G * A - B  g v  ==>  A ------> g <------- B
+G * A + B $g v  ==>  B ------> g -------> A
+G * A - B $g v  ==>  B <------ g -------> A
 ```
-The alternative would be to bring back signs on each segment in both G- and E-lines.
+The alternative would be to bring back signs on each segment in both G- and E-lines, or introduce an edge token to replace signs altogether: i.e.
+```
+E * A >-> B ...    ===   E * A + B + ...   ===    E * A ++ B ...
+E * A <-> B ...    ===   E * A - B + ...   ===    E * A -+ B ...
+E * A <-< B ...    ===   E * A - B - ...   ===    E * A -- B ...
+E * A >-< B ...    ===   E * A + B - ...   ===    E * A +- B ...
+```
 
 ## ISSUES
 
