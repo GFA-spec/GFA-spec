@@ -1,7 +1,8 @@
 ## CHANGED
 
-* All ID's are now in *one* name space.  Edge id's can still be shared when they do not need to be
-unique, but segment, group, and referenced edge's must all have unique ID's relative to each other.
+* All ID's are now in *one* name space and every ID in a definitional context must be unique.
+If * is specified in place of an ID on edge, gap, and group id's, then that item does not
+have an ID and is presumably not referred to elsewhere (i.e. U- or O-lines).
 
 * Sequences in S-lines were defined as <code>[a-zA-Z]+</code>.  Unecessarily restrictive.  Changed
 to any printable sequence excluding space, i.e <code>[!-~]+</code>.
@@ -11,29 +12,30 @@ consensus was to leave the specification free of any line order restrictions.
 
 * The P[UO]-line headers have been split into a U-line and an O-line.
 
-* In addition to a *default* trace spacing that can be specified in a header with the 'TS' SAM-tag,
-one can also place an optional <code> \<int\>: </code> prior to an integer trace list, to specify a
-specific trace spacing for that particular trace.
+* A 'TS' SAM-tag in a header defines a *default* trace spacing to use with all traces, unless the
+line containing the trace has a 'TS' SAM-tag after the fixed fields specifying a spacing to use
+with that specific trace.
 
 * The README2.md and README.md have been consolidated into README.md.
 
 * The L-line extension has been removed.
 
+* X and = are removed from CIGAR string, which are now restricted to MDIP.
+
+* The convention for positions has changed to a Heng's suggestion.  A $ is now a *sentinel* that
+follows an integer position if and only if that position is the end of the segment.  It will be
+considered an error for such a position not to be so marked.  One can still test if an edge is
+a dovetail or containment because the $ effectively tells you the segment length.
+
 ## PROPOSED
 
-* The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.  Propose to solve it by using position syntax:
+* The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.
+Durbin likes the bidirected edge marks and Myers seconds.  To wit:
 ```
-G * A + B  g v  ==>  A ------> g -------> B
-G * A - B  g v  ==>  A ------> g <------- B
-G * A + B $g v  ==>  B ------> g -------> A
-G * A - B $g v  ==>  B <------ g -------> A
-```
-The alternative would be to bring back signs on each segment in both G- and E-lines, or introduce an edge token to replace signs altogether: i.e.
-```
-E * A >-> B ...    ===   E * A + B + ...   ===    E * A ++ B ...
-E * A <-> B ...    ===   E * A - B + ...   ===    E * A -+ B ...
-E * A <-< B ...    ===   E * A - B - ...   ===    E * A -- B ...
-E * A >-< B ...    ===   E * A + B - ...   ===    E * A +- B ...
+G * A >> B g v  ==>  A ------> g -------> B
+G * A >< B g v  ==>  A ------> g <------- B
+G * A <> B g v  ==>  A <------ g -------> B
+G * A << B g v  ==>  A <------ g <------- B
 ```
 
 ## ISSUES

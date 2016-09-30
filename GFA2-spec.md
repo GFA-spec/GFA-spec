@@ -43,22 +43,23 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 <fragment> <- F <sid:id> [+-] <external:id>
                   <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment>
 
-<edge>     <- E <eid:id> <sid1:id> [+-] <sid2:id>
-                         <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
+<edge>     <- E <eid:oid> <sid1:id> [+-] <sid2:id>
+                          <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
 
-<gap>      <- G <eid:id> <sid1:id> [+-] <sid2:id>
-                         <disp:pos> <var:int>
+<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id>
+                          <disp:pos> <var:int>
 
-<group>    <- [UO] <pid:id> <item>([ ]<item>)*
+<group>    <- [UO] <pid:oid> <item>([ ]<item>)*
 
     <id>        <- [!-~]+
+    <oid>       <- * | <id>
     <item>      <- <sid:id> | <eid:id> | <pid:id>
-    <pos>       <- {$}<int>
+    <pos>       <- <int>{$}
     <sequence>  <- * | [!-~]+
-    <alignment> <- * | <trace array> | <CIGAR string>
+    <alignment> <- * | <trace> | <CIGAR>
 
-      <CIGAR string> <- ([0-9]+[MX=DIP])+
-      <trace array>  <- {<int>:}<int>(,<int>)*
+      <CIGAR> <- ([0-9]+[MDIP])+
+      <trace> <- <int>(,<int>)*
 ```
 
 In the grammar above all symbols are literals other than tokens between <>, the derivation
@@ -81,12 +82,20 @@ This will allow users to have additional descriptor lines specific to their spec
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
 tags which are ignored by software designed to support the core standard.
 
+There is one name space for all identifiers for segments, edges, gaps, and groups.  It is
+an error for any identifier to be used twice in a defining context.  Note carefully that
+instead of an identifier, one can use a * for edges, gaps, and groups, implying that an
+id is not needed as the item will not be referred to elsewhere in the specification.
+
 ## SEMANTICS
 
 The **header** contains an optional 'VN' SAM-tag version number, 2.0, and an optional
 'TS' SAM-tag specifying the default the trace point spacing for any Dazzler traces specified
 to accelerate alignment computation.
 Any number of header lines containing SAM-tags may occur.
+A 'TS' tag can occur after the fixed arguments on any E-, G-, or F-line in which case it specifies
+the trace spacing to use with the trace on that specific line, otherwise the default spacing is
+used.
 
 A **segment** is specified by an S-line giving a user-specified ID for the
 sequence, its length in bases, and the string denoted by the segment or * if absent.
@@ -105,20 +114,15 @@ the interval of the fragment that contributes to to segment.  One concludes with
 trace or CIGAR string detailing the alignment, or a \* if absent.
 
 **Edges** are encoded in E-lines that in general represent a local alignment between arbitrary
-intervals of the sequences of the two vertices in question. One gives first an edge ID and
+intervals of the sequences of the two vertices in question. One gives first an edge ID or * and
 then the segment ID’s of the two vertices and a + or – sign between them to indicate whether
-the second segment should be complemented or not.  An edge ID does not need to be unique,
-*unless* you plan to refer to it in a P-line (see below).  This
-allows you to use something short like a single *-sign as the id when it is not needed.
+the second segment should be complemented or not.
 
 One then gives the intervals of each segment that align, each as a pair of *positions*.  A position
-is either an integer or the special symbol $ followed immediately by an integer.
-If an integer, the position is the distance from the *left* end of the segment,
-and if $ followed by an integer, the distance from the *right* end
-of the sequence.  This ability to define a 0-based position from either end of a segment
-allows one to conveniently address end-relative positions without knowing the length of
-the segments.  Note carefully, that the segment and fragment intervals in an F-line are
-also positions.
+is an integer optional followed by a $-sign.  Positions are conceptually tick-marks *between*
+symbols starting a 0 to the left of the first symbol and ending at *L* to the right of the last
+symbol where $L$ is the length of the segment.  A $-sign follows the integer *L$, i.e. it signals
+that the position is at the end of the given segment.
 
 Positions intervals are always intervals in the segment in its normal
 orientation.  If a minus sign is specified, then the interval of the second segment is
@@ -134,21 +138,22 @@ the two segments.  A trace string by contrast is given when one simply wants an 
 method for computing an alignment between the two intervals.
 A trace is a list of integers separated by commas, each integer giving the # of characters in
 the second segment to align to the next *TS* characters in the first segment where
-the *TS* is either the default trace spacing given in a header with the TS SAM-tag, or it
-is an optional prefixing <code><int>:</code> in front of the trace list.
+the *TS* is either the default trace spacing given in a header line with the TS SAM-tag, or
+the spacing given in a TS SAM-tag on the line of the edge.
 If a \* is given as the alignment
 note that it is still possible to compute the implied alignment by brute force.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
-edge which encodes what is called a dovetail overlap (because two ends overlap) is simply a GFA2
-edge where end1 = $0 and beg2 = 0 or beg1 = 0 and end2 = $0.   A GFA containment is
-modeled by the case where beg2 = 0 and end2 = $0 or beg1 = 0 and end1 = $0.  The figure
-below illustrates:
+edge which encodes what is called a dovetail overlap (because two ends overlap) is a GFA2
+edge where the sign is + and end1 = x$ and beg2 = 0 or beg1 = 0 and end2 = x$, or the
+sign is - and end1 = x$ and end2 = x$ or beg1 = 0 and beg2 = x$.
+A GFA containment is modeled by the case where beg2 = 0 and end2 = x$ or beg1 = 0
+and end1 = x$. The figure below illustrates:
 
 ![Illustration of position and edge definitions](GFA2.Fig1.png)
 
 Special codes could be adopted for dovetail and containment relationships but the thought is
-there is no particular reason to do so, the use of the special characters for terminal positions
+there is no particular reason to do so, the use of the $ sentinel for terminal positions
 makes their identification simple both algorithmically and visually, and the more general
 scenario allows interesting possibilities.  For example, one might have two haplotype bubbles
 shown in the “Before” picture below, and then in a next phase choose a path through the
@@ -182,9 +187,10 @@ Such a collection could for example be hilighted by a drawing program on
 command, or might specify decisions about tours through the graph.  U-lines encode
 *unorder* collections and O-lines encode *ordered* collection (defined in the next paragraph).
 The remainder of
-the line then consists of a name for the collection followed by a non-empty list of ID's
-referring to segments and/or edges that are *separated by single spaces* (i.e. the list is
-in a single column of the tab-delimited format).  U/O-lines with the same name are considered
+the line then consists of an optional ID for the collection followed by a non-empty list of ID's
+referring to segments, edges, or other groups that are *separated by single spaces*
+(i.e. the list is in a single column of the tab-delimited format).
+U/O-lines with the same name are considered
 to be concatenated together in the order in which they appear, and a group list may refer
 to another group recursively.
 
@@ -195,14 +201,6 @@ list.)   An ordered collection defined in an O-line captures paths in the graph 
 the listed objects
 and the implied adjacent objects between consecutive objects in the list (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
-
-There is a single name-space for the set of all id's, whether for segments, edges, or groups.
-All segments and group id's must be unique, but any number of edges can share the same ID
-(e.g. something simple like *), as long as they do not need to be referred to in a group
-list.  Because there can be more than one edge between a given pair of segments, a pair
-of segments does not always suffice to uniquely identify an edge for a path, and so one
-must in thes cases refer to the desired edge whose id must be unique.  Every id in a
-group list must refer to a unique ID, it is an error otherwise.  
 
 ## BACKWARD COMPATIBILITY WITH GFA
 
