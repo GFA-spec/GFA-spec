@@ -122,7 +122,7 @@ One then gives the intervals of each segment that align, each as a pair of *posi
 is an integer optional followed by a $-sign.  Positions are conceptually tick-marks *between*
 symbols starting a 0 to the left of the first symbol and ending at *L* to the right of the last
 symbol where *L* is the length of the segment.  A $-sign must follows an integer *x* if and only if
-it is the last position in the segment it refer to, i.e. *x* = *L*.  It is an error to do
+it is the last position in the segment it refers to, i.e. *x* = *L*.  It is an error to do
 otherwise.
 
 Position intervals are always intervals in the segment in its normal
@@ -166,8 +166,8 @@ generalized edge to capture the attachment of the two haplotype bubbles in the â
  
 While one has graphs in which vertex sequences actually overlap as above, one also frequently
 encounters models in which there is no overlap (basically edge-labelled models captured in a
-vertex-labelled form).  This is captured by edges for which beg1 = end1 and beg2 = end2 (i.e.
-0-length overlap)!
+vertex-labelled form).  This is captured by edges for which beg1 = end1 = x$ and beg2 = end2 = 0
+(i.e. 0-length overlap of the end of segment 1 and the beginning of segment 2)!
 
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
 data and external maps often order and orient contigs/vertices into scaffolds with
