@@ -1,7 +1,7 @@
 ## CHANGED
 
 * All ID's are now in *one* name space and every ID in a definitional context must be unique.
-If * is specified in place of an ID on edge, gap, and group id's, then that item does not
+If * is specified in place of an ID on edge, gap, and group lines, then that item does not
 have an ID and is presumably not referred to elsewhere (i.e. U- or O-lines).
 
 * Sequences in S-lines were defined as <code>[a-zA-Z]+</code>.  Unecessarily restrictive.  Changed
@@ -20,9 +20,9 @@ with that specific trace.
 
 * The L-line extension has been removed.
 
-* X and = are removed from CIGAR string, which are now restricted to MDIP.
+* X and = are removed from CIGAR strings, which are now restricted to MDIP.
 
-* The convention for positions has changed to a Heng's suggestion.  A $ is now a *sentinel* that
+* The convention for positions has changed to Heng's proposal.  Namely, a $ is now a *sentinel* that
 follows an integer position if and only if that position is the end of the segment.  It will be
 considered an error for such a position not to be so marked.  One can still test if an edge is
 a dovetail or containment because the $ effectively tells you the segment length.
@@ -30,17 +30,14 @@ a dovetail or containment because the $ effectively tells you the segment length
 ## PROPOSED
 
 * The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.
-Durbin likes the bidirected edge marks and Myers seconds.  To wit:
+Using 2 orientation signs seems the simplist and most consistent way to address this.  That is:
 ```
-G * A >> B g v  ==>  A ------> g -------> B
-G * A >< B g v  ==>  A ------> g <------- B
-G * A <> B g v  ==>  A <------ g -------> B
-G * A << B g v  ==>  A <------ g <------- B
+G * A + B + g v  ==>  A ------> g -------> B
+G * A + B - g v  ==>  A ------> g <------- B
+G * A - B + g v  ==>  A <------ g -------> B
+G * A - B - g v  ==>  A <------ g <------- B
 ```
 
-## ISSUES
-
-* The situation in regard to the use of SAM-tags is unclear.  Currently the proposal has two header
-SAM-tags, VN and TS, that *must* be understood by a GFA2 parser.  Should there be others?  If not,
-then one could make VN and TS required fields, so that all SAM-tags become custom user extensions,
-or ...
+* Vis a vis SAM-tags, I would suggest that any tag other than 'VN' and 'TS' are user specific.
+We suggest readers should be able to parse SAM-tags occurring after the fixed fields of a line,
+but they do not need to retain or intepret any of them.

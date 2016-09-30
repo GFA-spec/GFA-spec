@@ -46,7 +46,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 <edge>     <- E <eid:oid> <sid1:id> [+-] <sid2:id>
                           <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
 
-<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id>
+<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id> [+-]
                           <disp:pos> <var:int>
 
 <group>    <- [UO] <pid:oid> <item>([ ]<item>)*
@@ -121,10 +121,11 @@ the second segment should be complemented or not.
 One then gives the intervals of each segment that align, each as a pair of *positions*.  A position
 is an integer optional followed by a $-sign.  Positions are conceptually tick-marks *between*
 symbols starting a 0 to the left of the first symbol and ending at *L* to the right of the last
-symbol where $L$ is the length of the segment.  A $-sign follows the integer *L$, i.e. it signals
-that the position is at the end of the given segment.
+symbol where *L* is the length of the segment.  A $-sign must follows an integer *x* if and only if
+it is the last position in the segment it refer to, i.e. *x* = *L*.  It is an error to do
+otherwise.
 
-Positions intervals are always intervals in the segment in its normal
+Position intervals are always intervals in the segment in its normal
 orientation.  If a minus sign is specified, then the interval of the second segment is
 reverse complemented in order to align with the interval of the first segment.  That is,
 <code>S s1 - s2 b1 e1 b2 e2</code> aligns s1[b1,e1] to the reverse complement of s2[b2,e2].
@@ -172,11 +173,11 @@ While not a concept for pure DeBrujin or long-read assemblers, it is the case th
 data and external maps often order and orient contigs/vertices into scaffolds with
 intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
 estimated gap distance between the two segment sequences and the variance of that estimate
-or 0 if no estimate is available.  The first segment is in always in the normal orientation.
-If the displacement is an integer g (no $-prefix), then g is the estimated distance from the
-*end of the first segment forward* to the second fragment in the orientation specified by the sign.
-If the displacement is $g, then the g is the estimated distance from the *start of the
-first segment backward* to the second fragment in the orientation specified by the sign.
+or 0 if no estimate is available.  The first segment is in the orientation given by the first
+sign indicator and the second segment is in the orientation given by the second sign indicator.
+The next integer gives the expected distance between the first and second segment in their
+respective orientations, and the final integer gives the variance in this estimate or is 0
+if unknown.
 Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
 define assembly **scaffolds**.
