@@ -46,8 +46,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 <edge>     <- E <eid:oid> <sid1:id> [+-] <sid2:id>
                           <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
 
-<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id> [+-]
-                          <disp:pos> <var:int>
+<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id> [+-] <disp:pos> (* | <var:int>)
 
 <group>    <- [UO] <pid:oid> <item>([ ]<item>)*
 
@@ -176,8 +175,8 @@ estimated gap distance between the two segment sequences and the variance of tha
 or 0 if no estimate is available.  The first segment is in the orientation given by the first
 sign indicator and the second segment is in the orientation given by the second sign indicator.
 The next integer gives the expected distance between the first and second segment in their
-respective orientations, and the final integer gives the variance in this estimate or is 0
-if unknown.
+respective orientations, and the final field is either an integer giving the variance in this
+estimate or a * indicating the variance is unknown.
 Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
 define assembly **scaffolds**.

@@ -27,6 +27,8 @@ follows an integer position if and only if that position is the end of the segme
 considered an error for such a position not to be so marked.  One can still test if an edge is
 a dovetail or containment because the $ effectively tells you the segment length.
 
+* The variance field in G-lines can now be either an integer or a * when not known.
+
 ## PROPOSED
 
 * The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.
@@ -36,6 +38,14 @@ G * A + B + g v  ==>  A ------> g -------> B
 G * A + B - g v  ==>  A ------> g <------- B
 G * A - B + g v  ==>  A <------ g -------> B
 G * A - B - g v  ==>  A <------ g <------- B
+```
+However, Richard feels strongly that the sign has a different meaning in E- and F-, so we
+should use:
+```
+G * A >> B g v  ==>  A ------> g -------> B
+G * A >< B g v  ==>  A ------> g <------- B
+G * A <> B g v  ==>  A <------ g -------> B
+G * A << B g v  ==>  A <------ g <------- B
 ```
 
 * Vis a vis SAM-tags, I would suggest that any tag other than 'VN' and 'TS' are user specific.
