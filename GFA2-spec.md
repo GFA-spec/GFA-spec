@@ -40,20 +40,25 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 
 <segment>  <- S <sid:id> <slen:int> <sequence>
 
-<fragment> <- F <sid:id> [+-] <external:id>
+<fragment> <- F <sid:id> <external:ref>
                   <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment>
 
-<edge>     <- E <eid:oid> <sid1:id> [+-] <sid2:id>
+<edge>     <- E <eid:opt_id> <sid1:ref> <sid2:ref>
                           <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
 
-<gap>      <- G <eid:oid> <sid1:id> [+-] <sid2:id> [+-] <disp:pos> (* | <var:int>)
+<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>)
 
-<group>    <- [UO] <pid:oid> <item>([ ]<item>)*
+< group>   <- <o_group> | <u_group>
+
+  <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)*
+  <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*
 
     <id>        <- [!-~]+
-    <oid>       <- * | <id>
-    <item>      <- <sid:id> | <eid:id> | <pid:id>
+    <ref>       <- <id>[+-]
+    <opt_id>    <- <id> | *
+
     <pos>       <- <int>{$}
+
     <sequence>  <- * | [!-~]+
     <alignment> <- * | <trace> | <CIGAR>
 
@@ -75,8 +80,8 @@ by a single tab.
 
 Each descriptor line must begin with a letter and lies on a single line with no white space
 before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<segment\>,
-\<fragment\>, \<edge\>, \<gap\>, and \<group\>.
-Any line that does not begin with a recognized code (i.e. H, S, F, E, G, or P) can be ignored.
+\<fragment\>, \<edge\>, \<gap\>, \<path\>, and \<set\>.
+Any line that does not begin with a recognized code (i.e. H, S, F, E, G, O, or U) can be ignored.
 This will allow users to have additional descriptor lines specific to their special processes.
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
 tags which are ignored by software designed to support the core standard.
@@ -84,7 +89,10 @@ tags which are ignored by software designed to support the core standard.
 There is one name space for all identifiers for segments, edges, gaps, and groups.  It is
 an error for any identifier to be used twice in a defining context.  Note carefully that
 instead of an identifier, one can use a * for edges, gaps, and groups, implying that an
-id is not needed as the item will not be referred to elsewhere in the specification.
+id is not needed as the item will not be referred to elsewhere in the specification.  Moreover,
+almost all references to identifiers are oriented, by virtue of a post-fix + or - sign.
+A +-sign indicates the object is in the orientation it was defined, and a --sign indicates
+it should be reverse-complemented.
 
 ## SEMANTICS
 
@@ -106,16 +114,15 @@ The segment sequences and any CIGAR strings referring to them if present follow 
 *unpadded* SAM convention.
 
 **Fragments**, if present, are encoded in F-lines that give (a) the segment they belong to, (b) the
-orientation of the fragment to the segment, (c) an external ID that references a sequence
+(b) an oriented external ID that references a sequence
 in an external collection (e.g. a database of reads or segments in another GFA2 or SAM file),
-(d) the interval of the vertex segment that the external string contributes to, and (e)
+(c) the interval of the vertex segment that the external string contributes to, and (d)
 the interval of the fragment that contributes to to segment.  One concludes with either a
 trace or CIGAR string detailing the alignment, or a \* if absent.
 
 **Edges** are encoded in E-lines that in general represent a local alignment between arbitrary
 intervals of the sequences of the two vertices in question. One gives first an edge ID or * and
-then the segment ID’s of the two vertices and a + or – sign between them to indicate whether
-the second segment should be complemented or not.
+then the *oriented* segment ID’s of the two vertices involved.
 
 One then gives the intervals of each segment that align, each as a pair of *positions*.  A position
 is an integer optional followed by a $-sign.  Positions are conceptually tick-marks *between*
@@ -125,9 +132,10 @@ it is the last position in the segment it refers to, i.e. *x* = *L*.  It is an e
 otherwise.
 
 Position intervals are always intervals in the segment in its normal
-orientation.  If a minus sign is specified, then the interval of the second segment is
+orientation *before being oriented by the orientation signs*.  If a minus sign is specified,
+then the interval of the second segment is
 reverse complemented in order to align with the interval of the first segment.  That is,
-<code>S s1 - s2 b1 e1 b2 e2</code> aligns s1[b1,e1] to the reverse complement of s2[b2,e2].
+<code>S s1+ s2- b1 e1 b2 e2</code> aligns s1[b1,e1] to the reverse complement of s2[b2,e2].
 
 A field for a 
 [**CIGAR string**](https://samtools.github.io/hts-specs/SAMv1.pdf)
@@ -185,22 +193,27 @@ A **group** encoding on a U- or O-line allows one to name and specify a subgraph
 overall graph.
 Such a collection could for example be hilighted by a drawing program on
 command, or might specify decisions about tours through the graph.  U-lines encode
-*unorder* collections and O-lines encode *ordered* collection (defined in the next paragraph).
+*unordered* collections and O-lines encode *ordered* collections (defined in the next paragraph),
+which we alternatively call paths and sets, respectively.
 The remainder of
 the line then consists of an optional ID for the collection followed by a non-empty list of ID's
 referring to segments, edges, or other groups that are *separated by single spaces*
-(i.e. the list is in a single column of the tab-delimited format).
+(i.e. the list is in a single column of the tab-delimited format).  In the case of paths
+every reference must be oriented, and not so in a set.
 U/O-lines with the same name are considered
 to be concatenated together in the order in which they appear, and a group list may refer
 to another group recursively.
 
-An unordered collection defined in a U-line refers to
+An unordered collection or set defined in a U-line refers to
 the subgraph induced by the vertices and edges in the collection (i.e. one adds all edges
 between a pair of segments in the list and one adds all segments adjacent to edges in the
 list.)   An ordered collection defined in an O-line captures paths in the graph consisting of
 the listed objects
-and the implied adjacent objects between consecutive objects in the list (e.g.
+and the implied adjacent objects between consecutive objects in the list where the
+orientation of the objects matters (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
+A set can contain a reference to a path, but not vice versa, in which case the orientation
+of the object in the path is irrevalent.
 
 ## BACKWARD COMPATIBILITY WITH GFA
 

@@ -29,25 +29,17 @@ a dovetail or containment because the $ effectively tells you the segment length
 
 * The variance field in G-lines can now be either an integer or a * when not known.
 
-## PROPOSED
+* In order to encompass all use-cases desired by the various parties, and to properly specify gap
+relationships, a mojority voted that *references* to objects are signed in those context where
+it makes sense and/or is necessary.  An identifier followed by + or - is a signed-reference and
+orients the underlying segment, edge, or path accordingly.  The sign is *not* a separate field
+but a post-fix mark on the identifier, analogous to the postfix $ on integer positions.
 
-* The G specification is incomplete as one cannot express <code> <---- gap ----> </code>.
-Using 2 orientation signs seems the simplist and most consistent way to address this.  That is:
-```
-G * A + B + g v  ==>  A ------> g -------> B
-G * A + B - g v  ==>  A ------> g <------- B
-G * A - B + g v  ==>  A <------ g -------> B
-G * A - B - g v  ==>  A <------ g <------- B
-```
-However, Richard feels strongly that the sign has a different meaning in E- and F-, so we
-should use:
-```
-G * A >> B g v  ==>  A ------> g -------> B
-G * A >< B g v  ==>  A ------> g <------- B
-G * A <> B g v  ==>  A <------ g -------> B
-G * A << B g v  ==>  A <------ g <------- B
-```
-
-* Vis a vis SAM-tags, I would suggest that any tag other than 'VN' and 'TS' are user specific.
-We suggest readers should be able to parse SAM-tags occurring after the fixed fields of a line,
-but they do not need to retain or intepret any of them.
+* In regard to SAM-tags, only the 'VN' and 'TS' tags are explicitly in the specification and must
+be interpreted by applications.  Two lists of optional tags will be maintained called the
+**Core List** and the **Community List**.
+The Core list will contain initially all GFA1 tags
+and any additions must be by community consensus.
+The Community list can more loosely contain any tags proposed by any user.
+The general expectation is that tags would initially be proposed on the community list, and
+if over time become popular, then could migrate to the core list.
