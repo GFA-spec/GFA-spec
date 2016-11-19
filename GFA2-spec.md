@@ -48,7 +48,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 
 <gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>)
 
-< group>   <- <o_group> | <u_group>
+<group>    <- <o_group> | <u_group>
 
   <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)*
   <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*
@@ -80,11 +80,11 @@ by a single tab.
 
 Each descriptor line must begin with a letter and lies on a single line with no white space
 before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<segment\>,
-\<fragment\>, \<edge\>, \<gap\>, \<path\>, and \<set\>.
+\<fragment\>, \<edge\>, \<gap\>, and \<group\>.
 Any line that does not begin with a recognized code (i.e. H, S, F, E, G, O, or U) can be ignored.
 This will allow users to have additional descriptor lines specific to their special processes.
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
-tags which are ignored by software designed to support the core standard.
+tags which may be ignored by software designed to support the core standard.
 
 There is one name space for all identifiers for segments, edges, gaps, and groups.  It is
 an error for any identifier to be used twice in a defining context.  Note carefully that
@@ -113,11 +113,11 @@ an indication to a drawing program of how long to draw the representation of the
 The segment sequences and any CIGAR strings referring to them if present follow the
 *unpadded* SAM convention.
 
-**Fragments**, if present, are encoded in F-lines that give (a) the segment they belong to, (b) the
+**Fragments**, if present, are encoded in F-lines that give (a) the segment they belong to,
 (b) an oriented external ID that references a sequence
 in an external collection (e.g. a database of reads or segments in another GFA2 or SAM file),
 (c) the interval of the vertex segment that the external string contributes to, and (d)
-the interval of the fragment that contributes to to segment.  One concludes with either a
+the interval of the fragment that contributes to the segment.  One concludes with either a
 trace or CIGAR string detailing the alignment, or a \* if absent.
 
 **Edges** are encoded in E-lines that in general represent a local alignment between arbitrary
@@ -125,9 +125,9 @@ intervals of the sequences of the two vertices in question. One gives first an e
 then the *oriented* segment ID’s of the two vertices involved.
 
 One then gives the intervals of each segment that align, each as a pair of *positions*.  A position
-is an integer optional followed by a $-sign.  Positions are conceptually tick-marks *between*
+is an integer optionally followed by a $-sign.  Positions are conceptually tick-marks *between*
 symbols starting a 0 to the left of the first symbol and ending at *L* to the right of the last
-symbol where *L* is the length of the segment.  A $-sign must follows an integer *x* if and only if
+symbol where *L* is the length of the segment.  A $-sign must follow an integer *x* if and only if
 it is the last position in the segment it refers to, i.e. *x* = *L*.  It is an error to do
 otherwise.
 
@@ -153,10 +153,9 @@ note that it is still possible to compute the implied alignment by brute force.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
 edge which encodes what is called a dovetail overlap (because two ends overlap) is a GFA2
-edge where the sign is + and end1 = x$ and beg2 = 0 or beg1 = 0 and end2 = x$, or the
-sign is - and end1 = x$ and end2 = x$ or beg1 = 0 and beg2 = x$.
-A GFA containment is modeled by the case where beg2 = 0 and end2 = x$ or beg1 = 0
-and end1 = x$. The figure below illustrates:
+edge where either beg1 = 0 or end1 = x$ and either beg2 = 0 or end2 = y$.
+A GFA containment is modeled by the case where either beg1 = 0 and end1 = x$ or beg2 = 0
+and end2 = x$. The figure below illustrates:
 
 ![Illustration of position and edge definitions](GFA2.Fig1.png)
 
@@ -194,7 +193,7 @@ overall graph.
 Such a collection could for example be hilighted by a drawing program on
 command, or might specify decisions about tours through the graph.  U-lines encode
 *unordered* collections and O-lines encode *ordered* collections (defined in the next paragraph),
-which we alternatively call paths and sets, respectively.
+which we alternatively call **paths** and **sets**, respectively.
 The remainder of
 the line then consists of an optional ID for the collection followed by a non-empty list of ID's
 referring to segments, edges, or other groups that are *separated by single spaces*
@@ -213,7 +212,7 @@ and the implied adjacent objects between consecutive objects in the list where t
 orientation of the objects matters (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
 A set can contain a reference to a path, but not vice versa, in which case the orientation
-of the object in the path is irrevalent.
+of the objects in the path become irrevalent.
 
 ## BACKWARD COMPATIBILITY WITH GFA
 
