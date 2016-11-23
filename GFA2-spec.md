@@ -36,26 +36,28 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 ```
 <spec>     <- ( <header> <segment> | <fragment> | <edge> | <gap> | <group> )+
 
-<header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>}
+<header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>} [<tag>*]
 
-<segment>  <- S <sid:id> <slen:int> <sequence>
+<segment>  <- S <sid:id> <slen:int> <sequence> [<tag>*]
 
 <fragment> <- F <sid:id> <external:ref>
-                  <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment>
+                  <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment> [<tag>*]
 
 <edge>     <- E <eid:opt_id> <sid1:ref> <sid2:ref>
-                          <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment>
+                          <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> [<tag>*]
 
-<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>)
+<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>) [<tag>*]
 
 <group>    <- <o_group> | <u_group>
 
-  <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)*
-  <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*
+  <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)* [<tag>*]
+  <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*  [<tag>*]
 
     <id>        <- [!-~]+
     <ref>       <- <id>[+-]
     <opt_id>    <- <id> | *
+
+    <tag>       <- "any syntactically valid SAM tag"
 
     <pos>       <- <int>{$}
 
@@ -86,7 +88,8 @@ This will allow users to have additional descriptor lines specific to their spec
 Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
 tags which may be ignored by software designed to support the core standard.
 
-There is one name space for all identifiers for segments, edges, gaps, and groups.  It is
+There is one name space for all identifiers for segments, external fragments, edges, gaps,
+and groups.  It is
 an error for any identifier to be used twice in a defining context.  Note carefully that
 instead of an identifier, one can use a * for edges, gaps, and groups, implying that an
 id is not needed as the item will not be referred to elsewhere in the specification.  Moreover,
@@ -220,7 +223,7 @@ GFA2 is a superset of GFA, that is, everything that can be encoded in GFA can be
 in GFA2, with a relatively straightforward transformation of each input line.
 
 The syntactic conventions of GFA2 are identical to GFA, so upgrading a GFA parser to
-a DFA parser is relatively straight forward.  Each description line begins
+a GFA2 parser is relatively straight forward.  Each description line begins
 with a single letter and has a fixed set of fields that are tab-delimited.  The changes
 are as follows:
 
@@ -235,5 +238,8 @@ are as follows:
 
 5. Alignments can be trace length sequences as well as CIGAR strings.
 
-6. Positions have been extended to include a notation for 0-based position with respect
-   to *either* end of a segment (the default being with respect to the beginning).
+6. Positions have been extended to include a postfix $ symbol for positions representing the
+   end of a read.
+
+7. Segments, edges, and paths all have an orientation that is specified with a postfix + or -
+   symbol in contexts where the orientation is needed.
