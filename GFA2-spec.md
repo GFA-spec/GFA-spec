@@ -36,22 +36,22 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 ```
 <spec>     <- ( <header> <segment> | <fragment> | <edge> | <gap> | <group> )+
 
-<header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>} [<tag>*]
+<header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>} <tag>*
 
-<segment>  <- S <sid:id> <slen:int> <sequence> [<tag>*]
+<segment>  <- S <sid:id> <slen:int> <sequence> <tag>*
 
 <fragment> <- F <sid:id> <external:ref>
-                  <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment> [<tag>*]
+                  <sbeg:pos> <send:pos> <fbeg:pos> <fend:pos> <alignment> <tag>*
 
 <edge>     <- E <eid:opt_id> <sid1:ref> <sid2:ref>
-                          <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> [<tag>*]
+                          <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> <tag>*
 
-<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>) [<tag>*]
+<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>) <tag>*
 
 <group>    <- <o_group> | <u_group>
 
-  <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)* [<tag>*]
-  <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*  [<tag>*]
+  <o_group>  <- O <oid:opt_id> <ref>([ ]<ref>)* <tag>*
+  <u_group>  <- U <uid:opt_id>  <id>([ ]<id>)*  <tag>*
 
     <id>        <- [!-~]+
     <ref>       <- <id>[+-]
