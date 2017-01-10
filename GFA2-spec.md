@@ -9,7 +9,7 @@ graph at any stage of assembly, from the graph of all overlaps, to a final resol
 of contig paths with multi-alignments.  Apart from meeting these needs, the extensions also
 supports other assembly and variation graph types.
 
-The proposal if for a *core standard*.  As will be seen later in
+The proposal is for a *core standard*.  As will be seen later in
 the technical specification, the format is **extensible** in that additional description lines
 can be added and additional SAM tags can be appended to core description lines.
 
@@ -34,7 +34,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 ## GRAMMAR
 
 ```
-<spec>     <- ( <header> <segment> | <fragment> | <edge> | <gap> | <group> )+
+<spec>     <- ( <header> | <segment> | <fragment> | <edge> | <gap> | <group> )+
 
 <header>   <- H {VN:Z:2.0} {TS:i:<trace spacing>} <tag>*
 
@@ -57,9 +57,10 @@ assembly can be described.  Finally, one can describe and attach a name to any *
     <ref>       <- <id>[+-]
     <opt_id>    <- <id> | *
 
-    <tag>       <- "any syntactically valid SAM tag"
+    <tag>       <- [A-Za-z0-9][A-Za-z0-9]:[ABHJZif]:[ -~]*
 
     <pos>       <- <int>{$}
+    <int>       <- [0-9]+
 
     <sequence>  <- * | [!-~]+
     <alignment> <- * | <trace> | <CIGAR>
@@ -80,24 +81,27 @@ operator <-, and the following marks:
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from the next
 by a single tab.
 
-Each descriptor line must begin with a letter and lies on a single line with no white space
-before the first symbol.   The tokens that generate descriptor lines are \<header\>, \<segment\>,
+Each record line must begin with a letter and lies on a single line with no white space
+before the first symbol.   The tokens that generate record lines are \<header\>, \<segment\>,
 \<fragment\>, \<edge\>, \<gap\>, and \<group\>.
 Any line that does not begin with a recognized code (i.e. H, S, F, E, G, O, or U) can be ignored.
-This will allow users to have additional descriptor lines specific to their special processes.
-Moreover, the suffix of any GFA2 descriptor line may contain any number of user-specific SAM
-tags which may be ignored by software designed to support the core standard.
+This will allow users to have additional record lines specific to their special processes.
+Moreover, the suffix of any GFA2 record line may contain any number of user-specific SAM
+tags which may be ignored by software designed to support the core standard.  Tags with lower-case
+letters are reserved for end-users.
 
-There is one name space for all identifiers for segments, external fragments, edges, gaps,
-and groups.  It is
+There is one name space for all identifiers for segments, edges, gaps,
+and groups.  External fragment ID's are assumed to be in a distinct name space.  It is
 an error for any identifier to be used twice in a defining context.  Note carefully that
 instead of an identifier, one can use a * for edges, gaps, and groups, implying that an
-id is not needed as the item will not be referred to elsewhere in the specification.  Moreover,
+id is not needed as the item will not be referred to elsewhere in the file.  Moreover,
 almost all references to identifiers are oriented, by virtue of a post-fix + or - sign.
 A +-sign indicates the object is in the orientation it was defined, and a --sign indicates
 it should be reverse-complemented.
 
 ## SEMANTICS
+
+### Header
 
 The **header** contains an optional 'VN' SAM-tag version number, 2.0, and an optional
 'TS' SAM-tag specifying the default the trace point spacing for any Dazzler traces specified
@@ -106,6 +110,8 @@ Any number of header lines containing SAM-tags may occur.
 A 'TS' tag can occur after the fixed arguments on any E-, G-, or F-line in which case it specifies
 the trace spacing to use with the trace on that specific line, otherwise the default spacing is
 used.
+
+### Segment
 
 A **segment** is specified by an S-line giving a user-specified ID for the
 sequence, its length in bases, and the string denoted by the segment or * if absent.
@@ -116,12 +122,16 @@ an indication to a drawing program of how long to draw the representation of the
 The segment sequences and any CIGAR strings referring to them if present follow the
 *unpadded* SAM convention.
 
+### Fragment
+
 **Fragments**, if present, are encoded in F-lines that give (a) the segment they belong to,
 (b) an oriented external ID that references a sequence
 in an external collection (e.g. a database of reads or segments in another GFA2 or SAM file),
 (c) the interval of the vertex segment that the external string contributes to, and (d)
 the interval of the fragment that contributes to the segment.  One concludes with either a
 trace or CIGAR string detailing the alignment, or a \* if absent.
+
+### Edge
 
 **Edges** are encoded in E-lines that in general represent a local alignment between arbitrary
 intervals of the sequences of the two vertices in question. One gives first an edge ID or * and
@@ -152,7 +162,7 @@ the second segment to align to the next *TS* characters in the first segment whe
 the *TS* is either the default trace spacing given in a header line with the TS SAM-tag, or
 the spacing given in a TS SAM-tag on the line of the edge.
 If a \* is given as the alignment
-note that it is still possible to compute the implied alignment by brute force.
+note that it is still possible to compute the implied alignment from the sequences.
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
 edge which encodes what is called a dovetail overlap (because two ends overlap) is a GFA2
@@ -178,11 +188,13 @@ encounters models in which there is no overlap (basically edge-labelled models c
 vertex-labelled form).  This is captured by edges for which beg1 = end1 = x$ and beg2 = end2 = 0
 (i.e. 0-length overlap of the end of segment 1 and the beginning of segment 2)!
 
+### Gap
+
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
 data and external maps often order and orient contigs/vertices into scaffolds with
 intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
 estimated gap distance between the two segment sequences and the variance of that estimate
-or 0 if no estimate is available.  The first segment is in the orientation given by the first
+or \* if no estimate is available.  The first segment is in the orientation given by the first
 sign indicator and the second segment is in the orientation given by the second sign indicator.
 The next integer gives the expected distance between the first and second segment in their
 respective orientations, and the final field is either an integer giving the variance in this
@@ -191,20 +203,22 @@ Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
 define assembly **scaffolds**.
 
+### Group
+
 A **group** encoding on a U- or O-line allows one to name and specify a subgraph of the
 overall graph.
-Such a collection could for example be hilighted by a drawing program on
+Such a collection could for example be highlighted by a drawing program on
 command, or might specify decisions about tours through the graph.  U-lines encode
 *unordered* collections and O-lines encode *ordered* collections (defined in the next paragraph),
-which we alternatively call **paths** and **sets**, respectively.
+which we alternatively call **sets** and **paths**, respectively.
 The remainder of
 the line then consists of an optional ID for the collection followed by a non-empty list of ID's
 referring to segments, edges, or other groups that are *separated by single spaces*
 (i.e. the list is in a single column of the tab-delimited format).  In the case of paths
 every reference must be oriented, and not so in a set.
-U/O-lines with the same name are considered
-to be concatenated together in the order in which they appear, and a group list may refer
-to another group recursively.
+U/O-lines with the same name are considered to be concatenated together in the order in which
+they appear, and a group list may refer to another group recursively.  It is an error for a U-line
+and an O-line to have the same name.
 
 An unordered collection or set defined in a U-line refers to
 the subgraph induced by the vertices and edges in the collection (i.e. one adds all edges
@@ -215,7 +229,7 @@ and the implied adjacent objects between consecutive objects in the list where t
 orientation of the objects matters (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
 A set can contain a reference to a path, but not vice versa, in which case the orientation
-of the objects in the path become irrevalent.
+of the objects in the path become irrelavent.
 
 ## BACKWARD COMPATIBILITY WITH GFA
 

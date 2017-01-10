@@ -1,8 +1,9 @@
 ## CHANGED
 
-* All ID's are now in *one* name space and every ID in a definitional context must be unique.
-If * is specified in place of an ID on edge, gap, and group lines, then that item does not
-have an ID and is presumably not referred to elsewhere (i.e. U- or O-lines).
+* All ID's, except external Fragment IDs, are now in *one* name space and every ID in a
+definitional context must be unique.  External fragment IDs are in another name space.
+If * is specified in place of an ID on edge, gap, and group lines, then that item does
+not have an ID and is presumably not referred to elsewhere (i.e. U- or O-lines).
 
 * Sequences in S-lines were defined as <code>[a-zA-Z]+</code>.  Unecessarily restrictive.  Changed
 to any printable sequence excluding space, i.e <code>[!-~]+</code>.
