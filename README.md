@@ -8,6 +8,7 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 
 + [ABySS](https://github.com/bcgsc/abyss)
 + [Bandage](https://rrwick.github.io/Bandage/)
++ [bcalm2](https://github.com/GATB/bcalm)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfakluge](https://github.com/edawson/gfakluge)
