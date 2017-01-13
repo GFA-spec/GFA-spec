@@ -10,6 +10,7 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [Bandage](https://rrwick.github.io/Bandage/)
 + [bcalm2](https://github.com/GATB/bcalm)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
++ [Canu](https://github.com/marbl/canu)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [gfalint](https://github.com/sjackman/gfalint)
