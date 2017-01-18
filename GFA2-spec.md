@@ -216,8 +216,7 @@ the line then consists of an optional ID for the collection followed by a non-em
 referring to segments, edges, or other groups that are *separated by single spaces*
 (i.e. the list is in a single column of the tab-delimited format).  In the case of paths
 every reference must be oriented, and not so in a set.
-U/O-lines with the same name are considered to be concatenated together in the order in which
-they appear, and a group list may refer to another group recursively.  It is an error for a U-line
+A group list may refer to another group recursively.  It is an error for a U-line
 and an O-line to have the same name.
 
 An unordered collection or set defined in a U-line refers to
@@ -230,6 +229,8 @@ orientation of the objects matters (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
 A set can contain a reference to a path, but not vice versa, in which case the orientation
 of the objects in the path become irrelavent.
+
+Note: It was discussed whether U/O-lines with the same name could be considered to be concatenated together in the order in which they appear (see [#54](https://github.com/GFA-spec/GFA-spec/issues/54) and [#47](https://github.com/GFA-spec/GFA-spec/pull/47)). This multi-line path format was not included in the current version of this specification, but if people want to explore use of this structure, they can do so using a different single letter record code.
 
 ## BACKWARD COMPATIBILITY WITH GFA
 
