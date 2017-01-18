@@ -1,6 +1,6 @@
 # GFA 1.0: Graphical Fragment Assembly (GFA) Format Specification 1.0
 
-We are developing [the specification of the Graphical Fragment Assembly (GFA) format](GFA-spec.md). Your contribution is welcome. Please open up issues or submit pull requests.
+We are developing [the specification of the Graphical Fragment Assembly (GFA) format](GFA.md). Your contribution is welcome. Please open up issues or submit pull requests.
 
 The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format/) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa/).
 
@@ -32,10 +32,10 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 
 Jason Chin, Richard Durbin, and myself (Gene Myers) found ourselves together at a workshop
 meeting in Dagstuhl Germany and hammered out an initial proposal for an assembly format.
-We started with [GFA](https://github.com/pmelsted/GFA-spec) and proceeded to build a
+We started with [GFA 1](GFA1.md) and proceeded to build a
 more comprehensive design around it.  After extensive revision and discussion on Github with
 the GFA group including Sean Jackman, Henry Li, and Giorgio Gonnlla, we arrived at
-[GFA 2.0](GFA2-spec.md).  As for GFA 1.0, the standard is an evolving effort and
+[GFA 2.0](GFA2.md).  As for GFA 1.0, the standard is an evolving effort and
 your contribution is welcome. Please open up issues or submit pull requests.
 
 The basic reason for having a standard format is that we find that
@@ -46,4 +46,4 @@ benefits from a standard encoding format that would make them all interoperable.
 
 ![Fig. 1](images/READ.Fig1.png)
 
-The specification is [here](GFA2-spec.md)
+The specification is [here](GFA2.md)
