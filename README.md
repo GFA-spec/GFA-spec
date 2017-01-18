@@ -20,8 +20,9 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [McCortex](https://github.com/mcveanlab/mccortex)
 + [miniasm](https://github.com/lh3/miniasm)
 + [RGFA](https://github.com/ggonnella/RGFA)
-+ [vg](https://github.com/ekg/vg)
 + [TwoPaCo](https://github.com/medvedevgroup/TwoPaCo)
++ [vg](https://github.com/ekg/vg)
++ [w2rap](https://github.com/bioinfologics/w2rap-contigger)
 
 # Resources
 
