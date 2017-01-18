@@ -170,7 +170,7 @@ edge where either beg1 = 0 or end1 = x$ and either beg2 = 0 or end2 = y$.
 A GFA containment is modeled by the case where either beg1 = 0 and end1 = x$ or beg2 = 0
 and end2 = x$. The figure below illustrates:
 
-![Illustration of position and edge definitions](GFA2.Fig1.png)
+![Illustration of position and edge definitions](images/GFA2.Fig1.png)
 
 Special codes could be adopted for dovetail and containment relationships but the thought is
 there is no particular reason to do so, the use of the $ sentinel for terminal positions
@@ -181,7 +181,7 @@ bubbles as the primary “contig”, and then capture the two buble alternatives
 linked with generalized edges shown in the “After” picture.  Note carefully that you need a
 generalized edge to capture the attachment of the two haplotype bubbles in the “After” picture.
 
-![Example of utility of general edges](GFA2.Fig2.png)
+![Example of utility of general edges](images/GFA2.Fig2.png)
  
 While one has graphs in which vertex sequences actually overlap as above, one also frequently
 encounters models in which there is no overlap (basically edge-labelled models captured in a
