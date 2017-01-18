@@ -44,6 +44,6 @@ of the complexity and distinct nature of the three tasks.  While these tools sho
 use tailored encodings internally for efficiency, the nexus between the three efforts
 benefits from a standard encoding format that would make them all interoperable.
 
-![Fig. 1](READ.Fig1.png)
+![Fig. 1](images/READ.Fig1.png)
 
 The specification is [here](GFA2-spec.md)
