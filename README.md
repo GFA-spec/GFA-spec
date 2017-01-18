@@ -43,10 +43,7 @@ of the complexity and distinct nature of the three tasks.  While these tools sho
 use tailored encodings internally for efficiency, the nexus between the three efforts
 benefits from a standard encoding format that would make them all interoperable.
 
-![Fig. 1](images/READ.Fig1.png)
-
 The specification for GFA 2.0 is at [GFA2.md](GFA2.md).
-
-# GFA 1.0
-
 The specification for GFA 1.0 is at [GFA1.md](GFA1.md).
+
+![Fig. 1](images/READ.Fig1.png)
