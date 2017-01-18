@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2016-09-15
+date: 2016-09-26
 ---
 
 The master version of this document can be found at  
@@ -17,6 +17,7 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 
 + **Segment** a continuous sequence or subsequence.
 + **Link** an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
++ **Gap** the estimated gap distance between two oriented segments and the standard error of that estimate.
 + **Containment** an overlap between two segments where one is contained in the other.
 + **Path** an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
 
@@ -30,6 +31,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `H`  | Header      |
 | `S`  | Segment     |
 | `L`  | Link        |
+| `G`  | Gap         |
 | `C`  | Containment |
 | `P`  | Path        |
 
@@ -128,6 +130,38 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 | `RC`  | `i`  | Read count
 | `FC`  | `i`  | Fragment count
 | `KC`  | `i`  | k-mer count
+
+# `G` Gap line
+
+A gap record indicates the estimated distance between two oriented segments and the standard error of that estimate.
+
+## Required fields
+
+`G EdgeID From FromOrient To ToOrient Distance Error`
+
+| Column | Field        | Type      | Regexp                 | Description
+|--------|--------------|-----------|------------------------|------------------
+| 1      | `RecordType` | Character | `L`                    | Record type
+| 2      | `EdgeID`     | String    | `\*|[!-)+-<>-~][!-~]*` | Optional edge identifier
+| 3      | `From`       | String    | `[!-)+-<>-~][!-~]*`    | Name of segment
+| 4      | `FromOrient` | Character | `+|-`                  | Orientation of From segment
+| 5      | `To`         | String    | `[!-)+-<>-~][!-~]*`    | Name of segment
+| 6      | `ToOrient`   | Character | `+|-`                  | Orientation of `To` segment
+| 7      | `Distance`   | Integer   | `\*|-?[0-9]+`          | Optional distance estimate
+| 8      | `Error`      | Integer   | `\*|[0-9]+`            | Optional standard error
+
+The `Distance` and `Error` fields are optional and can be `*`.
+
+## Optional fields
+
+| Tag   | Type | Description
+|-------|------|------------
+| `QU`  | `i`  | Quality
+| `RC`  | `i`  | Read count
+| `FC`  | `i`  | Fragment count
+| `KC`  | `i`  | k-mer count
+
+The quality field gives the probability that the gap is incorrect and that the two segments are not proximal. Gaps with higher quality values are more likely to be correct than gaps with lower quality values. The quality may be encoded as the PHRED-scaled probability that the gap is incorrect.
 
 # `C` Containment line
 
