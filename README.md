@@ -1,4 +1,4 @@
-# GFA 1.0: Graphical Fragment Assembly (GFA) Format Specification 1.0
+# GFA: Graphical Fragment Assembly (GFA) Format Specification
 
 We are developing [the specification of the Graphical Fragment Assembly (GFA) format](GFA.md). Your contribution is welcome. Please open up issues or submit pull requests.
 
@@ -34,9 +34,8 @@ Jason Chin, Richard Durbin, and myself (Gene Myers) found ourselves together at 
 meeting in Dagstuhl Germany and hammered out an initial proposal for an assembly format.
 We started with [GFA 1](GFA1.md) and proceeded to build a
 more comprehensive design around it.  After extensive revision and discussion on Github with
-the GFA group including Sean Jackman, Henry Li, and Giorgio Gonnlla, we arrived at
-[GFA 2.0](GFA2.md).  As for GFA 1.0, the standard is an evolving effort and
-your contribution is welcome. Please open up issues or submit pull requests.
+the GFA group including Shaun Jackman, Heng Li, and Giorgio Gonnella, we arrived at
+[GFA 2.0](GFA2.md). The standard is an evolving effort, and your contribution is welcome. Please open up issues or submit pull requests.
 
 The basic reason for having a standard format is that we find that
 in general, *different* development teams build assemblers, visualizers, and editors because
@@ -46,4 +45,8 @@ benefits from a standard encoding format that would make them all interoperable.
 
 ![Fig. 1](images/READ.Fig1.png)
 
-The specification is [here](GFA2.md)
+The specification for GFA 2.0 is at [GFA2.md](GFA2.md).
+
+# GFA 1.0
+
+The specification for GFA 1.0 is at [GFA1.md](GFA1.md).
