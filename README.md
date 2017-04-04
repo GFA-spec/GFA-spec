@@ -6,6 +6,13 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 
 # Implementations
 
+## GFA 2
+
++ [gfalint](https://github.com/sjackman/gfalint)
++ [GfaPy](https://github.com/ggonnella/gfapy)
+
+## GFA 1
+
 + [ABySS](https://github.com/bcgsc/abyss)
 + [Bandage](https://rrwick.github.io/Bandage/)
 + [bcalm2](https://github.com/GATB/bcalm)
@@ -13,7 +20,6 @@ The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/
 + [Canu](https://github.com/marbl/canu)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfakluge](https://github.com/edawson/gfakluge)
-+ [gfalint](https://github.com/sjackman/gfalint)
 + [gfatools](https://github.com/lh3/gfatools)
 + [jts/DALIGNER](https://github.com/jts/daligner)
 + [lmrodriguezr/gfa](https://github.com/lmrodriguezr/gfa)
