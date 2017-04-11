@@ -139,7 +139,7 @@ position of the contained segment in the container segment in its forward orient
 
 ## Example
 
-The following line describes a containment of segment 2 in the reverse complement of segment 1,
+The following line describes the containment of segment 2 in the reverse complement of segment 1,
 starting at position 110 of segment 1 (in its forward orientation).
 ```
 C	1	-	2	+	110	100M
