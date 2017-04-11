@@ -137,7 +137,7 @@ is contained in the other (the `To` segment). The `Pos` field stores the leftmos
 position of the contained segment in the container segment in its forward orientation
 (i.e. before this is oriented according to the `FromOrient` sign).
 
-E.g. the following line describes a containment of segment 2 in the reverse complement of segment 1.
+E.g. the following line describes a containment of segment 2 in the reverse complement of segment 1,
 starting at position 110 of segment 1 (in its forward orientation).
 ```
 C	1	-	2	+	110	100M
