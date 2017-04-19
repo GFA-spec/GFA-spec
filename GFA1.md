@@ -83,7 +83,7 @@ Comment lines begin with `#` and are ignored.
 |--------|--------------|-----------|---------------------|------------
 | 1      | `RecordType` | Character | `S`                 | Record type
 | 2      | `Name`       | String    | `[!-)+-<>-~][!-~]*` | Segment name
-| 3      | `Sequence`   | String    | `\*|[A-Za-z=.]+`    | Optional nucleotide sequence
+| 3      | `Sequence`   | String    | `\*\|[A-Za-z=.]+`    | Optional nucleotide sequence
 
 Segment names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` and `-,`. All other printable ASCII characters are allowed. Names are case sensitive.
 
@@ -112,10 +112,10 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 |--------|--------------|-----------|--------------------------|------------------
 | 1      | `RecordType` | Character | `L`                      | Record type
 | 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 3      | `FromOrient` | String    | `+|-`                    | Orientation of From segment
+| 3      | `FromOrient` | String    | `+\|-`                    | Orientation of From segment
 | 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 5      | `ToOrient`   | String    | `+|-`                    | Orientation of `To` segment
-| 6      | `Overlap`    | String    | `\*|([0-9]+[MIDNSHPX=])+`| Optional `CIGAR` string describing overlap
+| 5      | `ToOrient`   | String    | `+\|-`                    | Orientation of `To` segment
+| 6      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+`| Optional `CIGAR` string describing overlap
 
 The Overlap field is optional and can be `*`, meaning that the CIGAR string is not specified.
 
@@ -140,11 +140,11 @@ A containment line represents an overlap between two segments where one is conta
 |--------|--------------|-----------|--------------------------|------------
 | 1      | `RecordType` | Character | `C`                      | Record type
 | 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of From segment
-| 3      | `FromOrient` | String    | `+|-`                    | Orientation of From segment
+| 3      | `FromOrient` | String    | `+\|-`                    | Orientation of From segment
 | 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of To segment
-| 5      | `ToOrient`   | String    | `+|-`                    | Orientation of To segment
+| 5      | `ToOrient`   | String    | `+\|-`                    | Orientation of To segment
 | 6      | `Pos`        | Integer   | `[0-9]*`                 | 0-based start of contained segment
-| 7      | `Overlap`    | String    | `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap
+| 7      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap
 
 ## Optional fields
 
@@ -163,7 +163,7 @@ A containment line represents an overlap between two segments where one is conta
 | 1      | `RecordType`   | Character | `P`                       | Record type
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
 | 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
-| 4      | `Overlaps`     | String    | `\*|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
+| 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
 
 The `Overlaps` field is optional and can be `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
 
