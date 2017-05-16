@@ -1,6 +1,6 @@
-# **GFA 2.0: Proposal**
+# Graphical Fragment Assembly (GFA) 2.0 Format Specification
 
-## PROLOG
+## Prolog
 
 GFA2 is a generalization of GFA that allows one to specify an assembly graph in either less detail,
 e.g. just the topology of the graph, or more detail, e.g. the multi-alignment of reads giving
@@ -31,7 +31,7 @@ concept is also introduced so that order and orientaiton between disjoint contig
 assembly can be described.  Finally, one can describe and attach a name to any **path** or
 **subgraph** in the encoded string graph.
 
-## GRAMMAR
+## Grammar
 
 ```
 <spec>     <- ( <header> | <segment> | <fragment> | <edge> | <gap> | <group> )+
@@ -99,7 +99,7 @@ almost all references to identifiers are oriented, by virtue of a post-fix + or 
 A +-sign indicates the object is in the orientation it was defined, and a --sign indicates
 it should be reverse-complemented.
 
-## SEMANTICS
+## Semantics
 
 ### Header
 
@@ -232,7 +232,7 @@ of the objects in the path become irrelavent.
 
 Note: It was discussed whether U/O-lines with the same name could be considered to be concatenated together in the order in which they appear (see [#54](https://github.com/GFA-spec/GFA-spec/issues/54) and [#47](https://github.com/GFA-spec/GFA-spec/pull/47)). This multi-line path format was not included in the current version of this specification, but if people want to explore use of this structure, they can do so using a different single letter record code.
 
-## BACKWARD COMPATIBILITY WITH GFA
+## Backward compatibility with GFA 1
 
 GFA2 is a superset of GFA, that is, everything that can be encoded in GFA can be encoded
 in GFA2, with a relatively straightforward transformation of each input line.
