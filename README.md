@@ -1,8 +1,9 @@
 # GFA: Graphical Fragment Assembly (GFA) Format Specification
 
-We are developing [the specification of the Graphical Fragment Assembly (GFA) format](GFA.md). Your contribution is welcome. Please open up issues or submit pull requests.
+We are developing the specification of the Graphical Fragment Assembly (GFA) format. Your contribution is welcome. Please open up issues or submit pull requests.
 
-The format was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format/) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa/).
++ GFA 2.0 is at [GFA2.md](GFA2.md)
++ GFA 1.0 is at [GFA1.md](GFA1.md)
 
 # Implementations
 
@@ -49,7 +50,8 @@ of the complexity and distinct nature of the three tasks.  While these tools sho
 use tailored encodings internally for efficiency, the nexus between the three efforts
 benefits from a standard encoding format that would make them all interoperable.
 
-The specification for GFA 2.0 is at [GFA2.md](GFA2.md).
-The specification for GFA 1.0 is at [GFA1.md](GFA1.md).
-
 ![Fig. 1](images/READ.Fig1.png)
+
+# GFA 1.0
+
+GFA 1 was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format/) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa/).
