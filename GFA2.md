@@ -46,7 +46,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 <edge>     <- E <eid:opt_id> <sid1:ref> <sid2:ref>
                           <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> <tag>*
 
-<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <disp:pos> (* | <var:int>) <tag>*
+<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <dist:int> (* | <var:int>) <tag>*
 
 <group>    <- <o_group> | <u_group>
 
