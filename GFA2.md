@@ -177,7 +177,7 @@ there is no particular reason to do so, the use of the $ sentinel for terminal p
 makes their identification simple both algorithmically and visually, and the more general
 scenario allows interesting possibilities.  For example, one might have two haplotype bubbles
 shown in the “Before” picture below, and then in a next phase choose a path through the
-bubbles as the primary “contig”, and then capture the two buble alternatives as a vertex
+bubbles as the primary “contig”, and then capture the two bubble alternatives as a vertex
 linked with generalized edges shown in the “After” picture.  Note carefully that you need a
 generalized edge to capture the attachment of the two haplotype bubbles in the “After” picture.
 
