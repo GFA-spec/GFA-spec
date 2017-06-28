@@ -148,7 +148,7 @@ Position intervals are always intervals in the segment in its normal
 orientation *before being oriented by the orientation signs*.  If a minus sign is specified,
 then the interval of the second segment is
 reverse complemented in order to align with the interval of the first segment.  That is,
-<code>S s1+ s2- b1 e1 b2 e2</code> aligns s1[b1,e1] to the reverse complement of s2[b2,e2].
+<code>E * s1+ s2- b1 e1 b2 e2</code> aligns s1[b1,e1] to the reverse complement of s2[b2,e2].
 
 A field for a 
 [**CIGAR string**](https://samtools.github.io/hts-specs/SAMv1.pdf)
