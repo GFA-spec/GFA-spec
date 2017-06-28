@@ -195,7 +195,7 @@ data and external maps often order and orient contigs/vertices into scaffolds wi
 intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
 estimated gap distance between the two segment sequences and the variance of that estimate
 or \* if no estimate is available.  The gap is between the first segment at left and the second
-segment at right where the segments are oriented accoding to their sign indicators.
+segment at right where the segments are oriented according to their sign indicators.
 The next integer gives the expected distance between the first and second segment in their
 respective orientations, and the final field is either an integer giving the variance in this
 estimate or a * indicating the variance is unknown.
