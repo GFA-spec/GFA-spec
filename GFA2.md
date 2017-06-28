@@ -27,7 +27,7 @@ space-efficient Dazzler assembler concept that allow one to efficiently reconstr
 alignment in linear time, and CIGAR strings are a SAM concept explicitly detailing the
 columns of an alignment.  Many new technologies such a Hi-C and BioNano maps organize segments
 into scaffolds along with traditional data sets involving paired reads, and so a **gap** edge
-concept is also introduced so that order and orientaiton between disjoint contigs of an
+concept is also introduced so that order and orientation between disjoint contigs of an
 assembly can be described.  Finally, one can describe and attach a name to any **path** or
 **subgraph** in the encoded string graph.
 
