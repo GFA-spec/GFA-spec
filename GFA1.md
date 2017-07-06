@@ -132,19 +132,31 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 
 # `C` Containment line
 
-A containment line represents an overlap between two segments where one is contained in the other.
+A containment line represents an overlap between two segments where one (the `Contained` segment)
+is contained in the other (the `Container` segment). The `Pos` field stores the leftmost
+position of the contained segment in the container segment in its forward orientation
+(i.e. before this is oriented according to the `ContainerOrient` sign).
+
+## Example
+
+The following line describes the containment of segment 2 in the reverse complement of segment 1,
+starting at position 110 of segment 1 (in its forward orientation).
+```
+C  1 - 2 + 110 100M
+```
+
 
 ## Required fields
 
-| Column | Field        | Type      | Regexp                   | Description
-|--------|--------------|-----------|--------------------------|------------
-| 1      | `RecordType` | Character | `C`                      | Record type
-| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of From segment
-| 3      | `FromOrient` | String    | `+\|-`                    | Orientation of From segment
-| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of To segment
-| 5      | `ToOrient`   | String    | `+\|-`                    | Orientation of To segment
-| 6      | `Pos`        | Integer   | `[0-9]*`                 | 0-based start of contained segment
-| 7      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap
+| Column | Field             | Type      | Regexp                   | Description
+|--------|-------------------|-----------|--------------------------|------------
+| 1      | `RecordType`      | Character | `C`                      | Record type
+| 2      | `Container`       | String    | `[!-)+-<>-~][!-~]*`      | Name of container segment
+| 3      | `ContainerOrient` | String    | `+|-`                    | Orientation of container segment
+| 4      | `Contained`       | String    | `[!-)+-<>-~][!-~]*`      | Name of contained segment
+| 5      | `ContainedOrient` | String    | `+|-`                    | Orientation of contained segment
+| 6      | `Pos`             | Integer   | `[0-9]*`                 | 0-based start of contained segment
+| 7      | `Overlap`         | String    | `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap
 
 ## Optional fields
 
