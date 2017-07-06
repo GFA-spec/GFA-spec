@@ -132,8 +132,8 @@ The Overlap field is optional and can be `*`, meaning that the CIGAR string is n
 
 # `C` Containment line
 
-A containment line represents an overlap between two segments where one (the `Container` segment)
-is contained in the other (the `Contained` segment). The `Pos` field stores the leftmost
+A containment line represents an overlap between two segments where one (the `Contained` segment)
+is contained in the other (the `Container` segment). The `Pos` field stores the leftmost
 position of the contained segment in the container segment in its forward orientation
 (i.e. before this is oriented according to the `ContainerOrient` sign).
 
