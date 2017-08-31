@@ -74,8 +74,8 @@ operator <-, and the following marks:
 
   * {} enclose an optional item
   * | denotes an alternative
-  * * zero-or-more
-  * + one-or-more
+  * \* zero-or-more
+  * \+ one-or-more
   * [] a set of one character alternatives.
 
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from the next
