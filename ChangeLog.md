@@ -5,8 +5,8 @@ definitional context must be unique.  External fragment IDs are in another name 
 If * is specified in place of an ID on edge, gap, and group lines, then that item does
 not have an ID and is presumably not referred to elsewhere (i.e. U- or O-lines).
 
-* Sequences in S-lines were defined as <code>[a-zA-Z]+</code>.  Unecessarily restrictive.  Changed
-to any printable sequence excluding space, i.e <code>[!-~]+</code>.
+* Sequences in S-lines were defined as <code>[a-zA-Z]+</code>.  Unnecessarily restrictive.  Changed
+to any printable sequence excluding space, i.e. <code>[!-~]+</code>.
 
 * There was some discussion about restricting headers to the first few lines, but in the end the
 consensus was to leave the specification free of any line order restrictions.
@@ -31,7 +31,7 @@ a dovetail or containment because the $ effectively tells you the segment length
 * The variance field in G-lines can now be either an integer or a * when not known.
 
 * In order to encompass all use-cases desired by the various parties, and to properly specify gap
-relationships, a mojority voted that *references* to objects are signed in those context where
+relationships, a majority voted that *references* to objects are signed in those context where
 it makes sense and/or is necessary.  An identifier followed by + or - is a signed-reference and
 orients the underlying segment, edge, or path accordingly.  The sign is *not* a separate field
 but a post-fix mark on the identifier, analogous to the postfix $ on integer positions.
