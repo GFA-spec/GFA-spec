@@ -117,7 +117,7 @@ A **segment** is specified by an S-line giving a user-specified ID for the
 sequence, its length in bases, and the string denoted by the segment or * if absent.
 The sequence is typically expected to be bases or IUPAC characters, but GFA2 places
 no restriction other than that they be printable characters other than space.
-The length does not need to be the actual length of the sequence, if given, but is rather
+The length does not need to be the actual length of the sequence, if the sequence is given, but rather
 an indication to a drawing program of how long to draw the representation of the segment.
 The segment sequences and any CIGAR strings referring to them if present follow the
 *unpadded* SAM convention.
@@ -193,8 +193,8 @@ vertex-labelled form).  This is captured by edges for which beg1 = end1 = x$ and
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
 data and external maps often order and orient contigs/vertices into scaffolds with
 intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
-estimated gap distance between the two segment sequences and the variance of that estimate
-or \* if no estimate is available.  The gap is between the first segment at left and the second
+estimated gap distance between the two segment sequences and the variance of that estimate.
+The gap is between the first segment at left and the second
 segment at right where the segments are oriented according to their sign indicators.
 The next integer gives the expected distance between the first and second segment in their
 respective orientations, and the final field is either an integer giving the variance in this
