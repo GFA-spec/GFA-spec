@@ -152,11 +152,11 @@ C  1 - 2 + 110 100M
 |--------|-------------------|-----------|--------------------------|------------
 | 1      | `RecordType`      | Character | `C`                      | Record type
 | 2      | `Container`       | String    | `[!-)+-<>-~][!-~]*`      | Name of container segment
-| 3      | `ContainerOrient` | String    | `+|-`                    | Orientation of container segment
+| 3      | `ContainerOrient` | String    | `+\|-`                   | Orientation of container segment
 | 4      | `Contained`       | String    | `[!-)+-<>-~][!-~]*`      | Name of contained segment
-| 5      | `ContainedOrient` | String    | `+|-`                    | Orientation of contained segment
+| 5      | `ContainedOrient` | String    | `+\|-`                   | Orientation of contained segment
 | 6      | `Pos`             | Integer   | `[0-9]*`                 | 0-based start of contained segment
-| 7      | `Overlap`         | String    | `\*|([0-9]+[MIDNSHPX=])+`| CIGAR string describing overlap
+| 7      | `Overlap`         | String    | `\*\|([0-9]+[MIDNSHPX=])+` | CIGAR string describing overlap
 
 ## Optional fields
 
