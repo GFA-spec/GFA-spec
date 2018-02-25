@@ -9,6 +9,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 
 ## GFA 2
 
++ [ABySS](https://github.com/bcgsc/abyss)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [gfalint](https://github.com/sjackman/gfalint)
 + [GfaPy](https://github.com/ggonnella/gfapy)
