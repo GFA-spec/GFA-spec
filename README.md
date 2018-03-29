@@ -29,7 +29,9 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [McCortex](https://github.com/mcveanlab/mccortex)
 + [miniasm](https://github.com/lh3/miniasm)
 + [RGFA](https://github.com/ggonnella/RGFA)
++ [SPAdes](http://cab.spbu.ru/software/spades/)
 + [TwoPaCo](https://github.com/medvedevgroup/TwoPaCo)
++ [Unicycler](https://github.com/rrwick/Unicycler)
 + [vg](https://github.com/ekg/vg)
 + [w2rap](https://github.com/bioinfologics/w2rap-contigger)
 
