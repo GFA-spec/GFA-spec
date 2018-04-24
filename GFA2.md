@@ -46,7 +46,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
 <edge>     <- E <eid:opt_id> <sid1:ref> <sid2:ref>
                           <beg1:pos> <end1:pos> <beg2:pos> <end2:pos> <alignment> <tag>*
 
-<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <dist:int> (* | <var:int>) <tag>*
+<gap>      <- G <gid:opt_id> <sid1:ref> <sid2:ref> <dist:int> (* | <err:int>) <tag>*
 
 <group>    <- <o_group> | <u_group>
 
@@ -193,12 +193,12 @@ vertex-labelled form).  This is captured by edges for which beg1 = end1 = x$ and
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
 data and external maps often order and orient contigs/vertices into scaffolds with
 intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
-estimated gap distance between the two segment sequences and the variance of that estimate.
+estimated gap distance between the two segment sequences and the estimated error.
 The gap is between the first segment at left and the second
 segment at right where the segments are oriented according to their sign indicators.
 The next integer gives the expected distance between the first and second segment in their
-respective orientations, and the final field is either an integer giving the variance in this
-estimate or a * indicating the variance is unknown.
+respective orientations.
+The final field is either an integer giving the estimated error or `*` if unknown.
 Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
 define assembly **scaffolds**.
