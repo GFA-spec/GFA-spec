@@ -60,7 +60,7 @@ assembly can be described.  Finally, one can describe and attach a name to any *
     <tag>       <- [A-Za-z0-9][A-Za-z0-9]:[ABHJZif]:[ -~]*
 
     <pos>       <- <int>{$}
-    <int>       <- [0-9]+
+    <int>       <- {-}[0-9]+
 
     <sequence>  <- * | [!-~]+
     <alignment> <- * | <trace> | <CIGAR>
