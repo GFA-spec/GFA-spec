@@ -177,7 +177,7 @@ C  1 - 2 + 110 100M
 | 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
 | 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
 
-The `Overlaps` field is optional and can be `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
+The CIGAR strings in the `Overlaps` field are optional, and may be replaced by a `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
 
 ## Optional fields
 
