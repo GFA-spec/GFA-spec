@@ -51,11 +51,11 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 
 For type `B`, array of integers or floats, the first letter indicates the type of numbers in the following comma separated array. The letter can be one of `cCsSiIf`, corresponding to `int8_t` (signed 8-bit integer), `uint8_t` (unsigned 8-bit integer), `int16_t`, `uint16_t`, `int32_t`, `uint32_t` and `float`, respectively.
 
-## Names
+## Segment and path names
 
-Some lines, paths and segments, are identified by a name. Names shall be unique in the GFA file. All line types share the same namespace: i.e. a path cannot have the same name of a segment.
+Path and segment records are identified by a unique name. All record types share the same namespace, so a path may not have the same name as a segment.
 
-Names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` and `-,`. All other printable ASCII characters are allowed. Names are case sensitive.
+Names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` (plus comma) and `-,` (minus comma). All other printable ASCII characters are allowed. Names are case sensitive.
 
 # `#` Comment line
 
