@@ -51,6 +51,12 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 
 For type `B`, array of integers or floats, the first letter indicates the type of numbers in the following comma separated array. The letter can be one of `cCsSiIf`, corresponding to `int8_t` (signed 8-bit integer), `uint8_t` (unsigned 8-bit integer), `int16_t`, `uint16_t`, `int32_t`, `uint32_t` and `float`, respectively.
 
+## Segment and path names
+
+Path and segment records are identified by a unique name. All record types share the same namespace, so a path may not have the same name as a segment.
+
+Names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` (plus comma) and `-,` (minus comma). All other printable ASCII characters are allowed. Names are case sensitive.
+
 # `#` Comment line
 
 Comment lines begin with `#` and are ignored. 
@@ -84,8 +90,6 @@ Comment lines begin with `#` and are ignored.
 | 1      | `RecordType` | Character | `S`                 | Record type
 | 2      | `Name`       | String    | `[!-)+-<>-~][!-~]*` | Segment name
 | 3      | `Sequence`   | String    | `\*\|[A-Za-z=.]+`    | Optional nucleotide sequence
-
-Segment names must not contain whitespace characters nor start with `*` or `=` nor contain the strings `+,` and `-,`. All other printable ASCII characters are allowed. Names are case sensitive.
 
 The Sequence field is optional and can be `*`, meaning that the nucleotide sequence of the segment is not specified. When the sequence is not stored in the GFA file, its length may be specified using the `LN` tag, and the sequence may be stored in an external FASTA file.
 
