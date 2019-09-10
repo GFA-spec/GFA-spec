@@ -166,9 +166,14 @@ note that it is still possible to compute the implied alignment from the sequenc
 
 The GFA2 concept of edge generalizes the link and containment lines of GFA.  For example a GFA
 edge which encodes what is called a dovetail overlap (because two ends overlap) is a GFA2
-edge where either beg1 = 0 or end1 = x$ and either beg2 = 0 or end2 = y$.
-A GFA containment is modeled by the case where either beg1 = 0 and end1 = x$ or beg2 = 0
-and end2 = x$. The figure below illustrates:
+edge where:
+* beg1 = 0 and end2 = y$ or beg2 = 0 and end1 = x$ (if the aligned segments are in the same orientation)
+* beg1 = 0 and beg2 = 0 or end1 = x$ and end2 = y$ (if the aligned segments are in opposite orientation)
+
+while GFA containment is modeled by the case where either beg1 = 0 and end1 = x$ or beg2 = 0
+and end2 = x$. 
+
+The figure below illustrates:
 
 ![Illustration of position and edge definitions](images/GFA2.Fig1.png)
 
