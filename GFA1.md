@@ -108,7 +108,7 @@ The Sequence field is optional and can be `*`, meaning that the nucleotide seque
 
 Links are the primary mechanism to connect segments. Links connect oriented segments. A link from `A` to `B` means that the end of `A` overlaps with the start of `B`. If either is marked with `-`, we replace the sequence of the segment with its reverse complement, whereas a `+` indicates the segment sequence is used as-is.
 
-The length of the overlap is determined by the `CIGAR` string of the link. When the overlap is `0M` the `B` segment follows directly after `A`. When the `CIGAR` string is `*`, the nature of the overlap is not specified.
+The length of the overlap is determined by the `CIGAR` string of the link. When the overlap is `0M` the `B` segment follows directly after `A`. When the `CIGAR` string is `*`, the nature of the overlap is not specified. The `CIGAR` string must be constructed so that the corresponding end of sequence `A` in the orientation given by `FromOrient` is the reference and the start of `B` in the orientation given by `ToOrient` is the query.
 
 ## Required fields
 
