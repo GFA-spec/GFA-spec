@@ -178,10 +178,29 @@ C  1 - 2 + 110 100M
 |--------|----------------|-----------|---------------------------|--------------------
 | 1      | `RecordType`   | Character | `P`                       | Record type
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
-| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
-| 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
+| 3      | `Length`       | Integer   | `[0-9]*`                  | Path length, in number of traversal lines
 
-The CIGAR strings in the `Overlaps` field are optional, and may be replaced by a `*`, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
+## Optional fields
+
+None specified.
+
+# `T` Path traversal line
+
+## Required fields
+
+| Column | Field        | Type      | Regexp                     | Description
+|--------|--------------|-----------|----------------------------|------------------
+| 1      | `RecordType` | Character | `T`                        | Record type
+| 2      | `PathName`   | String    | `[!-)+-<>-~][!-~]*`        | Path name for this traversal
+| 3      | `Ordinal`    | Integer   | `[0-9]*`                   | Ordinal or 0-based index for this traversal in its path
+| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`        | Name of segment
+| 3      | `FromOrient` | String    | `+\|-`                     | Orientation of From segment
+| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`        | Name of segment
+| 5      | `ToOrient`   | String    | `+\|-`                     | Orientation of `To` segment
+| 6      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+` | Optional `CIGAR` string describing overlap
+
+The Overlap field is optional and can be `*`, meaning that the CIGAR string is not specified.
+In this case, the `CIGAR` string may be determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences.
 
 ## Optional fields
 
@@ -197,7 +216,9 @@ S	13	CTTGATT
 L	11	+	12	-	4M
 L	12	-	13	+	5M
 L	11	+	13	+	3M
-P	14	11+,12-,13+	4M,5M
+P	14	2
+T   14  0  11 + 12 - 4M
+T   14  1  12 - 13 + 5M
 ```
 
 The resulting path is:
