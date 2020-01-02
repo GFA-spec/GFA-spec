@@ -10,6 +10,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 ## GFA 2
 
 + [ABySS](https://github.com/bcgsc/abyss)
++ [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [gfalint](https://github.com/sjackman/gfalint)
 + [GfaPy](https://github.com/ggonnella/gfapy)
@@ -18,10 +19,12 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 ## GFA 1
 
 + [ABySS](https://github.com/bcgsc/abyss)
++ [Assembly Cytoscape3 App](http://apps.cytoscape.org/apps/assembly)
 + [Bandage](https://rrwick.github.io/Bandage/)
 + [bcalm2](https://github.com/GATB/bcalm)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
 + [Canu](https://github.com/marbl/canu)
++ [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [GfaPy](https://github.com/ggonnella/gfapy)
