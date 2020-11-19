@@ -99,6 +99,8 @@ almost all references to identifiers are oriented, by virtue of a post-fix + or 
 A +-sign indicates the object is in the orientation it was defined, and a --sign indicates
 it should be reverse-complemented.
 
+A GFA2 file must be encoded in UTF-8 and is not allowed to use a codepoint value higher than 127.
+
 ## Semantics
 
 ### Header

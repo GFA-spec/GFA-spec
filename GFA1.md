@@ -11,7 +11,7 @@ The master version of this document can be found at
 
 The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`. A path line starts with `P`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`. A path line starts with `P`. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127.
 
 ## Terminology
 
