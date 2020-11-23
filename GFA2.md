@@ -79,7 +79,8 @@ operator <-, and the following marks:
   * [] a set of one character alternatives.
 
 Like GFA, GFA2 is tab-delimited in that every lexical token is separated from the next
-by a single tab.
+by a single tab. A GFA2 file must be encoded in UTF-8 and is not allowed to use a codepoint 
+value higher than 127.
 
 Each record line must begin with a letter and lies on a single line with no white space
 before the first symbol.   The tokens that generate record lines are \<header\>, \<segment\>,
@@ -98,8 +99,6 @@ id is not needed as the item will not be referred to elsewhere in the file.  Mor
 almost all references to identifiers are oriented, by virtue of a post-fix + or - sign.
 A +-sign indicates the object is in the orientation it was defined, and a --sign indicates
 it should be reverse-complemented.
-
-A GFA2 file must be encoded in UTF-8 and is not allowed to use a codepoint value higher than 127.
 
 ## Semantics
 
