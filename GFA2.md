@@ -140,7 +140,7 @@ then the *oriented* segment ID’s of the two vertices involved.
 
 One then gives the intervals of each segment that align, each as a pair of *positions*.  A position
 is an integer optionally followed by a $-sign.  Positions are conceptually tick-marks *between*
-symbols starting a 0 to the left of the first symbol and ending at *L* to the right of the last
+symbols starting at 0 to the immediate left of the first symbol and ending at *L* to the immediate right of the last
 symbol where *L* is the length of the segment.  A $-sign must follow an integer *x* if and only if
 it is the last position in the segment it refers to, i.e. *x* = *L*.  It is an error to do
 otherwise.
@@ -154,7 +154,7 @@ reverse complemented in order to align with the interval of the first segment.  
 A field for a 
 [**CIGAR string**](https://samtools.github.io/hts-specs/SAMv1.pdf)
 or [**Dazzler-trace**](http://wp.me/p4o3kW-88)
-describing the alignment is last, but may be absent
+describing the alignment is the last required field on the E-line, but may be absent
 by giving a \*.  One gives a CIGAR string to describe an exact alignment relationship between
 the two segments.  A trace string by contrast is given when one simply wants an accelerated
 method for computing an alignment between the two intervals.
@@ -169,7 +169,7 @@ The GFA2 concept of edge generalizes the link and containment lines of GFA.  For
 edge which encodes what is called a dovetail overlap (because two ends overlap) is a GFA2
 edge where:
 * beg1 = 0 and end2 = y$ or beg2 = 0 and end1 = x$ (if the aligned segments are in the same orientation)
-* beg1 = 0 and beg2 = 0 or end1 = x$ and end2 = y$ (if the aligned segments are in opposite orientation)
+* beg1 = 0 and beg2 = 0 or end1 = x$ and end2 = y$ (if the aligned segments are in opposite orientations)
 
 while GFA containment is modeled by the case where either beg1 = 0 and end1 = x$ or beg2 = 0
 and end2 = x$. 
@@ -178,14 +178,9 @@ The figure below illustrates:
 
 ![Illustration of position and edge definitions](images/GFA2.Fig1.png)
 
-Special codes could be adopted for dovetail and containment relationships but the thought is
-there is no particular reason to do so, the use of the $ sentinel for terminal positions
-makes their identification simple both algorithmically and visually, and the more general
-scenario allows interesting possibilities.  For example, one might have two haplotype bubbles
-shown in the “Before” picture below, and then in a next phase choose a path through the
-bubbles as the primary “contig”, and then capture the two bubble alternatives as a vertex
-linked with generalized edges shown in the “After” picture.  Note carefully that you need a
-generalized edge to capture the attachment of the two haplotype bubbles in the “After” picture.
+Special codes _could_ be adopted for dovetail and containment relationships but the thought is there is no particular reason to do so: the use of the $ sentinel for terminal positions
+makes their identification easy both algorithmically and visually, and the more general
+treatment allows interesting possibilities.  For example, one might have two haplotype bubbles shown in the “Before” panel below, and then in a following phase chooses a path through the bubbles as the primary “contig”, and then capture the two bubble alternatives each as a vertex linked with generalized edges shown in the “After” panel.  Note carefully that a generalized edge is necessary to capture the attachment of the two haplotype bubbles in the “After” panel.
 
 ![Example of utility of general edges](images/GFA2.Fig2.png)
  
