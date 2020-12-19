@@ -32,6 +32,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `L`  | Link        |
 | `C`  | Containment |
 | `P`  | Path        |
+| `W`  | Walk        |
 
 ## Optional fields
 
@@ -207,4 +208,41 @@ The resulting path is:
 12  CCTTGA
 13   CTTGATT
 14 ACCTTGATT
+```
+
+# `W` Walk line
+
+A walk line describes an oriented walk in the graph. It is only intended for a
+graph without overlaps between segments.
+
+## Required fields
+
+| Column | Field             | Type      | Regexp                   | Description
+|--------|-------------------|-----------|--------------------------|------------
+| 1      | `RecordType`      | Character | `W`                      | Record type
+| 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
+| 3      | `PhaseIndex`      | Integer   | `[0-9]+`                 | Phase index (non-negative)
+| 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
+| 5      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
+
+For a haploid sample, `PhaseIndex` takes 0. For a diploid or polyploid sample,
+`PhaseIndex` starts with 1. Tuple (`SampleId`,`PhaseIndex`,`SeqId`) is unique
+in an entire GFA file. A `Walk` is defined as
+```txt
+<walk> ::= ( `>' | `<' <segId> )+
+```
+where `<segId>` corresponds to the identifier of a segment. A valid walk must
+exist in the graph.
+
+## Example
+
+```txt
+H	VN:Z:1.0
+S	11	ACCTT
+S	12	TC
+S	13	GATT
+L	11	+	12	-	0M
+L	12	-	13	+	0M
+L	11	+	13	+	0M
+W	NA12878	1	chr1	>11<12>13
 ```
