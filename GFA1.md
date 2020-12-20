@@ -221,12 +221,12 @@ graph without overlaps between segments.
 |--------|-------------------|-----------|--------------------------|------------
 | 1      | `RecordType`      | Character | `W`                      | Record type
 | 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
-| 3      | `PhaseIndex`      | Integer   | `[0-9]+`                 | Phase index (non-negative)
+| 3      | `HapIndex`        | Integer   | `[0-9]+`                 | Haplotype index
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
 | 5      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
 
-For a haploid sample, `PhaseIndex` takes 0. For a diploid or polyploid sample,
-`PhaseIndex` starts with 1. Tuple (`SampleId`,`PhaseIndex`,`SeqId`) is unique
+For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
+`HapIndex` starts with 1. Tuple (`SampleId`,`HapIndex`,`SeqId`) is unique
 in an entire GFA file. A `Walk` is defined as
 ```txt
 <walk> ::= ( `>' | `<' <segId> )+
@@ -238,11 +238,11 @@ exist in the graph.
 
 ```txt
 H	VN:Z:1.0
-S	11	ACCTT
-S	12	TC
-S	13	GATT
-L	11	+	12	-	0M
-L	12	-	13	+	0M
-L	11	+	13	+	0M
-W	NA12878	1	chr1	>11<12>13
+S	s11	ACCTT
+S	s12	TC
+S	s13	GATT
+L	s11	+	s12	-	0M
+L	s12	-	s13	+	0M
+L	s11	+	s13	+	0M
+W	NA12878	1	chr1	>s11<s12>s13
 ```
