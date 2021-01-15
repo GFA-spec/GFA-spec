@@ -26,6 +26,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [Canu](https://github.com/marbl/canu)
 + [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
++ [gfabase](https://github.com/mlin/gfabase)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [GfaPy](https://github.com/ggonnella/gfapy)
 + [GfaViz](https://github.com/ggonnella/gfaviz)
