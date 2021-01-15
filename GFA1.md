@@ -223,11 +223,14 @@ graph without overlaps between segments.
 | 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
 | 3      | `HapIndex`        | Integer   | `[0-9]+`                 | Haplotype index
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
-| 5      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
+| 5      | `SeqStart`        | Integer   | `[0-9]+`                 | Start position
+| 6      | `SeqEnd`          | Integer   | `[0-9]+`                 | End position (BED-like half-close-half-open)
+| 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
-`HapIndex` starts with 1. Tuple (`SampleId`,`HapIndex`,`SeqId`) is unique
-in an entire GFA file. A `Walk` is defined as
+`HapIndex` starts with 1. For two W-lines with the same
+(`SampleId`,`HapIndex`,`SeqId`), their [`SeqSart`,`SeqEnd`) should have no
+overlaps. A `Walk` is defined as
 ```txt
 <walk> ::= ( `>' | `<' <segId> )+
 ```
