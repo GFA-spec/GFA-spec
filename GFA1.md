@@ -247,5 +247,5 @@ S	s13	GATT
 L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
-W	NA12878	1	chr1	>s11<s12>s13
+W	NA12878	1	chr1	0	11	>s11<s12>s13
 ```
