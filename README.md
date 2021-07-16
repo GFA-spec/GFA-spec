@@ -10,6 +10,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 ## GFA 2
 
 + [ABySS](https://github.com/bcgsc/abyss)
++ [Cuttlefish](https://github.com/COMBINE-lab/cuttlefish)
 + [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [gfalint](https://github.com/sjackman/gfalint)
@@ -24,6 +25,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [bcalm2](https://github.com/GATB/bcalm)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
 + [Canu](https://github.com/marbl/canu)
++ [Cuttlefish](https://github.com/COMBINE-lab/cuttlefish)
 + [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
 + [gfabase](https://github.com/mlin/gfabase)
