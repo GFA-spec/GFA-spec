@@ -4,6 +4,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 
 + GFA 2.0 is at [GFA2.md](GFA2.md)
 + GFA 1.0 is at [GFA1.md](GFA1.md)
++ GFA 1.1 is at [GFA1.md#gfa-11](GFA1.md#gfa-11)
 
 # Implementations
 
@@ -42,6 +43,12 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [vg](https://github.com/ekg/vg)
 + [w2rap](https://github.com/bioinfologics/w2rap-contigger)
 
+## GFA 1.1
+
++ [vg](https://github.com/ekg/vg)
++ [gbwt](https://github.com/jltsiren/gbwt)
++ [cactus pangenome pipeline](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md)
+
 # Resources
 
 + [Examples](https://github.com/sjackman/assembly-graph) of sequence overlap graphs (assembly graphs) in a variety of formats
@@ -66,3 +73,7 @@ benefits from a standard encoding format that would make them all interoperable.
 # GFA 1.0
 
 GFA 1 was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa).
+
+# GFA 1.1
+
+W-lines were suggeseted by Heng Li (@lh3) as an extension to GFA 1 for representing haplotype information in pangenome graphs.  
