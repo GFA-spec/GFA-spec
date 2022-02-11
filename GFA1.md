@@ -32,7 +32,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `L`  | Link        |
 | `C`  | Containment |
 | `P`  | Path        |
-| `W`  | Walk        |
+| `W`  | Walk (since v1.1) |
 
 ## Optional fields
 
@@ -213,7 +213,8 @@ The resulting path is:
 # `W` Walk line
 
 A walk line describes an oriented walk in the graph. It is only intended for a
-graph without overlaps between segments.
+graph without overlaps between segments. W-line was added in GFA v1.1 and was
+not defined in the original GFAv1.
 
 ## Required fields
 
@@ -240,7 +241,7 @@ exist in the graph.
 ## Example
 
 ```txt
-H	VN:Z:1.0
+H	VN:Z:1.1
 S	s11	ACCTT
 S	s12	TC
 S	s13	GATT
