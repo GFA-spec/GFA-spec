@@ -210,6 +210,8 @@ The resulting path is:
 14 ACCTTGATT
 ```
 
+# GFA 1.1
+
 # `W` Walk line
 
 A walk line describes an oriented walk in the graph. It is only intended for a
@@ -224,8 +226,8 @@ not defined in the original GFAv1.
 | 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
 | 3      | `HapIndex`        | Integer   | `[0-9]+`                 | Haplotype index
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
-| 5      | `SeqStart`        | Integer   | `[0-9]+`                 | Start position
-| 6      | `SeqEnd`          | Integer   | `[0-9]+`                 | End position (BED-like half-close-half-open)
+| 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
+| 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
 | 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
