@@ -210,9 +210,7 @@ The resulting path is:
 14 ACCTTGATT
 ```
 
-# GFA 1.1
-
-# `W` Walk line
+# `W` Walk line (since v1.1)
 
 A walk line describes an oriented walk in the graph. It is only intended for a
 graph without overlaps between segments. W-line was added in GFA v1.1 and was
