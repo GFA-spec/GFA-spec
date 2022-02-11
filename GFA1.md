@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2016-09-15
+date: 2022-02-11
 ---
 
 The master version of this document can be found at  
