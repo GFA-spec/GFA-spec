@@ -15,10 +15,10 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 
 ## Terminology
 
-+ **Segment** a continuous sequence or subsequence.
-+ **Link** an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
-+ **Containment** an overlap between two segments where one is contained in the other.
-+ **Path** an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
++ **Segment**: a continuous sequence or subsequence.
++ **Link**: an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
++ **Containment**: an overlap between two segments where one is contained in the other.
++ **Path** or **Walk**: an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
 
 ## Line structure
 
