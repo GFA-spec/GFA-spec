@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2016-09-15
+date: 2022-02-11
 ---
 
 The master version of this document can be found at  
@@ -15,10 +15,10 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 
 ## Terminology
 
-+ **Segment** a continuous sequence or subsequence.
-+ **Link** an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
-+ **Containment** an overlap between two segments where one is contained in the other.
-+ **Path** an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
++ **Segment**: a continuous sequence or subsequence.
++ **Link**: an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
++ **Containment**: an overlap between two segments where one is contained in the other.
++ **Path** or **Walk**: an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
 
 ## Line structure
 
@@ -32,6 +32,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `L`  | Link        |
 | `C`  | Containment |
 | `P`  | Path        |
+| `W`  | Walk (since v1.1) |
 
 ## Optional fields
 
@@ -207,4 +208,45 @@ The resulting path is:
 12  CCTTGA
 13   CTTGATT
 14 ACCTTGATT
+```
+
+# `W` Walk line (since v1.1)
+
+A walk line describes an oriented walk in the graph. It is only intended for a
+graph without overlaps between segments. W-line was added in GFA v1.1 and was
+not defined in the original GFAv1.
+
+## Required fields
+
+| Column | Field             | Type      | Regexp                   | Description
+|--------|-------------------|-----------|--------------------------|------------
+| 1      | `RecordType`      | Character | `W`                      | Record type
+| 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
+| 3      | `HapIndex`        | Integer   | `[0-9]+`                 | Haplotype index
+| 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
+| 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
+| 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
+| 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
+
+For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
+`HapIndex` starts with 1. For two W-lines with the same
+(`SampleId`,`HapIndex`,`SeqId`), their [`SeqSart`,`SeqEnd`) should have no
+overlaps. A `Walk` is defined as
+```txt
+<walk> ::= ( `>' | `<' <segId> )+
+```
+where `<segId>` corresponds to the identifier of a segment. A valid walk must
+exist in the graph.
+
+## Example
+
+```txt
+H	VN:Z:1.1
+S	s11	ACCTT
+S	s12	TC
+S	s13	GATT
+L	s11	+	s12	-	0M
+L	s12	-	s13	+	0M
+L	s11	+	s13	+	0M
+W	NA12878	1	chr1	0	11	>s11<s12>s13
 ```
