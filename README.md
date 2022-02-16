@@ -66,6 +66,7 @@ From 2015, P-lines have been employed to provide a positional system in pangenom
 
 W-lines were suggeseted by Heng Li (@lh3) as an extension to GFA 1 for representing lossy haplotype information in pangenome graphs.
 This need arises when building a pangenome graph using sequences with masked repeats, or when imputing short read data into a pangenome reference model.
+W-lines provide standard fields that are needed in this application, but are otherwise semantically equivalent to P-lines, and the two can be trivially converted with [gfa-wp](https://github.com/pangenome/gfa-wp).
 
 GFA 1 maintains backward compatibility with these and future user-level extensions by allowing parsers to not consider all line types.
 
