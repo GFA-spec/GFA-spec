@@ -23,6 +23,7 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 ## Line structure
 
 Each line in GFA has tab-delimited fields and the first field defines the type of line. The type of the line defines the following required fields. The required fields are followed by optional fields.
+Parsers must ignore lines that begin with fields that they do not recognize.
 
 | Type | Description |
 |------|-------------|
@@ -32,7 +33,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `L`  | Link        |
 | `C`  | Containment |
 | `P`  | Path        |
-| `W`  | Walk (since v1.1) |
+| `W`  | Walk        |
 
 ## Optional fields
 
@@ -198,7 +199,7 @@ S	13	CTTGATT
 L	11	+	12	-	4M
 L	12	-	13	+	5M
 L	11	+	13	+	3M
-P	14	11+,12-,13+	4M,5M
+P	14	11+,12-,13+	*
 ```
 
 The resulting path is:
@@ -210,11 +211,10 @@ The resulting path is:
 14 ACCTTGATT
 ```
 
-# `W` Walk line (since v1.1)
+# `W` Walk line
 
-A walk line describes an oriented walk in the graph. It is only intended for a
-graph without overlaps between segments. W-line was added in GFA v1.1 and was
-not defined in the original GFAv1.
+A walk line describes an oriented walk in the graph. It is only intended for a graph without overlaps between segments.
+The walk allows the representation of approximate mappings between haplotypes and the graph, in contrast to P-lines which imply an exact, lossless mapping.
 
 ## Required fields
 
@@ -241,12 +241,13 @@ exist in the graph.
 ## Example
 
 ```txt
-H	VN:Z:1.1
+H	VN:Z:1.0
 S	s11	ACCTT
 S	s12	TC
 S	s13	GATT
 L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
+P	GRCh38#chr1	s11+,s12-,s13+ *
 W	NA12878	1	chr1	0	11	>s11<s12>s13
 ```

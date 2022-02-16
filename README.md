@@ -4,7 +4,6 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 
 + GFA 2.0 is at [GFA2.md](GFA2.md)
 + GFA 1.0 is at [GFA1.md](GFA1.md)
-+ GFA 1.1 is at [GFA1.md#gfa-11](GFA1.md#gfa-11)
 
 # Implementations
 
@@ -22,13 +21,15 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 
 + [ABySS](https://github.com/bcgsc/abyss)
 + [Assembly Cytoscape3 App](http://apps.cytoscape.org/apps/assembly)
-+ [Bandage](https://rrwick.github.io/Bandage/)
++ [Bandage](https://github.com/asl/Bandage)
 + [bcalm2](https://github.com/GATB/bcalm)
 + [bfgraph](https://github.com/pmelsted/bfgraph)
++ [cactus pangenome pipeline](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md)
 + [Canu](https://github.com/marbl/canu)
 + [Cuttlefish](https://github.com/COMBINE-lab/cuttlefish)
 + [dsh-bio](https://github.com/heuermh/dishevelled-bio)
 + [fermi mag2gfa](https://github.com/lh3/mag2gfa)
++ [gbwt](https://github.com/jltsiren/gbwt)
 + [gfabase](https://github.com/mlin/gfabase)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [GfaPy](https://github.com/ggonnella/gfapy)
@@ -39,22 +40,34 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [lmrodriguezr/gfa](https://github.com/lmrodriguezr/gfa)
 + [McCortex](https://github.com/mcveanlab/mccortex)
 + [miniasm](https://github.com/lh3/miniasm)
++ [ODGI toolkit](https://github.com/pangenome/odgi)
++ [PanGenome Graph Builder (pggb)](https://github.com/pangenome/pggb)
 + [RGFA](https://github.com/ggonnella/RGFA)
++ [seqwish](https://github.com/ekg/seqwish)
 + [SPAdes](http://cab.spbu.ru/software/spades/)
 + [TwoPaCo](https://github.com/medvedevgroup/TwoPaCo)
 + [Unicycler](https://github.com/rrwick/Unicycler)
 + [vg](https://github.com/ekg/vg)
 + [w2rap](https://github.com/bioinfologics/w2rap-contigger)
 
-## GFA 1.1
-
-+ [vg](https://github.com/ekg/vg)
-+ [gbwt](https://github.com/jltsiren/gbwt)
-+ [cactus pangenome pipeline](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md)
-
 # Resources
 
 + [Examples](https://github.com/sjackman/assembly-graph) of sequence overlap graphs (assembly graphs) in a variety of formats
+
+# GFA 1.0
+
+GFA 1 was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa).
+Its original purpose was to represent assembly graphs.
+
+## Pangenome models and extensibility
+
+The GFA model was then adopted by Erik Garrison and others to represent [pangenome reference systems](https://doi.org/10.17863/CAM.41621).
+From 2015, P-lines have been employed to provide a positional system in pangenome graphs. These are now used in several tools (e.g. vg toolkit, odgi, and the maintained fork of Bandage).
+
+W-lines were suggeseted by Heng Li (@lh3) as an extension to GFA 1 for representing lossy haplotype information in pangenome graphs.
+This need arises when building a pangenome graph using sequences with masked repeats, or when imputing short read data into a pangenome reference model.
+
+GFA 1 maintains backward compatibility with these and future user-level extensions by allowing parsers to not consider all line types.
 
 # GFA 2.0: Graphical Fragment Assembly (GFA2) Format Specification 2.0
 
@@ -73,10 +86,3 @@ benefits from a standard encoding format that would make them all interoperable.
 
 ![Fig. 1](images/READ.Fig1.png)
 
-# GFA 1.0
-
-GFA 1 was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format) by Heng Li (@lh3) and further developed in a [second post](http://lh3.github.io/2014/07/23/first-update-on-gfa).
-
-# GFA 1.1
-
-W-lines were suggeseted by Heng Li (@lh3) as an extension to GFA 1 for representing haplotype information in pangenome graphs.  
