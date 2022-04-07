@@ -212,8 +212,7 @@ Such a collection could for example be highlighted by a drawing program on
 command, or might specify decisions about tours through the graph.  U-lines encode
 *unordered* collections and O-lines encode *ordered* collections (defined in the next paragraph),
 which we alternatively call **sets** and **paths**, respectively.
-The remainder of
-the line then consists of an optional ID for the collection followed by a non-empty list of ID's
+The remainder of the line then consists of an optional ID for the collection followed by a non-empty list of ID's
 referring to segments, edges, or other groups that are *separated by single spaces*
 (i.e. the list is in a single column of the tab-delimited format).  In the case of paths
 every reference must be oriented, and not so in a set.
@@ -230,6 +229,8 @@ orientation of the objects matters (e.g.
 the edge between two consecutive segments, the segment between two consecutive edges, etc.)
 A set can contain a reference to a path, but not vice versa, in which case the orientation
 of the objects in the path become irrelevant.
+Paths in the graph defined by O-lines can also specify subpaths of the components that need to be traversed.
+This is achieved using brackets and coordinates relative to the original orientation of the segment, e.g. ptg000124l.1(397101:505533)+
 
 Note: It was discussed whether U/O-lines with the same name could be considered to be concatenated together in the order in which they appear (see [#54](https://github.com/GFA-spec/GFA-spec/issues/54) and [#47](https://github.com/GFA-spec/GFA-spec/pull/47)). This multi-line path format was not included in the current version of this specification, but if people want to explore use of this structure, they can do so using a different single letter record code.
 
