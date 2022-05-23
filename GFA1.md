@@ -250,3 +250,39 @@ L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
 W	NA12878	1	chr1	0	11	>s11<s12>s13
 ```
+
+# `J` Jump/Gap line (since v1.2)
+
+While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end data 
+and external maps often order and orient contigs/vertices into scaffolds with intervening gaps. 
+To this end we introduce a gap edge described in J-lines that give an arbitrary or estimated gap distance between the two segment sequences.
+The gap is between the first segment at left and the second segment at right where the segments are oriented according to their sign indicators. 
+The next integer gives the arbitrary or expected distance between the first and second segment in their respective orientations. 
+Relationships in E-lines are fixed and known, where as in a G-line, the distance is an estimate and the line type is intended to allow one to define assembly scaffolds.
+
+J-line was added in GFA v1.2 and was not defined in the original GFAv1. In addition, since J-lines can contribute to paths (P-lines), these have been further specified in v1.2.
+Particularly, a new separator `;` is introduced as opposed to `,` to distinguish whether the path is intended to use have a gap or an overlap link between the two segments being considered.
+
+## Required fields
+
+| Column | Field        | Type      | Regexp                   | Description
+|--------|--------------|-----------|--------------------------|------------------
+| 1      | `RecordType` | Character | `G`                      | Record type
+| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 3      | `FromOrient` | String    | `+\|-`                   | Orientation of From segment
+| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 5      | `ToOrient`   | String    | `+\|-`                   | Orientation of `To` segment
+| 6      | `Overlap`    | String    | `[0-9]+`                 | Arbitrary or expected distance between the segments
+
+## Example
+
+```
+H	VN:Z:1.2
+S	11	ACCTT
+S	12	TCAAGG
+S	13	CTTGATT
+G	11	+	12	-	10
+G	12	-	13	+	10
+G	11	+	13	+	3
+P	14	11+;12-;13+	*,*
+```
