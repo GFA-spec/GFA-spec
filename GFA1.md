@@ -267,7 +267,7 @@ Particularly, a new separator `;` is introduced as opposed to `,` to distinguish
 
 | Column | Field        | Type      | Regexp                   | Description
 |--------|--------------|-----------|--------------------------|------------------
-| 1      | `RecordType` | Character | `G`                      | Record type
+| 1      | `RecordType` | Character | `J`                      | Record type
 | 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
 | 3      | `FromOrient` | String    | `+\|-`                   | Orientation of From segment
 | 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
@@ -281,8 +281,8 @@ H	VN:Z:1.2
 S	11	ACCTT
 S	12	TCAAGG
 S	13	CTTGATT
-G	11	+	12	-	10
-G	12	-	13	+	10
-G	11	+	13	+	3
-P	14	11+;12-;13+	*,*
+J	11	+	12	-	10
+J	12	-	13	+	10
+J	11	+	13	+	3
+P	14	11+;12-;13+	;,;
 ```
