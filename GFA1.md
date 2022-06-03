@@ -16,9 +16,11 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 ## Terminology
 
 + **Segment**: a continuous sequence or subsequence.
-+ **Link** or **Jump**: a connection between two oriented segments. Each connection is from the end of one oriented segment to the beginning of another oriented segment. Links store the amount of basepairs overlapping, while jumps provide estimated distance between the segments.
++ **Link**: an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
++  **Jump**: (since v1.2) a connection between two oriented segments. Similar to link, but does not imply a direct adjacency between the segments, instead providing an estimated distance between the segments. Main use case is to specify segment relations across assembly gaps.
 + **Containment**: an overlap between two segments where one is contained in the other.
-+ **Path** or **Walk**: an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link or a jump record.
++ **Path**: an ordered list of oriented segments, where each consecutive pair of oriented segments is supported by a link or a jump record.
++ **Walk**: (since v1.1) an ordered list of oriented segments, intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
 
 ## Line structure
 
@@ -295,9 +297,8 @@ Note that the `Distance` can take negative integer values, hinting at an undetec
 Since v1.2 jump connections can be used in the `P`-lines. 
 Note that to specify usage of a jump connection rather than a regular link within a path one should use a different separator (`;` instead of `,`). For details and examples see "Extension to use jump connections" subsection the `P`-line description.
 
-`J`-lines can also be used to specify long-range connections that do not imply direct adjacency between the connected segments.
-We will refer to such connections as _shortcuts_.
-Shortcuts are primarily intended to allow `P`-lines to define arbitrary assembly scaffolds.
+`J`-lines can also be used to specify _shortcut_ connections that do not correspond to any missing overlap or absent sequence.
+Shortcuts are primarily intended to be used within the `P`-lines to define arbitrary assembly scaffolds.
 Shortcut `J`-lines must be marked with as special tag: `SC:i:1`.
 
 ## Required fields
