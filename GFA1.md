@@ -213,7 +213,7 @@ The resulting path is:
 
 ## Extension to use jump connections (since v1.2)
 
-Version 1.2 expands the `P`-line format for usiging jump connections given by the `J`-lines (see "`J` Jump line" section).
+Version 1.2 expands the `P`-line format for using jump connections given by the `J`-lines (see "`J` Jump line" section).
 Semicolon (`;`) can now be used as a separator in `SegmentNames` in addition to a comma (`,`) to indicate the usage of a jump connection (defined by `J`-line), rather than a link connection (defined by `L`-line).
 If specified, the `Overlaps` field uses the `[-+]?[0-9]+J` format (note the `J` at the end to match the style of a `CIGAR` string) to refer to the jump connection with a particular estimated distance, and `.` if corresponding `J`-line does not provide distance estimate.
 
@@ -223,8 +223,6 @@ If specified, the `Overlaps` field uses the `[-+]?[0-9]+J` format (note the `J` 
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
 | 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma/semicolon-separated list of segment names and orientations
 | 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=]\|\[-+]?[0-9]+J\|.)+` | Optional comma-separated list of CIGAR strings and distance estimates
-
-*TODO suggestion to allow using `.` instead of any part of `Overlaps` that we do not actually need to disambiguate*
 
 ### Example
 
@@ -289,8 +287,6 @@ W	NA12878	1	chr1	0	11	>s11<s12>s13
 
 Jump lines are the mechanism to define the connections of segments which can not be associated with a particular overlap or sequence. Basic usecase is to represent 'gaps' corresponding to unassembled regions, most commonly due to absense or low quality of sequencing data.
 
-*TODO Should we 'bless' a tag to specify the source of the information about the connection?*
-
 `J`-lines specification generally follows one for `L`-lines, using columns 2-4 to specify connected segments and their respective orientations. 
 The only difference is that 6th column specifies a signed integer `Distance` (instead of the `Overlap` `CIGAR` string) -- estimated distance between the segments.
 The `Distance` can take a `*` value, meaning that the distance is not specified (estimate is unavailable).
@@ -299,11 +295,10 @@ Note that the `Distance` can take negative integer values, hinting at an undetec
 Since v1.2 jump connections can be used in the `P`-lines. 
 Note that to specify usage of a jump connection rather than a regular link within a path one should use a different separator (`;` instead of `,`). For details and examples see "Extension to use jump connections" subsection the `P`-line description.
 
-`J`-lines can also be used to specify long-range connections that do not imply direct adjecency between the connected segments.
+`J`-lines can also be used to specify long-range connections that do not imply direct adjacency between the connected segments.
 We will refer to such connections as _shortcuts_.
 Shortcuts are primarily intended to allow `P`-lines to define arbitrary assembly scaffolds.
-Shortcut `J`-lines must be marked with as special tag: `SC:Z:true`.
-*TODO discuss the tag*
+Shortcut `J`-lines must be marked with as special tag: `SC:i:1`.
 
 ## Required fields
 
@@ -320,12 +315,12 @@ Shortcut `J`-lines must be marked with as special tag: `SC:Z:true`.
 
 | Tag  | Type | Description
 |------|------|------------
-| `SC` | `Z`  | Marker tag for indirect shortcut connections. Value is ignored
+| `SC` | `i`  | 1 indicates indirect shortcut connections. Only 0/1 allowed.
 
 ## Example
 
 The following lines describe the jump between reverse complement of segment 1 and segment 2, with estimated distance of 100 and the  'shortcut' between segment 2 and reverse complement of segment 3 with unspecified distance.
 ```
 J  1 - 2 + 100
-J  2 + 3 - * SC:Z:true
+J  2 + 3 - * SC:i:1
 ```
