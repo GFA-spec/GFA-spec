@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2022-02-11
+date: 2022-06-07
 ---
 
 The master version of this document can be found at  
@@ -299,7 +299,7 @@ Note that to specify usage of a jump connection rather than a regular link withi
 
 `J`-lines can also be used to specify _shortcut_ connections that do not correspond to any missing overlap or absent sequence.
 Shortcuts are primarily intended to be used within the `P`-lines to define arbitrary assembly scaffolds.
-Shortcut `J`-lines must be marked with as special tag: `SC:i:1`.
+Shortcut `J`-lines must be marked with a special tag: `SC:i:1`.
 
 ## Required fields
 
