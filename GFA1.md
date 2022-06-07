@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2022-02-11
+date: 2022-06-07
 ---
 
 The master version of this document can be found at  
@@ -11,14 +11,16 @@ The master version of this document can be found at
 
 The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. A containment line starts with `C`. A path line starts with `P`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. Jump lines (since v1.2) start with `J`. A containment line starts with `C`. A path line starts with `P`. Walk lines (since v1.1) start with `W`.
 
 ## Terminology
 
 + **Segment**: a continuous sequence or subsequence.
 + **Link**: an overlap between two segments. Each link is from the end of one segment to the beginning of another segment. The link stores the orientation of each segment and the amount of basepairs overlapping.
++  **Jump**: (since v1.2) a connection between two oriented segments. Similar to link, but does not imply a direct adjacency between the segments, instead providing an estimated distance between the segments. Main use case is to specify segment relations across assembly gaps.
 + **Containment**: an overlap between two segments where one is contained in the other.
-+ **Path** or **Walk**: an ordered list of oriented segments, where each consecutive pair of oriented segments are supported by a link record.
++ **Path**: an ordered list of oriented segments, where each consecutive pair of oriented segments is supported by a link or a jump record.
++ **Walk**: (since v1.1) an ordered list of oriented segments, intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
 
 ## Line structure
 
@@ -30,6 +32,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `H`  | Header      |
 | `S`  | Segment     |
 | `L`  | Link        |
+| `J`  | Jump (since v1.2)        |
 | `C`  | Containment |
 | `P`  | Path        |
 | `W`  | Walk (since v1.1) |
@@ -210,11 +213,42 @@ The resulting path is:
 14 ACCTTGATT
 ```
 
+## Extension to use jump connections (since v1.2)
+
+Version 1.2 expands the `P`-line format for using jump connections given by the `J`-lines (see "`J` Jump line" section).
+Semicolon (`;`) can now be used as a separator in `SegmentNames` in addition to a comma (`,`) to indicate the usage of a jump connection (defined by `J`-line), rather than a link connection (defined by `L`-line).
+If specified, the `Overlaps` field uses the `[-+]?[0-9]+J` format (note the `J` at the end to match the style of a `CIGAR` string) to refer to the jump connection with a particular estimated distance, and `.` if corresponding `J`-line does not provide distance estimate.
+
+| Column | Field          | Type      | Regexp                    | Description
+|--------|----------------|-----------|---------------------------|--------------------
+| 1      | `RecordType`   | Character | `P`                       | Record type
+| 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
+| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma/semicolon-separated list of segment names and orientations
+| 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=]\|\[-+]?[0-9]+J\|.)+` | Optional comma-separated list of CIGAR strings and distance estimates
+
+### Example
+
+```
+H	VN:Z:1.2
+S	11	ACCTT
+S	12	TCAAGG
+S	13	CTTGATT
+L	11	+	12	-	4M
+J	11	+	12	-	*	SC:Z:true
+J	12	-	13	+	10
+P	first	11+,12-	*
+P	second	11+;12-	*
+P	third	11+;12-;13+	.,10J
+```
+
+Note how usage of different delimeters in the first two paths disambiguates between the usage of a link vs a shortcut jump the same pair of oriented segments.
+
 # `W` Walk line (since v1.1)
 
 A walk line describes an oriented walk in the graph. It is only intended for a
 graph without overlaps between segments. W-line was added in GFA v1.1 and was
 not defined in the original GFAv1.
+Note that W-lines can not use jump connections (introduced in v1.2).
 
 ## Required fields
 
@@ -249,4 +283,45 @@ L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
 W	NA12878	1	chr1	0	11	>s11<s12>s13
+```
+
+# `J` Jump line (since v1.2)
+
+Jump lines are the mechanism to define the connections of segments which can not be associated with a particular overlap or sequence. Basic usecase is to represent 'gaps' corresponding to unassembled regions, most commonly due to absense or low quality of sequencing data.
+
+`J`-lines specification generally follows one for `L`-lines, using columns 2-4 to specify connected segments and their respective orientations. 
+The only difference is that 6th column specifies a signed integer `Distance` (instead of the `Overlap` `CIGAR` string) -- estimated distance between the segments.
+The `Distance` can take a `*` value, meaning that the distance is not specified (estimate is unavailable).
+Note that the `Distance` can take negative integer values, hinting at an undetected overlap.
+
+Since v1.2 jump connections can be used in the `P`-lines. 
+Note that to specify usage of a jump connection rather than a regular link within a path one should use a different separator (`;` instead of `,`). For details and examples see "Extension to use jump connections" subsection the `P`-line description.
+
+`J`-lines can also be used to specify _shortcut_ connections that do not correspond to any missing overlap or absent sequence.
+Shortcuts are primarily intended to be used within the `P`-lines to define arbitrary assembly scaffolds.
+Shortcut `J`-lines must be marked with a special tag: `SC:i:1`.
+
+## Required fields
+
+| Column | Field        | Type      | Regexp                   | Description
+|--------|--------------|-----------|--------------------------|------------------
+| 1      | `RecordType` | Character | `J`                      | Record type
+| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 3      | `FromOrient` | String    | `+\|-`                   | Orientation of From segment
+| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 5      | `ToOrient`   | String    | `+\|-`                   | Orientation of `To` segment
+| 6      | `Distance`   | String    | `\*\|[-+]?[0-9]+`        | Optional estimated distance between the segments
+
+## Optional fields
+
+| Tag  | Type | Description
+|------|------|------------
+| `SC` | `i`  | 1 indicates indirect shortcut connections. Only 0/1 allowed.
+
+## Example
+
+The following lines describe the jump between reverse complement of segment 1 and segment 2, with estimated distance of 100 and the  'shortcut' between segment 2 and reverse complement of segment 3 with unspecified distance.
+```
+J  1 - 2 + 100
+J  2 + 3 - * SC:i:1
 ```
