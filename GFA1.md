@@ -234,7 +234,7 @@ S	11	ACCTT
 S	12	TCAAGG
 S	13	CTTGATT
 L	11	+	12	-	4M
-J	11	+	12	-	*	SC:Z:true
+J	11	+	12	-	*	SC:i:1
 J	12	-	13	+	10
 P	first	11+,12-	*
 P	second	11+;12-	*
