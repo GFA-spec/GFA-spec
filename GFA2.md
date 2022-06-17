@@ -203,7 +203,7 @@ estimate or a * indicating the variance is unknown.
 Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
 define assembly **scaffolds**. In this case, similar to `J`-lines in 
-[GFA1.2](https://github.com/GFA-spec/GFA-spec/blob/master/GFA1.md#j-jump-line-since-v12), 
+[GFA1.2](../GFA1.md#j-jump-line-since-v12), 
 `G`-lines specify _shortcut_ connections that do not correspond to any missing overlap or absent sequence.
 Such shortcut `G`-lines must be marked with a special tag: `SC:i:1`.
 

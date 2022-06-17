@@ -5,6 +5,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + GFA 2.0 is at [GFA2.md](GFA2.md)
 + GFA 1.0 is at [GFA1.md](GFA1.md)
 + GFA 1.1 is at [GFA1.md#gfa-11](GFA1.md#gfa-11)
++ GFA 1.2 is at [GFA1.md#gfa-11](GFA1.md#j-jump-line-since-v12)
 
 # Implementations
 
@@ -52,6 +53,10 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [gbwt](https://github.com/jltsiren/gbwt)
 + [cactus pangenome pipeline](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/pangenome.md)
 
+## GFA 1.2
+
++ [gfastats](https://github.com/vgl-hub/gfastats)
+
 # Resources
 
 + [Examples](https://github.com/sjackman/assembly-graph) of sequence overlap graphs (assembly graphs) in a variety of formats
@@ -80,3 +85,7 @@ GFA 1 was first suggested in a [blog post](http://lh3.github.io/2014/07/19/a-pro
 # GFA 1.1
 
 W-lines were suggeseted by Heng Li (@lh3) as an extension to GFA 1 for representing haplotype information in pangenome graphs.  
+
+# GFA 1.2
+
+J-lines were suggested by Sergey Nurk and Giulio Formenti as an extension to GFA 1.1 to represent jumps in graphs such as gaps in assembly scaffolds.
