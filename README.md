@@ -17,6 +17,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [gfalint](https://github.com/sjackman/gfalint)
 + [GfaPy](https://github.com/ggonnella/gfapy)
 + [GfaViz](https://github.com/ggonnella/gfaviz)
++ [gfastats](https://github.com/vgl-hub/gfastats)
 
 ## GFA 1
 
@@ -32,6 +33,7 @@ We are developing the specification of the Graphical Fragment Assembly (GFA) for
 + [gfabase](https://github.com/mlin/gfabase)
 + [gfakluge](https://github.com/edawson/gfakluge)
 + [GfaPy](https://github.com/ggonnella/gfapy)
++ [gfastats](https://github.com/vgl-hub/gfastats)
 + [GfaViz](https://github.com/ggonnella/gfaviz)
 + [jts/DALIGNER](https://github.com/jts/daligner)
 + [lh3/gfa1](https://github.com/lh3/gfa1)
