@@ -193,7 +193,7 @@ vertex-labelled form).  This is captured by edges for which beg1 = end1 = x$ and
 
 While not a concept for pure DeBrujin or long-read assemblers, it is the case that paired end
 data and external maps often order and orient contigs/vertices into scaffolds with
-intervening gaps.  To this end we introduce a **gap** edge described in G-lines that give the
+intervening gaps. To this end we introduce a **gap** edge described in G-lines that give the
 estimated gap distance between the two segment sequences and the variance of that estimate.
 The gap is between the first segment at left and the second
 segment at right where the segments are oriented according to their sign indicators.
@@ -202,7 +202,10 @@ respective orientations, and the final field is either an integer giving the var
 estimate or a * indicating the variance is unknown.
 Relationships in E-lines are fixed and known, where as
 in a G-line, the distance is an estimate and the line type is intended to allow one to
-define assembly **scaffolds**.
+define assembly **scaffolds**. In this case, similar to `J`-lines in 
+[GFA1.2](../GFA1.md#j-jump-line-since-v12), 
+`G`-lines specify _shortcut_ connections that do not correspond to any missing overlap or absent sequence.
+Such shortcut `G`-lines must be marked with a special tag: `SC:i:1`.
 
 ### Group
 
