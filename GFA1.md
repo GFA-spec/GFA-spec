@@ -120,9 +120,9 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 |--------|--------------|-----------|--------------------------|------------------
 | 1      | `RecordType` | Character | `L`                      | Record type
 | 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 3      | `FromOrient` | String    | `+\|-`                    | Orientation of From segment
+| 3      | `FromOrient` | String    | `[+-]`                   | Orientation of From segment
 | 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 5      | `ToOrient`   | String    | `+\|-`                    | Orientation of `To` segment
+| 5      | `ToOrient`   | String    | `[+-]`                   | Orientation of `To` segment
 | 6      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+`| Optional `CIGAR` string describing overlap
 
 The Overlap field is optional and can be `*`, meaning that the CIGAR string is not specified.
@@ -160,9 +160,9 @@ C  1 - 2 + 110 100M
 |--------|-------------------|-----------|--------------------------|------------
 | 1      | `RecordType`      | Character | `C`                      | Record type
 | 2      | `Container`       | String    | `[!-)+-<>-~][!-~]*`      | Name of container segment
-| 3      | `ContainerOrient` | String    | `+\|-`                   | Orientation of container segment
+| 3      | `ContainerOrient` | String    | `[+-]`                   | Orientation of container segment
 | 4      | `Contained`       | String    | `[!-)+-<>-~][!-~]*`      | Name of contained segment
-| 5      | `ContainedOrient` | String    | `+\|-`                   | Orientation of contained segment
+| 5      | `ContainedOrient` | String    | `[+-]`                   | Orientation of contained segment
 | 6      | `Pos`             | Integer   | `[0-9]*`                 | 0-based start of contained segment
 | 7      | `Overlap`         | String    | `\*\|([0-9]+[MIDNSHPX=])+` | CIGAR string describing overlap
 
@@ -224,7 +224,7 @@ If specified, the `Overlaps` field uses the `[-+]?[0-9]+J` format (note the `J` 
 | 1      | `RecordType`   | Character | `P`                       | Record type
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
 | 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma/semicolon-separated list of segment names and orientations
-| 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=]\|\[-+]?[0-9]+J\|.)+` | Optional comma-separated list of CIGAR strings and distance estimates
+| 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=]\|[-+]?[0-9]+J\|.)+` | Optional comma-separated list of CIGAR strings and distance estimates
 
 ### Example
 
@@ -307,9 +307,9 @@ Shortcut `J`-lines must be marked with a special tag: `SC:i:1`.
 |--------|--------------|-----------|--------------------------|------------------
 | 1      | `RecordType` | Character | `J`                      | Record type
 | 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 3      | `FromOrient` | String    | `+\|-`                   | Orientation of From segment
+| 3      | `FromOrient` | String    | `[+-]`                   | Orientation of From segment
 | 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
-| 5      | `ToOrient`   | String    | `+\|-`                   | Orientation of `To` segment
+| 5      | `ToOrient`   | String    | `[+-]`                   | Orientation of `To` segment
 | 6      | `Distance`   | String    | `\*\|[-+]?[0-9]+`        | Optional estimated distance between the segments
 
 ## Optional fields
