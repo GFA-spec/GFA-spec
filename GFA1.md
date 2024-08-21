@@ -241,7 +241,7 @@ P	second	11+;12-	*
 P	third	11+;12-;13+	.,10J
 ```
 
-Note how usage of different delimeters in the first two paths disambiguates between the usage of a link vs a shortcut jump the same pair of oriented segments.
+Note how usage of different delimiters in the first two paths disambiguates between the usage of a link vs a shortcut jump the same pair of oriented segments.
 
 # `W` Walk line (since v1.1)
 
@@ -264,7 +264,7 @@ Note that W-lines can not use jump connections (introduced in v1.2).
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
 `HapIndex` starts with 1. For two W-lines with the same
-(`SampleId`,`HapIndex`,`SeqId`), their [`SeqSart`,`SeqEnd`) should have no
+(`SampleId`,`HapIndex`,`SeqId`), their [`SeqStart`,`SeqEnd`) should have no
 overlaps. A `Walk` is defined as
 ```txt
 <walk> ::= ( `>' | `<' <segId> )+
@@ -287,7 +287,7 @@ W	NA12878	1	chr1	0	11	>s11<s12>s13
 
 # `J` Jump line (since v1.2)
 
-Jump lines are the mechanism to define the connections of segments which can not be associated with a particular overlap or sequence. Basic usecase is to represent 'gaps' corresponding to unassembled regions, most commonly due to absense or low quality of sequencing data.
+Jump lines are the mechanism to define the connections of segments which can not be associated with a particular overlap or sequence. Basic usecase is to represent 'gaps' corresponding to unassembled regions, most commonly due to absence or low quality of sequencing data.
 
 `J`-lines specification generally follows one for `L`-lines, using columns 2-4 to specify connected segments and their respective orientations. 
 The only difference is that 6th column specifies a signed integer `Distance` (instead of the `Overlap` `CIGAR` string) -- estimated distance between the segments.
