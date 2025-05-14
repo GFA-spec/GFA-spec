@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2022-06-07
+date: 2025-05-13
 ---
 
 The master version of this document can be found at  
@@ -11,7 +11,7 @@ The master version of this document can be found at
 
 The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. Jump lines (since v1.2) start with `J`. A containment line starts with `C`. A path line starts with `P`. Walk lines (since v1.1) start with `W`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. Jump lines (since v1.2) start with `J`. A containment line starts with `C`. A path line starts with `P`. Walk lines (since v1.1) start with `W`. Metadata lines (since v1.3) start with `M`.
 
 ## Terminology
 
@@ -21,6 +21,7 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 + **Containment**: an overlap between two segments where one is contained in the other.
 + **Path**: an ordered list of oriented segments, where each consecutive pair of oriented segments is supported by a link or a jump record.
 + **Walk**: (since v1.1) an ordered list of oriented segments, intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
++ **Haplotype sequence**: (since v1.3) an ordered list of walks, intended for pangenome use cases. A haplotype sequence may be fragmented into multiple walks sharing the sample identifier, haplotype index, and sequence identifier.
 
 ## Line structure
 
@@ -36,6 +37,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `C`  | Containment |
 | `P`  | Path        |
 | `W`  | Walk (since v1.1) |
+| `M`  | Metadata (since v1.3) |
 
 ## Optional fields
 
@@ -47,6 +49,7 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 | `i`  | `[-+]?[0-9]+`                                         | Signed integer
 | `f`  | `[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?`              | Single-precision floating number
 | `Z`  | `[ !-~]+`                                             | Printable string, including space
+| `b`  | `[01]`                                                | Boolean flag (since v1.3), with `0` for false and `1` for true
 | `J`  | `[ !-~]+`                                             | [JSON][], excluding new-line and tab characters
 | `H`  | `[0-9A-F]+`                                           | Byte array in hex format
 | `B`  | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Array of integers or floats
@@ -262,10 +265,10 @@ Note that W-lines can not use jump connections (introduced in v1.2).
 | 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
 | 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
 
-For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
-`HapIndex` starts with 1. For two W-lines with the same
-(`SampleId`,`HapIndex`,`SeqId`), their [`SeqSart`,`SeqEnd`) should have no
-overlaps. A `Walk` is defined as
+For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample, `HapIndex` starts with 1.
+`SeqStart` and `SeqEnd` fields may use `*` to indicate a missing value.
+For two W-lines with the same (`SampleId`,`HapIndex`,`SeqId`), their [`SeqStart`,`SeqEnd`) should have no overlaps, unless specified otherwise in a metadata line.
+A `Walk` is defined as
 ```txt
 <walk> ::= ( `>' | `<' <segId> )+
 ```
@@ -283,6 +286,66 @@ L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
 W	NA12878	1	chr1	0	11	>s11<s12>s13
+```
+
+# `M` Metadata line (since v1.3)
+
+Metadata lines store metadata for haplotype sequences.
+Each haplotype sequence consists of one or more fragments represented as walk lines sharing the (`SampleId`, `HapIndex`, `SeqId`) fields.
+When a haplotype sequence consists of multiple fragments, all fragments must have a non-empty `SeqStart` field.
+The fragments can then be ordered by their `SeqStart` fields.
+
+## Required fields
+
+| Column | Field             | Type      | Regexp                   | Description
+|--------|-------------------|-----------|--------------------------|------------
+| 1      | `RecordType`      | Character | `M`                      | Record type
+| 2      | `SampleId`        | String    | `[!-)+-<>-~][!-~]*`      | Sample identifier
+| 3      | `HapIndex`        | Integer   | `[0-9]+`                 | Haplotype index
+| 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
+
+## Optional fields
+
+| Tag   | Type | Description
+|-------|------|------------
+| `LN`  | `i`  | Sequence length
+| `RF`  | `b`  | `1` if this is a reference sequence
+| `FI`  | `b`  | `1` if `SeqStart` is a fragment index rather than a start position
+| `OL`  | `b`  | `1` if the fragments may be overlapping
+| `CN`  | `Z`  | Chromosome name
+
+Sequence length may be necessary for populating SAM/VCF headers correctly if the last fragment ends before the end of the sequence.
+Tools may use the `RF` flag as a hint to build more extensive data structures for some haplotype sequences, for example for reading the input or writing the output in terms of their coordinates.
+
+Fragment indexes may be used in place of start positions if the exact coordinates of each fragment cannot be determined.
+`SeqEnd` should not be specified when using fragment indexes.
+Haplotype sequences using fragment indexes may not be good candidates for references, as positions in a fragment cannot be mapped to positions in the sequence.
+The `OL` flag may be used to override the expectation that the [`SeqStart`,`SeqEnd`) intervals must not overlap.
+
+If `SeqId` is an accession number, `CN` may be used for providing the corresponding chromosome name.
+
+## Example (reference sequence)
+
+```txt
+M	GRCh38	0	chr9	LN:i:138394717	RF:b:1
+W	GRCh38	0	chr9	10013	*	(walk)
+W	GRCh38	0	chr9	61281966	*	(walk)
+W	GRCh38	0	chr9	61518810	*	(walk)
+W	GRCh38	0	chr9	62249927	*	(walk)
+W	GRCh38	0	chr9	63542264	*	(walk)
+W	GRCh38	0	chr9	64315432	*	(walk)
+W	GRCh38	0	chr9	65645191	*	(walk)
+W	GRCh38	0	chr9	66591780	*	(walk)
+W	GRCh38	0	chr9	68220832	*	(walk)
+```
+
+## Example (synthetic haplotype with fragment indexes)
+
+```txt
+M	sampled	1	chr2	FI:b:1
+W	sampled	1	chr2	0	*	(walk)
+W	sampled	1	chr2	1	*	(walk)
+W	sampled	1	chr2	2	*	(walk)
 ```
 
 # `J` Jump line (since v1.2)
