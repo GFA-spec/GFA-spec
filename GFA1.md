@@ -89,11 +89,11 @@ Comment lines begin with `#` and are ignored.
 
 ## Required fields
 
-| Column | Field        | Type      | Regexp              | Description
-|--------|--------------|-----------|---------------------|------------
-| 1      | `RecordType` | Character | `S`                 | Record type
-| 2      | `Name`       | String    | `[!-)+-<>-~][!-~]*` | Segment name
-| 3      | `Sequence`   | String    | `\*\|[A-Za-z=.]+`    | Optional nucleotide sequence
+| Column | Field        | Type      | Regexp                         | Description
+|--------|--------------|-----------|--------------------------------|------------
+| 1      | `RecordType` | Character | `S`                            | Record type
+| 2      | `Name`       | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*` | Segment name
+| 3      | `Sequence`   | String    | `\*\|[A-Za-z=.]+`              | Optional nucleotide sequence
 
 The Sequence field is optional and can be `*`, meaning that the nucleotide sequence of the segment is not specified. When the sequence is not stored in the GFA file, its length may be specified using the `LN` tag, and the sequence may be stored in an external FASTA file.
 
@@ -119,9 +119,9 @@ The length of the overlap is determined by the `CIGAR` string of the link. When 
 | Column | Field        | Type      | Regexp                   | Description
 |--------|--------------|-----------|--------------------------|------------------
 | 1      | `RecordType` | Character | `L`                      | Record type
-| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 2      | `From`       | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of segment
 | 3      | `FromOrient` | String    | `+\|-`                    | Orientation of From segment
-| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 4      | `To`         | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of segment
 | 5      | `ToOrient`   | String    | `+\|-`                    | Orientation of `To` segment
 | 6      | `Overlap`    | String    | `\*\|([0-9]+[MIDNSHPX=])+`| Optional `CIGAR` string describing overlap
 
@@ -159,9 +159,9 @@ C  1 - 2 + 110 100M
 | Column | Field             | Type      | Regexp                   | Description
 |--------|-------------------|-----------|--------------------------|------------
 | 1      | `RecordType`      | Character | `C`                      | Record type
-| 2      | `Container`       | String    | `[!-)+-<>-~][!-~]*`      | Name of container segment
+| 2      | `Container`       | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of container segment
 | 3      | `ContainerOrient` | String    | `+\|-`                   | Orientation of container segment
-| 4      | `Contained`       | String    | `[!-)+-<>-~][!-~]*`      | Name of contained segment
+| 4      | `Contained`       | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of contained segment
 | 5      | `ContainedOrient` | String    | `+\|-`                   | Orientation of contained segment
 | 6      | `Pos`             | Integer   | `[0-9]*`                 | 0-based start of contained segment
 | 7      | `Overlap`         | String    | `\*\|([0-9]+[MIDNSHPX=])+` | CIGAR string describing overlap
@@ -182,7 +182,7 @@ C  1 - 2 + 110 100M
 |--------|----------------|-----------|---------------------------|--------------------
 | 1      | `RecordType`   | Character | `P`                       | Record type
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
-| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma-separated list of segment names and orientations
+| 3      | `SegmentNames` | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`       | A comma-separated list of segment names and orientations
 | 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=])+` | Optional comma-separated list of CIGAR strings
 
 The CIGAR strings in the `Overlaps` field are optional, and may be replaced by a single `*` character, in which case the `CIGAR` strings are determined by fetching the `CIGAR` string from the corresponding link records, or by performing a pairwise overlap alignment of the two sequences. If specified, the `Overlaps` field must have one fewer values than the number of segment names and orientations in the `SegmentNames` field.
@@ -223,7 +223,7 @@ If specified, the `Overlaps` field uses the `[-+]?[0-9]+J` format (note the `J` 
 |--------|----------------|-----------|---------------------------|--------------------
 | 1      | `RecordType`   | Character | `P`                       | Record type
 | 2      | `PathName`     | String    | `[!-)+-<>-~][!-~]*`       | Path name
-| 3      | `SegmentNames` | String    | `[!-)+-<>-~][!-~]*`       | A comma/semicolon-separated list of segment names and orientations
+| 3      | `SegmentNames` | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`       | A comma/semicolon-separated list of segment names and orientations
 | 4      | `Overlaps`     | String    | `\*\|([0-9]+[MIDNSHPX=]\|\[-+]?[0-9]+J\|.)+` | Optional comma-separated list of CIGAR strings and distance estimates
 
 ### Example
@@ -260,7 +260,7 @@ Note that W-lines can not use jump connections (introduced in v1.2).
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
 | 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
 | 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
-| 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
+| 7      | `Walk`            | String    | `([><][!-)+\--:?A-~][!-+\--:=?-~]*)+`      | Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
 `HapIndex` starts with 1. For two W-lines with the same
@@ -270,7 +270,9 @@ overlaps. A `Walk` is defined as
 <walk> ::= ( `>' | `<' <segId> )+
 ```
 where `<segId>` corresponds to the identifier of a segment. A valid walk must
-exist in the graph.
+exist in the graph. `>` signifies that a segment is traversed in the forward
+direction, it corresponds to the `+` used in `P`-lines. `<` means a backward
+traversal, corresponding to `-`.
 
 ## Example
 
@@ -306,9 +308,9 @@ Shortcut `J`-lines must be marked with a special tag: `SC:i:1`.
 | Column | Field        | Type      | Regexp                   | Description
 |--------|--------------|-----------|--------------------------|------------------
 | 1      | `RecordType` | Character | `J`                      | Record type
-| 2      | `From`       | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 2      | `From`       | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of segment
 | 3      | `FromOrient` | String    | `+\|-`                   | Orientation of From segment
-| 4      | `To`         | String    | `[!-)+-<>-~][!-~]*`      | Name of segment
+| 4      | `To`         | String    | `[!-)+\--:?A-~][!-+\--:=?-~]*`      | Name of segment
 | 5      | `ToOrient`   | String    | `+\|-`                   | Orientation of `To` segment
 | 6      | `Distance`   | String    | `\*\|[-+]?[0-9]+`        | Optional estimated distance between the segments
 
