@@ -1,7 +1,7 @@
 ---
 title: Graphical Fragment Assembly (GFA) Format Specification
 author: The GFA Format Specification Working Group
-date: 2022-06-07
+date: 2026-01-07
 ---
 
 The master version of this document can be found at  
@@ -11,7 +11,7 @@ The master version of this document can be found at
 
 The purpose of the GFA format is to capture sequence graphs as the product of an assembly, a representation of variation in genomes, splice graphs in genes, or even overlap between reads from long-read sequencing technology.
 
-The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. Jump lines (since v1.2) start with `J`. A containment line starts with `C`. A path line starts with `P`. Walk lines (since v1.1) start with `W`.
+The GFA format is a tab-delimited text format for describing a set of sequences and their overlap. The text is encoded in UTF-8 but is not allowed to use a codepoint value higher than 127. The first field of the line identifies the type of the line. Header lines start with `H`. Segment lines start with `S`. Link lines start with `L`. Jump lines (since v1.2) start with `J`. A containment line starts with `C`. A path line starts with `P`. Walk lines (since v1.1) start with `W`. Meta-segment lines (since v1.3) start with `Q`.
 
 ## Terminology
 
@@ -20,7 +20,8 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 +  **Jump**: (since v1.2) a connection between two oriented segments. Similar to link, but does not imply a direct adjacency between the segments, instead providing an estimated distance between the segments. Main use case is to specify segment relations across assembly gaps.
 + **Containment**: an overlap between two segments where one is contained in the other.
 + **Path**: an ordered list of oriented segments, where each consecutive pair of oriented segments is supported by a link or a jump record.
-+ **Walk**: (since v1.1) an ordered list of oriented segments, intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
++ **Walk**: (since v1.1) an ordered list of oriented segments and meta-segments (since v1.3), intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
++ **Meta-segment**: (since v1.3) a segment that is used as a stand-in for multiple other segments.
 
 ## Line structure
 
@@ -36,6 +37,7 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `C`  | Containment |
 | `P`  | Path        |
 | `W`  | Walk (since v1.1) |
+| `Q`  | Meta-segment (since v1.3) |
 
 ## Optional fields
 
@@ -260,7 +262,7 @@ Note that W-lines can not use jump connections (introduced in v1.2).
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
 | 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
 | 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
-| 7      | `Walk`            | String    | `([><][!-;=?-~]+)+`      | Walk
+| 7      | `Walk`            | String    | `([><]@?[!-)+\--:?A-~][!-+\--:=?-~]*)+`      | Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
 `HapIndex` starts with 1. For two W-lines with the same
@@ -269,7 +271,7 @@ overlaps. A `Walk` is defined as
 ```txt
 <walk> ::= ( `>' | `<' <segId> )+
 ```
-where `<segId>` corresponds to the identifier of a segment. A valid walk must
+where `<segId>` corresponds to the identifier of a segment or the identifier of a meta-segment, including `@` (since v1.3). A valid walk must
 exist in the graph.
 
 ## Example
@@ -282,7 +284,8 @@ S	s13	GATT
 L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
-W	NA12878	1	chr1	0	11	>s11<s12>s13
+Q   @q1  >s11<s12
+W	NA12878	1	chr1	0	11	>@q1>s13
 ```
 
 # `J` Jump line (since v1.2)
@@ -324,4 +327,37 @@ The following lines describe the jump between reverse complement of segment 1 an
 ```
 J  1 - 2 + 100
 J  2 + 3 - * SC:i:1
+```
+
+# `Q` Meta-segment line (since v1.3)
+
+A Q-line defines part of a compressed walk that can be used as part of other
+compressed walks, so called meta-segments.
+
+## Required fields
+
+| Column | Field             | Type      | Regexp                | Description
+|--------|-------------------|-----------|-----------------------|------------
+| 1      | `RecordType`      | Character | `Q`                   | Record type
+| 2      | `Name`            | String    | `@[!-)+\--:?A-~][!-+\--:=?-~]*` | Rule name
+| 3      | `Walk`  | String    | `([><]@?[!-)+\--:?A-~][!-+\--:=?-~]*)+` | Walk
+
+A `Walk` is defined as
+```txt
+<walk> ::= ( `>' | `<' <segId> )+
+```
+where `<segId>` corresponds either to the identifier of a segment or the identifier of a meta-segment, including the `@`. A valid walk must exist in the graph.
+
+## Optional fields
+
+| Tag   | Type | Description    |
+|-------|------|----------------|
+| `LN`  | `i`  | Length in number of base pairs |
+| `LS`  | `i`  | Length in number of segments  |
+
+## Example
+
+```txt
+Q	@q1	>s1<s60>s75>@q3>s77		LN:i:8188	LS:i:9
+Q	@q3	>s78>s79>s80>s80<s80
 ```
